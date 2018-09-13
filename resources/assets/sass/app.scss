@@ -1,0 +1,24 @@
+@import 'variables';
+@import '~bootstrap/scss/bootstrap';
+@import '~sweetalert2/src/sweetalert2';
+
+@import 'elements/card';
+@import 'elements/toggle';
+@import 'elements/buttons';
+@import 'elements/transitions';
+
+html {
+	 -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    -ms-overflow-style: ms-autohiding-scrollbar;
+    -webkit-overflow-scrolling: touch;
+}
+
+h1 {
+	font-size: 2rem;
+}
+
+select, input {
+	 -webkit-appearance: none;
+}

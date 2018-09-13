@@ -1,0 +1,109 @@
+[
+    {
+        "model-name": "Post",
+        "resource-file": "posts.json",
+        "table-name": "posts"
+    },
+    {
+        "model-name": "Textbook",
+        "resource-file": "textbooks.json",
+        "table-name": "textbooks"
+    },
+    {
+        "model-name": "Country",
+        "resource-file": "countries.json",
+        "table-name": "countries"
+    },
+    {
+        "model-name": "Tag",
+        "resource-file": "tags.json",
+        "table-name": "tags"
+    },
+    {
+        "model-name": "User",
+        "resource-file": "users.json",
+        "table-name": "users"
+    },
+    {
+        "model-name": "WebometricUniversity",
+        "resource-file": "webometric_universities.json",
+        "table-name": "webometric_universities"
+    },
+    {
+        "model-name": "Search",
+        "resource-file": "searches.json",
+        "table-name": "searches"
+    },
+    {
+        "model-name": "Point",
+        "resource-file": "points.json",
+        "table-name": "user_points"
+    },
+    {
+        "model-name": "ReportedPost",
+        "resource-file": "reported_posts.json",
+        "table-name": "reported_posts"
+    },
+    {
+        "model-name": "Order",
+        "resource-file": "orders.json",
+        "table-name": "connected_users"
+    },
+    {
+        "model-name": "UserRating",
+        "resource-file": "user_ratings.json",
+        "table-name": "user_ratings"
+    },
+    {
+        "model-name": "PostComment",
+        "resource-file": "post_comments.json",
+        "table-name": "post_comments"
+    },
+    {
+        "model-name": "FacebookLogin",
+        "resource-file": "facebook_logins.json",
+        "table-name": "fb_login"
+    },
+    {
+        "model-name": "TextbookView",
+        "resource-file": "textbook_views.json",
+        "table-name": "textbook_user_view"
+    },
+    {
+        "model-name": "TextbookTag",
+        "resource-file": "textbook_tags.json",
+        "table-name": "tags_textbooks"
+    },
+    {
+        "model-name": "UniversityTag",
+        "resource-file": "university_tags.json"
+    },
+    {
+        "model-name": "TextbookPriceAverage",
+        "resource-file": "textbook_price_averages.json"
+    },
+    {
+        "model-name": "business",
+        "resource-file": "businesses.json"
+    },
+    {
+        "model-name": "BusinessStand",
+        "resource-file": "business_stands.json"
+    },
+    {
+        "model-name": "UsersBusiness",
+        "resource-file": "users_businesses.json"
+    },
+    {
+        "model-name": "StandBook",
+        "resource-file": "stand_books.json"
+    },
+    {
+        "model-name": "BookNotification",
+        "resource-file": "book_notifications.json"
+    },
+    {
+        "model-name": "PostBoost",
+        "resource-file": "post_boosts.json"
+    }
+]

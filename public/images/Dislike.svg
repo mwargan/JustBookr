@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="4720px" height="4411px" viewBox="0 0 4720 4411" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>Dislike</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-5" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Dislike" transform="translate(2360.000000, 2205.500000) scale(1, -1) translate(-2360.000000, -2205.500000) translate(89.000000, 89.000000)">
+            <path d="M4063,3739 L4063,4233 L1883,4233 L1362,3909 L1362,4233 L1,4233 L0,1842 L1362,1842 L1362,2080 L2390,1008 L2609,0 C2745,83 2882,165 3018,248 L3184,1099 L2961,1846 L4542,1844 L4542,2505 L3851,2505 M4420,2505 L4420,3163 L3847,3163 M4232,3163 L4232,3739 L3847,3739" id="Shape" stroke="#BF503C" stroke-width="176.38" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M1362,2080 L1362,3909" id="Shape" stroke="#BF503C" stroke-width="176.38" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M904,3728 C951,3728 989,3767 989,3814 C989,3861 951,3899 904,3899 C857,3899 818,3861 818,3814 C818,3767 857,3728 904,3728 Z" id="Shape" fill="#BF503C" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>

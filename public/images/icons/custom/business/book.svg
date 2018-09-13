@@ -1,0 +1,20 @@
+<svg id="8b481800-a88e-495f-88f1-b7a81c9acf1e" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <style>
+      .\35 6289af4-26f7-4fbe-909c-9ee78bd740a7 {
+        fill: #3f73b9;
+      }
+
+      .\38 fd046e0-0ab1-4ae1-9164-0fd58814cf03 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <title>book</title>
+  <g>
+    <rect class="56289af4-26f7-4fbe-909c-9ee78bd740a7" x="33.09" y="24.88" width="53.83" height="66.15" rx="2.88" ry="2.88"/>
+    <path class="8fd046e0-0ab1-4ae1-9164-0fd58814cf03" d="M40.61,33.93H68a1.4,1.4,0,0,0,0-2.79H40.61a1.4,1.4,0,0,0,0,2.79Z"/>
+    <path class="8fd046e0-0ab1-4ae1-9164-0fd58814cf03" d="M40.61,40.17H68a1.4,1.4,0,0,0,0-2.79H40.61a1.4,1.4,0,0,0,0,2.79Z"/>
+    <path class="8fd046e0-0ab1-4ae1-9164-0fd58814cf03" d="M41.5,46.41h6.65a1.4,1.4,0,0,0,0-2.79H41.5a1.4,1.4,0,0,0,0,2.79Z"/>
+  </g>
+</svg>

@@ -1,0 +1,48 @@
+<svg id="be85c292-5dea-4d0f-afa7-b55210ad58a7" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+  <defs>
+    <style>
+      .ff628d86-2140-458c-aa39-2ad3007d03b0 {
+        fill: #f2f2f2;
+      }
+
+      .e20af98c-8cba-4119-84b7-0df8d4da560a {
+        fill: #010101;
+      }
+
+      .\39 3122029-8932-4455-b385-3c79632290a1, .e20af98c-8cba-4119-84b7-0df8d4da560a {
+        stroke: #010101;
+        stroke-miterlimit: 10;
+      }
+
+      .\39 3122029-8932-4455-b385-3c79632290a1 {
+        fill: none;
+      }
+
+      .\39 5c0041f-6f09-474b-8586-2ee6c2c247b0 {
+        font-size: 16px;
+        fill: #231f20;
+        font-family: FiraSans-Hair, Fira Sans;
+        opacity: 0.3;
+      }
+
+      .\37 28efddb-920a-41a0-8ca6-23292204e00e {
+        letter-spacing: -0.02em;
+      }
+
+      .d023aa97-5118-4ec3-af52-6f97479f9bfb {
+        letter-spacing: -0.01em;
+      }
+    </style>
+  </defs>
+  <title>image_error</title>
+  <rect class="ff628d86-2140-458c-aa39-2ad3007d03b0" width="300" height="200"/>
+  <g>
+    <g id="827f96ff-46a6-4fac-9843-974267811978" data-name="T2">
+      <polygon id="064692a1-5828-43f9-8844-df376807eb62" data-name="T2" class="e20af98c-8cba-4119-84b7-0df8d4da560a" points="204.34 33.86 202 32.8 184.06 49.51 184.06 49.51 184.06 49.51 162.88 69.23 151.65 79.77 148.68 79.77 115.84 49.52 97.77 32.8 95.66 34.01 113.38 52.43 113.38 52.43 126.93 66.5 144.32 84.58 148.68 97.45 151.65 97.45 155.78 84.58 180.38 58.86 186.54 52.44 186.54 52.44 186.54 52.44 204.34 33.86"/>
+    </g>
+    <g id="9d9c60c8-2f0c-4df2-a16e-603d1fe46889" data-name="T1">
+      <path class="93122029-8932-4455-b385-3c79632290a1" d="M115.83,49.7q-1.28,1.4-2.45,2.91a46.26,46.26,0,1,0,73.15,0q-1.18-1.52-2.48-2.93"/>
+    </g>
+  </g>
+  <text class="95c0041f-6f09-474b-8586-2ee6c2c247b0" transform="translate(85.5 159.38)">Ima<tspan class="728efddb-920a-41a0-8ca6-23292204e00e" x="26.22" y="0">g</tspan><tspan x="33.79" y="0">e Un</tspan><tspan class="d023aa97-5118-4ec3-af52-6f97479f9bfb" x="66.56" y="0">a</tspan><tspan x="74.81" y="0">vailab</tspan><tspan class="d023aa97-5118-4ec3-af52-6f97479f9bfb" x="116.3" y="0">l</tspan><tspan x="120.56" y="0">e</tspan></text>
+</svg>

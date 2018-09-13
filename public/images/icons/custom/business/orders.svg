@@ -1,0 +1,55 @@
+<svg id="256efd92-0ccb-4868-990a-acc10b5ab408" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 182.55">
+  <defs>
+    <style>
+      .fc272cc0-7efa-4696-b4f0-57f39f85df8b {
+        fill: #3f73b9;
+      }
+
+      .fdd6e9bc-c29c-4dd7-91ed-6c12179297d9 {
+        fill: #fff;
+      }
+
+      .\31 d857276-5ddb-4800-b99e-4fd7e7a9c162 {
+        fill: none;
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        stroke-width: 0.75px;
+      }
+
+      .\30 ba8192d-6001-45fe-9b84-76deed6f3e33 {
+        fill: #d1d3d4;
+      }
+    </style>
+  </defs>
+  <title>orders</title>
+  <g>
+    <rect class="fc272cc0-7efa-4696-b4f0-57f39f85df8b" x="11.23" y="10.89" width="97.55" height="42.81" rx="3.12" ry="3.12"/>
+    <circle class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" cx="25.74" cy="24.13" r="9.3"/>
+    <path class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" d="M41.54,20.42H65.67a1.88,1.88,0,0,0,0-3.75H41.54a1.88,1.88,0,0,0,0,3.75Z"/>
+    <path class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" d="M41.54,26.66H53.61a1.88,1.88,0,0,0,0-3.75H41.54a1.88,1.88,0,0,0,0,3.75Z"/>
+    <path class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" d="M33,48.57H45.05a1.88,1.88,0,0,0,0-3.75H33a1.88,1.88,0,0,0,0,3.75Z"/>
+    <path class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" d="M72.19,48.57H84.26a1.88,1.88,0,0,0,0-3.75H72.19a1.88,1.88,0,0,0,0,3.75Z"/>
+    <line class="1d857276-5ddb-4800-b99e-4fd7e7a9c162" x1="11.23" y1="38.64" x2="108.77" y2="38.64"/>
+  </g>
+  <g>
+    <rect class="0ba8192d-6001-45fe-9b84-76deed6f3e33" x="11.23" y="60.34" width="97.55" height="42.81" rx="3.12" ry="3.12"/>
+    <circle class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" cx="25.74" cy="73.58" r="9.3"/>
+    <path class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" d="M41.54,69.87H65.67a1.88,1.88,0,0,0,0-3.75H41.54a1.88,1.88,0,0,0,0,3.75Z"/>
+    <path class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" d="M41.54,76.11H53.61a1.88,1.88,0,0,0,0-3.75H41.54a1.88,1.88,0,0,0,0,3.75Z"/>
+    <path class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" d="M33,98H45.05a1.88,1.88,0,0,0,0-3.75H33A1.88,1.88,0,0,0,33,98Z"/>
+    <path class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" d="M72.19,98H84.26a1.88,1.88,0,0,0,0-3.75H72.19a1.88,1.88,0,0,0,0,3.75Z"/>
+    <line class="1d857276-5ddb-4800-b99e-4fd7e7a9c162" x1="11.23" y1="88.09" x2="108.77" y2="88.09"/>
+  </g>
+  <g>
+    <rect class="0ba8192d-6001-45fe-9b84-76deed6f3e33" x="11.23" y="110.64" width="97.55" height="27.75" rx="2.51" ry="2.51"/>
+    <circle class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" cx="25.74" cy="123.87" r="9.3"/>
+    <path class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" d="M41.54,120.17H65.67a1.88,1.88,0,0,0,0-3.75H41.54a1.88,1.88,0,0,0,0,3.75Z"/>
+    <path class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" d="M41.54,126.41H53.61a1.88,1.88,0,0,0,0-3.75H41.54a1.88,1.88,0,0,0,0,3.75Z"/>
+  </g>
+  <g>
+    <rect class="0ba8192d-6001-45fe-9b84-76deed6f3e33" x="11.23" y="145.59" width="97.55" height="27.75" rx="2.51" ry="2.51"/>
+    <circle class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" cx="25.74" cy="158.82" r="9.3"/>
+    <path class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" d="M41.54,155.12H65.67a1.88,1.88,0,0,0,0-3.75H41.54a1.88,1.88,0,0,0,0,3.75Z"/>
+    <path class="fdd6e9bc-c29c-4dd7-91ed-6c12179297d9" d="M41.54,161.36H53.61a1.88,1.88,0,0,0,0-3.75H41.54a1.88,1.88,0,0,0,0,3.75Z"/>
+  </g>
+</svg>
