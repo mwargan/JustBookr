@@ -11,6 +11,9 @@ npm-debug.log
 yarn-error.log
 composer.lock
 .env
+.env.*.php
+.env.php
+.env.dusk.local
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
@@ -21,4 +24,3 @@ composer.lock
 .well-known
 .rnd
 .DS_Store
-.env.dusk.local

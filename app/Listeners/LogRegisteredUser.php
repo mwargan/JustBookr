@@ -26,7 +26,7 @@ class LogRegisteredUser implements ShouldQueue {
 	 */
 	public function handle(Registered $event) {
 		if (config('app.env') == 'production') {
-			Newsletter::subscribe($event->user->email, ['FNAME' => $event->user->name, 'LNAME' => $event->user->surname, 'user-id' => $event->user->{'user-id'}], 'JustBookr');
+			Newsletter::subscribe($event->user->email, ['FNAME' => $event->user->name, 'LNAME' => $event->user->surname, 'user_id' => $event->user->{'user-id'}], 'JustBookr');
 		}
 		$admin = User::findOrFail(config('app.admin_id'));
 		$admin->notify(new NewUser($event->user));

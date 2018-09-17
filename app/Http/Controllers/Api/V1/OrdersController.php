@@ -204,9 +204,11 @@ class OrdersController extends Controller {
 		$this->authorize('forceDelete', $order);
 		try {
 
-			$post = $order->post();
+			$post = $order->post;
 
-			$post->status = 1;
+			if ($request->user('api')->{'user-id'} === $order->{'user-id-buy'}) {
+				$post->status = 1;
+			}
 
 			$post->save();
 

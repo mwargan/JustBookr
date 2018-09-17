@@ -55,6 +55,8 @@ export default [
     { path: '/your-university', name: 'profile.university', component: require('~/pages/university.vue') },
 
     { path: '/terms-and-conditions', name: 'toc', component: require('~/pages/toc') },
+
+    { path: '/faq', name: 'faq', component: require('~/pages/faq') },
     { path: '/find/:query?', name: 'find', component: require('~/pages/find') },
     //{ path: '/+', name: 'plus', component: require('~/pages/plus') },
     { path: '/business', name: 'business', component: require('~/pages/business') },

@@ -24,5 +24,9 @@ class SendOrderCancelation {
 	public function handle(OrderCanceled $event) {
 		$event->order->buyer->notify(new CanceledNotification($event->order, $event->user));
 		$event->order->post->user->notify(new CanceledNotification($event->order, $event->user));
+		$event->user->points()->create([
+			'points' => "-7",
+			'action' => "Cancel order",
+		]);
 	}
 }

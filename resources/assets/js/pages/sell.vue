@@ -25,7 +25,7 @@
                 <alert-success class="mt-2" :form="form" :message="$t('you_posted_a_textbook_for_sale')+'! '+$t('boost_your_post')+'!'">
                 </alert-success>
                 <hr v-if="posted && form.successful" />
-                <form @submit.prevent="post" @keydown="form.onKeydown($event)">
+                <form @submit.prevent="post" @keydown="form.onKeydown($event)" enctype="multipart/form-data">
                     <!-- ISBN -->
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label text-md-right" for="isbn">{{ $t('isbn') }}</label>
@@ -43,7 +43,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <card v-if="book" class="mb-0">
+                            <card v-if="book['book-title']" class="mb-0">
                                 <card-header :title="book['book-title']" :subtitle="book.isGoogle ? $t('prefilled_by_google_books') : $t('usually_sold_for')+ ' ' + book.average_price " :image="book['image-url']" imageShape="square">
                                 </card-header>
                             </card>
@@ -52,7 +52,7 @@
                             <small class="form-text text-muted">This is the book that you are posting for sale at your university.</small>
                         </div>
                     </div>
-                    <template v-if="addBook && form.isbn.length === 13 && !googleBook">
+                    <template v-if="addBook && form.isbn.length">
                         <!-- Title -->
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label text-md-right" for="b-title">{{ $t('book-title') }}</label>
@@ -157,6 +157,7 @@ export default {
         posted_link: "",
         posted_title: "",
         posted: {},
+        book: {},
         texts: ['Book is in great condition!', 'My copy is slightly used.', 'Has a little damage but nothing major.'],
         description_placeholder_text: '',
         form: new Form({
@@ -175,43 +176,6 @@ export default {
         isdisabled() {
             return (this.form.isbn.length === 13 && this.form['post-description'].length >= 10 && this.form.price > 0) ? false : true
 
-        },
-        book() {
-            if (this.form.isbn.length === 13) {
-                this.loading = true
-                this.$store.dispatch('book/fetchBook', this.form.isbn).then(response => {
-                    this.loading = false
-                    if (response === undefined || this.fetchBook(this.form.isbn)) {
-                        this.addBook = false
-                        var book = this.fetchBook(this.form.isbn)
-                        this.form['book-title'] = book['book-title']
-                        this.form['author'] = book.author
-                        this.form['book-des'] = book['book-des']
-                        this.form['edition'] = book.edition
-                        this.form['image-url'] = book['image-url']
-                        delete this.form.image
-                        if (book.average_price && book.average_price.slice(1) > 0) {
-                            this.form.price = book.average_price.slice(1)
-                        } else {
-                            this.form.price = null
-                        }
-                        $("#description").focus()
-                    } else {
-                        this.addBook = true
-                        this.form['book-title'] = ''
-                        this.form['author'] = ''
-                        this.form['book-des'] = ''
-                        this.form['edition'] = ''
-                        delete this.form['image-url']
-                        console.log(this.form)
-                        $("#b-title").focus()
-                    }
-                }, error => {
-                    this.loading = false
-                    console.error(error)
-                })
-                return this.fetchBook(this.form.isbn)
-            }
         },
         supportsCamera() {
             if (navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function') {
@@ -235,7 +199,51 @@ export default {
             setTimeout(cycle, 2000);
         })()
     },
+    watch: {
+        'form.isbn': function(id) {
+            if (this.form.isbn.length === 13) {
+                this.getBook()
+            } else {
+                this.book = []
+            }
+        }
+    },
     methods: {
+        getBook() {
+            if (this.form.isbn.length === 13) {
+                this.loading = true
+                this.book = []
+                this.form['book-title'] = ''
+                this.form['author'] = ''
+                this.form['book-des'] = ''
+                this.form['edition'] = ''
+                this.form.image = null
+                this.form.price = null
+                this.$store.dispatch('book/fetchBook', this.form.isbn).then(response => {
+                    this.loading = false
+
+                    if (this.book = this.fetchBook(this.form.isbn)) {
+                        this.addBook = false
+                        this.form['book-title'] = this.book['book-title']
+                        this.form['author'] = this.book.author
+                        this.form['book-des'] = this.book['book-des']
+                        this.form['edition'] = this.book.edition
+                        this.form['image-url'] = this.book['image-url']
+                        if (this.book.average_price && this.book.average_price.slice(1) > 0) {
+                            this.form.price = this.book.average_price.slice(1)
+                        }
+                        $("#description").focus()
+                    } else {
+                        this.addBook = true
+                        $("#b-title").focus()
+                    }
+                }, error => {
+                    this.loading = false
+                    this.addBook = true
+                    console.error(error)
+                })
+            }
+        },
         async post() {
             this.form.successful = false
             var v = this
@@ -251,6 +259,8 @@ export default {
                 })
                 .then(({ data }) => {
                     this.googleBook = false
+                    this.book = []
+                    this.addBook = false
                     this.posted_title = data.textbook['book-title']
                     data.boosts = []
                     this.posted = data
@@ -298,6 +308,8 @@ button {
     -webkit-transition: all .15s ease-in-out 0s;
     transition: all .15s ease-in-out 0s;
 }
+
+
 
 
 /*! CSS Used from: Embedded */
@@ -363,6 +375,7 @@ img.find-isbn {
     clip: rect(0, 0, 0, 0);
     border: 0;
 }
+
 .invalid-feedback {
     display: block;
 }

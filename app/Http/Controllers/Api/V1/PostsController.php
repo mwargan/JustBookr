@@ -13,7 +13,6 @@ use Auth;
 use Exception;
 use ExceptionHelper;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use SearchHelper;
 
 class PostsController extends Controller {
@@ -105,8 +104,7 @@ class PostsController extends Controller {
 			if (!Textbook::whereIsbn($data['isbn'])->exists()) {
 				$book_data = $this->getBookData($request);
 				if (!isset($book_data['image-url'])) {
-					$link = Storage::putFile('images/Uploads/books/' . urlencode($book_data['isbn']) . '/images/cover', $request->file('image'), 'public');
-					$book_data['image-url'] = Storage::url($link);
+					$book_data['image-url'] = Textbook::uploadImage($data['isbn'], $request->file('image'));
 				}
 				$book = Textbook::create($book_data);
 				event(new BookAdded($book));
@@ -266,13 +264,13 @@ class PostsController extends Controller {
 	protected function getBookData(Request $request) {
 		$rules = [
 
-			'isbn' => 'required|numeric|digits:13|unique:textbooks,isbn',
+			'isbn' => 'required|numeric|digits:13|unique:textbooks,isbn,' . $request->isbn . ',isbn',
 			'book-title' => 'required|string|min:5|max:259',
 			'author' => 'required|string|min:5|max:259',
-			'book-des' => 'nullable',
+			'book-des' => 'nullable|sometimes|string',
 			'edition' => 'nullable|string|min:1|max:64',
 			'image-url' => 'required_without:image|url',
-			'image' => 'required_without:image-url|image',
+			'image' => 'required_without:image-url|image|max:20480',
 		];
 
 		$data = $request->validate($rules);

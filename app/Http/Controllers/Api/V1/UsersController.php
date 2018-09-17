@@ -265,7 +265,7 @@ class UsersController extends Controller {
 			$user = Auth::user();
 			$user->{'uni-id'} = $uni->{'uni-id'};
 			$user->save();
-			if (App::environment('production')) {
+			if (config('app.env') == 'production') {
 				Newsletter::subscribeOrUpdate($user->email, ['uni-id' => $user->{'uni-id'}]);
 			}
 

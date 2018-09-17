@@ -84,10 +84,8 @@ class TextbooksController extends Controller {
 		try {
 
 			$data = $this->getData($request);
-
-			if ($request->hasFile('image') && $request->file('image')->isValid()) {
-				$link = Storage::putFile('images/Uploads/books/' . urlencode($data['isbn']) . '/images/cover', $request->file('image'), 'public');
-				$data['image-url'] = Storage::url($link);
+			if (!$data['image-url']) {
+				$data['image-url'] = Textbook::uploadImage($data['isbn'], $request->file('image'));
 			}
 
 			$book = Textbook::create($data);
@@ -159,9 +157,8 @@ class TextbooksController extends Controller {
 
 			$data = $this->getData($request);
 
-			if ($request->hasFile('image') && $request->file('image')->isValid()) {
-				$link = Storage::putFile('images/Uploads/books/' . urlencode($data['isbn']) . '/images/cover', $request->file('image'), 'public');
-				$data['image-url'] = Storage::url($link);
+			if (!$data['image-url']) {
+				$data['image-url'] = Textbook::uploadImage($data['isbn'], $request->file('image'));
 			}
 
 			$book->update($data);

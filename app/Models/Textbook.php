@@ -4,6 +4,7 @@ namespace App\Models;
 
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Textbook extends Model {
 	use Cachable;
@@ -177,6 +178,13 @@ class Textbook extends Model {
 	public function getImageUrlAttribute() {
 		$this->attributes['image-url'] = preg_replace("/^http:/i", "https:", $this->attributes['image-url']);
 		return str_replace("https://justbookrbucket.s3.eu-west-1.amazonaws.com/images/Uploads", "https://content.justbookr.com", $this->attributes['image-url']);
+	}
+
+	public static function uploadImage($isbn, $image) {
+		if ($image->isValid()) {
+			$link = Storage::putFile('images/Uploads/books/' . urlencode($isbn) . '/images/cover', $image, 'public');
+			return Storage::url($link);
+		}
 	}
 
 }

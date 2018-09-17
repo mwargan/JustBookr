@@ -22,15 +22,16 @@
                         <a class="list-group-item list-group-item-action flex-column align-items-start disabled">
                             <div class="d-flex w-100 justify-content-between">
                                 <h6 v-if="post.replied && Date.now() < Number(post['location-date']+'000')" class="mb-1 text-primary">Waiting for meeting...</h6>
+                                <h6 class="mb-1 text-primary" v-else-if="post['location-date'] < post.replied">Waiting for you to set a new meeting time...</h6>
                                 <h6 v-else class="mb-1 text-muted">Actual meeting</h6>
-                                <small class="text-muted" v-if="post.replied">{{getHumanDate(post['location-date'])}}</small>
+                                <small class="text-muted" v-if="post.replied && post['location-date'] > post.replied">{{getHumanDate(post['location-date'])}}</small>
                             </div>
-                            <p v-if="Date.now() < Number(post['location-date']+'000')" class="mb-1">{{$moment(post['location-date'], 'X').calendar()}}, {{post['location-meet']}}.</p>
+                            <p v-if="Date.now() < Number(post['location-date']+'000') && post['location-date'] > post.replied" class="mb-1">{{$moment(post['location-date'], 'X').calendar()}}, {{post['location-meet']}}.</p>
                             <p v-else-if="!post.replied" class="mb-1 text-danger">{{$moment(post['location-date'], 'X').calendar()}}, {{post['location-meet']}}.</p>
                         </a>
                         <a class="list-group-item list-group-item-action flex-column align-items-start disabled">
                             <div class="d-flex w-100 justify-content-between">
-                                <h6 v-if="post.replied && Date.now() > Number(post['location-date']+'000')" class="mb-1 text-primary">Rate your meeting</h6>
+                                <h6 v-if="post.replied && Date.now() > Number(post['location-date']+'000') && post['location-date'] > post.replied" class="mb-1 text-primary">Rate your meeting</h6>
                                 <h6 v-else class="mb-1 text-muted">Rate your meeting</h6>
                             </div>
                         </a>
@@ -41,12 +42,13 @@
                         <a @click="accept(post['connect-id'], index)" class="link" onclick="ga('send', 'event', 'Button', 'Click', 'Reply');">{{ $t('accept') }}</a>
                         <a @click="deleteOrder(post['connect-id'], index)" class="link">{{ $t('decline') }}</a>
                     </template>
-                    <template v-else-if="Date.now() < Number(post['location-date']+'000')">
-                        <!-- <a href="/buy/?id=1170" class="link" onclick="ga('send', 'event', 'Button', 'Click', 'Reply');">{{ $t('edit') }}</a> -->
+                    <template v-else-if="Date.now() < Number(post['location-date']+'000') || post['location-date'] < post.replied">
                         <a class="link" @click="selectedOrder = post" data-toggle="modal" data-target="#modal-edit-order">{{ $t('edit') }}</a>
                         <a @click="deleteOrder(post['connect-id'], index)" class="link">{{ $t('cancel') }}</a>
                     </template>
-                    <a v-else @click="rate(post, index)" class="link">{{ $t('rate_your_meeting_with') }} {{ post.buyer.name }}</a>
+                    <template v-else>
+                        <a @click="rate(post, index)" class="link">{{ $t('rate_your_meeting_with') }} {{ post.buyer.name }}</a>
+                    </template>
                 </card-footer>
             </card>
         </transition-group>
@@ -193,7 +195,7 @@ export default {
                 this.$set(this.posts[index], 'replied', response.data.replied)
                 this.posts[index].loading = false
                 this.user.unread_orders--
-                this.$store.dispatch('auth/updateUser', { user: this.user })
+                    this.$store.dispatch('auth/updateUser', { user: this.user })
 
             })
         },
@@ -265,6 +267,7 @@ label>img {
     display: block;
 }
 
+
 /*! CSS Used from: https://jb2:7890/css/main.css */
 
 
@@ -327,6 +330,7 @@ label>img {
     color: #363636;
     color: #bdbdbd;
 }
+
 
 /*! CSS Used from: Embedded */
 
