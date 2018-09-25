@@ -35,43 +35,44 @@ use App\Policies\UserRatingPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\Passport;
 
-class AuthServiceProvider extends ServiceProvider {
-	/**
-	 * The policy mappings for the application.
-	 *
-	 * @var array
-	 */
-	protected $policies = [
-		//'App\Models\Post' => 'App\Policies\ModelPolicy',
-		Post::class => PostPolicy::class,
-		Order::class => OrderPolicy::class,
-		StandPost::class => StandPostPolicy::class,
-		BusinessStand::class => BusinessStandPolicy::class,
-		Textbook::class => TextbookPolicy::class,
-		UserRating::class => UserRatingPolicy::class,
-		University::class => UniversityPolicy::class,
-		User::class => UserPolicy::class,
-		Country::class => CountryPolicy::class,
-		Tag::class => TagPolicy::class,
-		Business::class => BusinessPolicy::class,
-		PostBoost::class => PostBoostPolicy::class,
-		BookNotification::class => BookNotificationPolicy::class,
-		Search::class => SearchPolicy::class,
-		Tag::class => TagPolicy::class,
-		TextbookView::class => TextbookViewPolicy::class,
-	];
+class AuthServiceProvider extends ServiceProvider
+{
+    /**
+     * The policy mappings for the application.
+     *
+     * @var array
+     */
+    protected $policies = [
+        //'App\Models\Post' => 'App\Policies\ModelPolicy',
+        Post::class             => PostPolicy::class,
+        Order::class            => OrderPolicy::class,
+        StandPost::class        => StandPostPolicy::class,
+        BusinessStand::class    => BusinessStandPolicy::class,
+        Textbook::class         => TextbookPolicy::class,
+        UserRating::class       => UserRatingPolicy::class,
+        University::class       => UniversityPolicy::class,
+        User::class             => UserPolicy::class,
+        Country::class          => CountryPolicy::class,
+        Tag::class              => TagPolicy::class,
+        Business::class         => BusinessPolicy::class,
+        PostBoost::class        => PostBoostPolicy::class,
+        BookNotification::class => BookNotificationPolicy::class,
+        Search::class           => SearchPolicy::class,
+        Tag::class              => TagPolicy::class,
+        TextbookView::class     => TextbookViewPolicy::class,
+    ];
 
-	/**
-	 * Register any authentication / authorization services.
-	 *
-	 * @return void
-	 */
-	public function boot() {
-		$this->registerPolicies();
+    /**
+     * Register any authentication / authorization services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerPolicies();
 
-		Passport::routes();
+        Passport::routes();
 
-		Passport::enableImplicitGrant();
-
-	}
+        Passport::enableImplicitGrant();
+    }
 }

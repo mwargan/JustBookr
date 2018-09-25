@@ -23,5 +23,5 @@ Route::get('sign-up', 'Auth\RegisterController@showRegistrationForm');
 Auth::routes();
 
 Route::get('{any?}', function () {
-	return view('index');
+    return view('index');
 })->where('any', '.*');

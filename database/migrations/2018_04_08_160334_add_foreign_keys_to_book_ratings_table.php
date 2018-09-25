@@ -3,33 +3,29 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class AddForeignKeysToBookRatingsTable extends Migration {
+class AddForeignKeysToBookRatingsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('book_ratings', function (Blueprint $table) {
+            $table->foreign('isbn', 'book_ratings_ibfk_1')->references('isbn')->on('textbooks')->onUpdate('CASCADE')->onDelete('CASCADE');
+        });
+    }
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::table('book_ratings', function(Blueprint $table)
-		{
-			$table->foreign('isbn', 'book_ratings_ibfk_1')->references('isbn')->on('textbooks')->onUpdate('CASCADE')->onDelete('CASCADE');
-		});
-	}
-
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::table('book_ratings', function(Blueprint $table)
-		{
-			$table->dropForeign('book_ratings_ibfk_1');
-		});
-	}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('book_ratings', function (Blueprint $table) {
+            $table->dropForeign('book_ratings_ibfk_1');
+        });
+    }
 }

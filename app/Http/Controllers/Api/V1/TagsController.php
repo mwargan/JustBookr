@@ -8,145 +8,150 @@ use Exception;
 use ExceptionHelper;
 use Illuminate\Http\Request;
 
-class TagsController extends Controller {
-/**
- * Enforce middleware.
- */
-	public function __construct() {
-		$this->middleware('auth:api', ['except' => ['index', 'show']]);
-	}
-	/**
-	 * Display a listing of the tags.
-	 *
-	 * @return Illuminate\View\View
-	 */
-	public function index() {
-		$tags = Tag::paginate(25);
-		if ($request->wantsJson()) {
-			return response()->json(['tag' => $tags]);
-		}
-		return view('tags.index', compact('tags'));
-	}
+class TagsController extends Controller
+{
+    /**
+     * Enforce middleware.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
 
-	/**
-	 * Show the form for creating a new tag.
-	 *
-	 * @return Illuminate\View\View
-	 */
-	public function create() {
-		return view('tags.create');
-	}
+    /**
+     * Display a listing of the tags.
+     *
+     * @return Illuminate\View\View
+     */
+    public function index()
+    {
+        $tags = Tag::paginate(25);
+        if ($request->wantsJson()) {
+            return response()->json(['tag' => $tags]);
+        }
 
-	/**
-	 * Store a new tag in the storage.
-	 *
-	 * @param Illuminate\Http\Request $request
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function store(Request $request) {
-		$this->authorize('create', Tag::class);
-		try {
+        return view('tags.index', compact('tags'));
+    }
 
-			$data = $this->getData($request);
+    /**
+     * Show the form for creating a new tag.
+     *
+     * @return Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('tags.create');
+    }
 
-			$tag = Tag::create($data);
+    /**
+     * Store a new tag in the storage.
+     *
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function store(Request $request)
+    {
+        $this->authorize('create', Tag::class);
 
-			return response()->json(['tag' => $tag]);
+        try {
+            $data = $this->getData($request);
 
-		} catch (Exception $exception) {
+            $tag = Tag::create($data);
 
-			return ExceptionHelper::handleError($exception, $request);
+            return response()->json(['tag' => $tag]);
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-		}
-	}
+    /**
+     * Display the specified tag.
+     *
+     * @param int $id
+     *
+     * @return Illuminate\View\View
+     */
+    public function show($id)
+    {
+        $tag = Tag::findOrFail($id);
 
-	/**
-	 * Display the specified tag.
-	 *
-	 * @param int $id
-	 *
-	 * @return Illuminate\View\View
-	 */
-	public function show($id) {
-		$tag = Tag::findOrFail($id);
+        return response()->json(['tag' => $tag]);
+    }
 
-		return response()->json(['tag' => $tag]);
+    /**
+     * Show the form for editing the specified tag.
+     *
+     * @param int $id
+     *
+     * @return Illuminate\View\View
+     */
+    public function edit($id)
+    {
+        $tag = Tag::findOrFail($id);
 
-	}
+        return view('tags.edit', compact('tag'));
+    }
 
-	/**
-	 * Show the form for editing the specified tag.
-	 *
-	 * @param int $id
-	 *
-	 * @return Illuminate\View\View
-	 */
-	public function edit($id) {
-		$tag = Tag::findOrFail($id);
+    /**
+     * Update the specified tag in the storage.
+     *
+     * @param int                     $id
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function update(Tag $tag, Request $request)
+    {
+        $this->authorize('update', $tag);
 
-		return view('tags.edit', compact('tag'));
-	}
+        try {
+            $data = $this->getData($request);
 
-	/**
-	 * Update the specified tag in the storage.
-	 *
-	 * @param  int $id
-	 * @param Illuminate\Http\Request $request
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function update(Tag $tag, Request $request) {
-		$this->authorize('update', $tag);
-		try {
+            $tag->update($data);
 
-			$data = $this->getData($request);
+            return response()->json(['tag' => $tag]);
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-			$tag->update($data);
+    /**
+     * Remove the specified tag from the storage.
+     *
+     * @param int $id
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function destroy(Tag $tag)
+    {
+        $this->authorize('forceDelete', $tag);
 
-			return response()->json(['tag' => $tag]);
+        try {
+            $tag->delete();
 
-		} catch (Exception $exception) {
-			return ExceptionHelper::handleError($exception, $request);
-		}
-	}
+            return response()->json(['Resource deleted']);
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-	/**
-	 * Remove the specified tag from the storage.
-	 *
-	 * @param  int $id
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function destroy(Tag $tag) {
-		$this->authorize('forceDelete', $tag);
-		try {
+    /**
+     * Get the request's data from the request.
+     *
+     * @param Illuminate\Http\Request\Request $request
+     *
+     * @return array
+     */
+    protected function getData(Request $request)
+    {
+        $rules = [
+            't-data' => 'required|string|min:1|max:20',
+            't-pic'  => 'nullable|string|min:0|max:159',
+        ];
 
-			$tag->delete();
-			return response()->json(['Resource deleted']);
+        $data = $request->validate($rules);
 
-		} catch (Exception $exception) {
-
-			return ExceptionHelper::handleError($exception, $request);
-
-		}
-	}
-
-	/**
-	 * Get the request's data from the request.
-	 *
-	 * @param Illuminate\Http\Request\Request $request
-	 * @return array
-	 */
-	protected function getData(Request $request) {
-		$rules = [
-			't-data' => 'required|string|min:1|max:20',
-			't-pic' => 'nullable|string|min:0|max:159',
-		];
-
-		$data = $request->validate($rules);
-
-		return $data;
-	}
-
+        return $data;
+    }
 }

@@ -8,152 +8,151 @@ use Exception;
 use ExceptionHelper;
 use Illuminate\Http\Request;
 
-class SearchesController extends Controller {
-/**
- * Enforce middleware.
- */
-	public function __construct() {
-		$this->middleware('auth:api', ['except' => ['store']]);
-	}
-	/**
-	 * Display a listing of the searches.
-	 *
-	 * @return Illuminate\View\View
-	 */
+class SearchesController extends Controller
+{
+    /**
+     * Enforce middleware.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['store']]);
+    }
 
-	public function index(Request $request) {
-		$orderBy = $request['order_by'] ?? 'timestamp';
-		$orderSort = $request['order_sort'] ?? 'desc';
+    /**
+     * Display a listing of the searches.
+     *
+     * @return Illuminate\View\View
+     */
+    public function index(Request $request)
+    {
+        $orderBy = $request['order_by'] ?? 'timestamp';
+        $orderSort = $request['order_sort'] ?? 'desc';
 
-		$paginate = $request['paginate'] ?? 'yes';
-		$perPage = $request['per_page'] ?? '50';
+        $paginate = $request['paginate'] ?? 'yes';
+        $perPage = $request['per_page'] ?? '50';
 
-		$user = $request['user'];
-		$current_user = $request->user('api');
+        $user = $request['user'];
+        $current_user = $request->user('api');
 
-		$q = Search::orderBy($orderBy, $orderSort);
+        $q = Search::orderBy($orderBy, $orderSort);
 
-		if ($user && $current_user->can('listAllSearches', Search::class)) {
-			$q = $q->where('user', '=', $user);
-		} elseif ($current_user->canNot('listAllSearches', Search::class)) {
-			$q = $q->where('user', '=', $current_user->{'user-id'});
-		}
+        if ($user && $current_user->can('listAllSearches', Search::class)) {
+            $q = $q->where('user', '=', $user);
+        } elseif ($current_user->canNot('listAllSearches', Search::class)) {
+            $q = $q->where('user', '=', $current_user->{'user-id'});
+        }
 
-		if ($paginate === 'yes') {
-			return $q->paginate($perPage);
-		}
+        if ($paginate === 'yes') {
+            return $q->paginate($perPage);
+        }
 
-		return $q->get();
-	}
+        return $q->get();
+    }
 
-	/**
-	 * Store a new search in the storage.
-	 *
-	 * @param Illuminate\Http\Request $request
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function store(Request $request) {
-		//$this->authorize('create', Search::class);
-		try {
+    /**
+     * Store a new search in the storage.
+     *
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function store(Request $request)
+    {
+        //$this->authorize('create', Search::class);
+        try {
+            if (!$request['user'] && $request->user('api')) {
+                $request['user'] = $request->user('api')->{'user-id'};
+            }
 
-			if (!$request['user'] && $request->user('api')) {
-				$request['user'] = $request->user('api')->{'user-id'};
-			}
+            if (!$request['uni'] && $request->user('api')) {
+                $request['uni'] = $request->user('api')->{'uni-id'};
+            }
 
-			if (!$request['uni'] && $request->user('api')) {
-				$request['uni'] = $request->user('api')->{'uni-id'};
-			}
+            $data = $this->getData($request);
 
-			$data = $this->getData($request);
+            $post = Search::create($data);
 
-			$post = Search::create($data);
+            return $post;
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-			return $post;
+    /**
+     * Display the specified search.
+     *
+     * @param int $id
+     *
+     * @return Illuminate\View\View
+     */
+    public function show(Search $search)
+    {
+        $this->authorize('view', $search);
 
-		} catch (Exception $exception) {
+        return $search;
+    }
 
-			return ExceptionHelper::handleError($exception, $request);
+    /**
+     * Update the specified search in the storage.
+     *
+     * @param int                     $id
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function update(Search $search, Request $request)
+    {
+        $this->authorize('update', $search);
 
-		}
-	}
+        try {
+            $data = $this->getData($request);
 
-	/**
-	 * Display the specified search.
-	 *
-	 * @param int $id
-	 *
-	 * @return Illuminate\View\View
-	 */
-	public function show(Search $search) {
-		$this->authorize('view', $search);
+            $search->update($data);
 
-		return $search;
+            return $search;
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-	}
+    /**
+     * Remove the specified search from the storage.
+     *
+     * @param int $id
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function destroy(Search $search)
+    {
+        $this->authorize('forceDelete', $search);
 
-	/**
-	 * Update the specified search in the storage.
-	 *
-	 * @param  int $id
-	 * @param Illuminate\Http\Request $request
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function update(Search $search, Request $request) {
-		$this->authorize('update', $search);
-		try {
+        try {
+            $search->delete();
 
-			$data = $this->getData($request);
+            return response()->json(['Resource deleted']);
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-			$search->update($data);
+    /**
+     * Get the request's data from the request.
+     *
+     * @param Illuminate\Http\Request\Request $request
+     *
+     * @return array
+     */
+    protected function getData(Request $request)
+    {
+        $rules = [
+            'query'         => 'required|string|min:1|max:100',
+            'user'          => 'nullable|numeric|exists:users,user-id',
+            'uni'           => 'nullable|numeric|exists:webometric_universities,uni-id',
+            'results_count' => 'nullable|numeric|min:0',
+        ];
 
-			return $search;
+        $data = $request->validate($rules);
 
-		} catch (Exception $exception) {
-
-			return ExceptionHelper::handleError($exception, $request);
-
-		}
-	}
-
-	/**
-	 * Remove the specified search from the storage.
-	 *
-	 * @param  int $id
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function destroy(Search $search) {
-		$this->authorize('forceDelete', $search);
-		try {
-			$search->delete();
-			return response()->json(['Resource deleted']);
-
-		} catch (Exception $exception) {
-
-			return ExceptionHelper::handleError($exception, $request);
-
-		}
-	}
-
-	/**
-	 * Get the request's data from the request.
-	 *
-	 * @param Illuminate\Http\Request\Request $request
-	 * @return array
-	 */
-	protected function getData(Request $request) {
-		$rules = [
-			'query' => 'required|string|min:1|max:100',
-			'user' => 'nullable|numeric|exists:users,user-id',
-			'uni' => 'nullable|numeric|exists:webometric_universities,uni-id',
-			'results_count' => 'nullable|numeric|min:0',
-		];
-
-		$data = $request->validate($rules);
-
-		return $data;
-	}
-
+        return $data;
+    }
 }

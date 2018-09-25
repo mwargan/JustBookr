@@ -3,37 +3,34 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateUserRatingsTable extends Migration {
+class CreateUserRatingsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('user_ratings', function (Blueprint $table) {
+            $table->integer('rate_id', true);
+            $table->integer('user-id')->nullable()->index('user-id');
+            $table->integer('rating')->nullable();
+            $table->timestamp('timestamp')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->integer('rated_by')->nullable();
+            $table->text('comment', 65535)->nullable();
+            $table->integer('connect-id')->nullable();
+            $table->integer('status')->nullable()->default(0);
+        });
+    }
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('user_ratings', function(Blueprint $table)
-		{
-			$table->integer('rate_id', true);
-			$table->integer('user-id')->nullable()->index('user-id');
-			$table->integer('rating')->nullable();
-			$table->timestamp('timestamp')->default(DB::raw('CURRENT_TIMESTAMP'));
-			$table->integer('rated_by')->nullable();
-			$table->text('comment', 65535)->nullable();
-			$table->integer('connect-id')->nullable();
-			$table->integer('status')->nullable()->default(0);
-		});
-	}
-
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('user_ratings');
-	}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('user_ratings');
+    }
 }

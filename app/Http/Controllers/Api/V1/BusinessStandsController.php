@@ -9,230 +9,225 @@ use Exception;
 use ExceptionHelper;
 use Illuminate\Http\Request;
 
-class BusinessStandsController extends Controller {
+class BusinessStandsController extends Controller
+{
+    /**
+     * Enforce middleware.
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth:api', 'optimizeImages'], ['except' => ['index', 'show']]);
+    }
 
-	/**
-	 * Enforce middleware.
-	 */
-	public function __construct() {
-		$this->middleware(['auth:api', 'optimizeImages'], ['except' => ['index', 'show']]);
-	}
+    /**
+     * Display a listing of the business stands.
+     *
+     * @return Illuminate\View\View
+     */
+    public function index(Request $request)
+    {
+        $orderBy = $request->input('order_by', 'posts_count');
+        $orderSort = $request['order_sort'] ?? 'desc';
 
-	/**
-	 * Display a listing of the business stands.
-	 *
-	 * @return Illuminate\View\View
-	 */
+        $paginate = $request['paginate'] ?? 'yes';
+        $perPage = $request['per_page'] ?? '50';
 
-	public function index(Request $request) {
-		$orderBy = $request->input('order_by', 'posts_count');
-		$orderSort = $request['order_sort'] ?? 'desc';
+        $available = $request['available'] ?? 'false';
+        $active = $request['active'] ?? 'false';
 
-		$paginate = $request['paginate'] ?? 'yes';
-		$perPage = $request['per_page'] ?? '50';
+        $business = $request->input('business');
 
-		$available = $request['available'] ?? 'false';
-		$active = $request['active'] ?? 'false';
+        $q = BusinessStand::with('business', 'university')->withCount('posts')->orderBy($orderBy, $orderSort);
 
-		$business = $request->input('business');
+        if ($business) {
+            $q->where('business_id', $business);
+        }
+        if ($active === 'true') {
+            $q->active();
+        }
 
-		$q = BusinessStand::with('business', 'university')->withCount('posts')->orderBy($orderBy, $orderSort);
+        if ($paginate === 'yes') {
+            return $q->paginate($perPage);
+        }
 
-		if ($business) {
-			$q->where('business_id', $business);
-		}
-		if ($active === 'true') {
-			$q->active();
-		}
+        return $q->get();
+    }
 
-		if ($paginate === 'yes') {
-			return $q->paginate($perPage);
-		}
+    /**
+     * Store a new business stand in the storage.
+     *
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function store(Request $request)
+    {
+        $request['is_active'] = 1;
 
-		return $q->get();
+        $data = $this->getData($request);
 
-	}
+        $this->authorize('create', [BusinessStand::class, $data['business_id']]);
 
-	/**
-	 * Store a new business stand in the storage.
-	 *
-	 * @param Illuminate\Http\Request $request
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function store(Request $request) {
-		$request['is_active'] = 1;
+        try {
+            $user = $request->user('api');
 
-		$data = $this->getData($request);
+            $creditCardToken = $request->input('card_token', null);
 
-		$this->authorize('create', [BusinessStand::class, $data['business_id']]);
-		try {
+            $post = BusinessStand::create($data);
 
-			$user = $request->user('api');
+            $plan = config('services.stripe.plan');
 
-			$creditCardToken = $request->input('card_token', null);
+            if ($user->subscribedToPlan($plan, 'Business Stand')) {
+                $user->subscription('Business Stand')->noProrate()->incrementQuantity();
+            } elseif (!$creditCardToken) {
+                $user->newSubscription('Business Stand', $plan)->create();
+            } elseif ($creditCardToken) {
+                $user->newSubscription('Business Stand', $plan)->create($creditCardToken);
+            } else {
+                return response()->json(['errors' => 'Invalid payment proccess'], 422);
+            }
+            //return false;
 
-			$post = BusinessStand::create($data);
+            return $post;
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-			$plan = config('services.stripe.plan');
+    /**
+     * Activate the stand.
+     *
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function activate(BusinessStand $stand, Request $request)
+    {
+        $this->authorize('general', $stand);
 
-			if ($user->subscribedToPlan($plan, 'Business Stand')) {
-				$user->subscription('Business Stand')->noProrate()->incrementQuantity();
-			} elseif (!$creditCardToken) {
-				$user->newSubscription('Business Stand', $plan)->create();
-			} elseif ($creditCardToken) {
-				$user->newSubscription('Business Stand', $plan)->create($creditCardToken);
-			} else {
-				return response()->json(['errors' => 'Invalid payment proccess'], 422);
-			}
-			//return false;
+        try {
+            if ($stand->is_active) {
+                return $stand;
+            }
+            $user = $request->user('api');
 
-			return $post;
+            $stand->is_active = 1;
+            $user->subscription('Business Stand')->noProrate()->incrementQuantity();
+            $stand->save();
 
-		} catch (Exception $exception) {
-			return ExceptionHelper::handleError($exception, $request);
-		}
-	}
+            return $stand;
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-	/**
-	 * Activate the stand.
-	 *
-	 * @param Illuminate\Http\Request $request
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function activate(BusinessStand $stand, Request $request) {
+    /**
+     * Deactivate the stand.
+     *
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function deactivate(BusinessStand $stand, Request $request)
+    {
+        $this->authorize('general', $stand);
 
-		$this->authorize('general', $stand);
-		try {
-			if ($stand->is_active) {
-				return $stand;
-			}
-			$user = $request->user('api');
+        try {
+            if (!$stand->is_active) {
+                return $stand;
+            }
+            $user = $request->user('api');
 
-			$stand->is_active = 1;
-			$user->subscription('Business Stand')->noProrate()->incrementQuantity();
-			$stand->save();
+            $stand->is_active = 0;
+            $user->subscription('Business Stand')->noProrate()->decrementQuantity();
+            $stand->save();
 
-			return $stand;
+            return $stand;
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-		} catch (Exception $exception) {
+    /**
+     * Display the specified business stand.
+     *
+     * @param int $id
+     *
+     * @return Illuminate\View\View
+     */
+    public function show(Request $request, $id)
+    {
+        $stand = BusinessStand::with('business', 'university', 'posts.textbook')->findOrFail($id);
 
-			return ExceptionHelper::handleError($exception, $request);
+        return $stand;
+    }
 
-		}
-	}
+    /**
+     * Update the specified business stand in the storage.
+     *
+     * @param int                     $id
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function update(BusinessStand $stand, Request $request)
+    {
+        $this->authorize('general', $stand);
 
-	/**
-	 * Deactivate the stand.
-	 *
-	 * @param Illuminate\Http\Request $request
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function deactivate(BusinessStand $stand, Request $request) {
-		$this->authorize('general', $stand);
-		try {
-			if (!$stand->is_active) {
-				return $stand;
-			}
-			$user = $request->user('api');
+        try {
+            $data = $this->getData($request);
 
-			$stand->is_active = 0;
-			$user->subscription('Business Stand')->noProrate()->decrementQuantity();
-			$stand->save();
+            $stand = BusinessStand::findOrFail($id);
 
-			return $stand;
+            $stand->update($data);
 
-		} catch (Exception $exception) {
+            return $stand;
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-			return ExceptionHelper::handleError($exception, $request);
+    /**
+     * Remove the specified business stand from the storage.
+     *
+     * @param int $id
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function destroy(BusinessStand $stand)
+    {
+        $this->authorize('general', $stand);
 
-		}
-	}
+        try {
+            $stand = BusinessStand::findOrFail($id);
+            $stand->delete();
 
-	/**
-	 * Display the specified business stand.
-	 *
-	 * @param int $id
-	 *
-	 * @return Illuminate\View\View
-	 */
-	public function show(Request $request, $id) {
-		$stand = BusinessStand::with('business', 'university', 'posts.textbook')->findOrFail($id);
+            return response()->json(['Resource deleted']);
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-		return $stand;
+    /**
+     * Get the request's data from the request.
+     *
+     * @param Illuminate\Http\Request\Request $request
+     *
+     * @return array
+     */
+    protected function getData(Request $request)
+    {
+        $rules = [
+            'business_id' => 'required|exists:businesses,id',
+            'uni_id'      => 'required|exists:webometric_universities,uni-id',
+            'stand_text'  => 'string|min:15|nullable',
+            'location'    => 'string|min:3|nullable',
+            'is_active'   => 'boolean',
 
-	}
+        ];
 
-	/**
-	 * Update the specified business stand in the storage.
-	 *
-	 * @param  int $id
-	 * @param Illuminate\Http\Request $request
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function update(BusinessStand $stand, Request $request) {
-		$this->authorize('general', $stand);
-		try {
+        $data = $request->validate($rules);
 
-			$data = $this->getData($request);
-
-			$stand = BusinessStand::findOrFail($id);
-
-			$stand->update($data);
-
-			return $stand;
-
-		} catch (Exception $exception) {
-
-			return ExceptionHelper::handleError($exception, $request);
-
-		}
-	}
-
-	/**
-	 * Remove the specified business stand from the storage.
-	 *
-	 * @param  int $id
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function destroy(BusinessStand $stand) {
-		$this->authorize('general', $stand);
-		try {
-			$stand = BusinessStand::findOrFail($id);
-			$stand->delete();
-
-			return response()->json(['Resource deleted']);
-
-		} catch (Exception $exception) {
-
-			return ExceptionHelper::handleError($exception, $request);
-
-		}
-	}
-
-	/**
-	 * Get the request's data from the request.
-	 *
-	 * @param Illuminate\Http\Request\Request $request
-	 * @return array
-	 */
-	protected function getData(Request $request) {
-		$rules = [
-			'business_id' => 'required|exists:businesses,id',
-			'uni_id' => 'required|exists:webometric_universities,uni-id',
-			'stand_text' => 'string|min:15|nullable',
-			'location' => 'string|min:3|nullable',
-			'is_active' => 'boolean',
-
-		];
-
-		$data = $request->validate($rules);
-
-		return $data;
-	}
-
+        return $data;
+    }
 }

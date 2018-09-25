@@ -15,267 +15,272 @@ use ExceptionHelper;
 use Illuminate\Http\Request;
 use SearchHelper;
 
-class PostsController extends Controller {
+class PostsController extends Controller
+{
+    /**
+     * Enforce middleware.
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth:api', 'optimizeImages'], ['except' => ['index', 'show']]);
+    }
 
-/**
- * Enforce middleware.
- */
-	public function __construct() {
-		$this->middleware(['auth:api', 'optimizeImages'], ['except' => ['index', 'show']]);
-	}
-	/**
-	 * Display a listing of the posts.
-	 *
-	 * @return Illuminate\View\View
-	 */
-	public function index() {
+    /**
+     * Display a listing of the posts.
+     *
+     * @return Illuminate\View\View
+     */
+    public function index()
+    {
+        $q = Post::orderBy(request('order_by', 'date'), request('order_sort', 'desc'));
 
-		$q = Post::orderBy(request('order_by', 'date'), request('order_sort', 'desc'));
+        $q->when(request('university'), function ($q, $university) {
+            return $q->where('uni-id', $university);
+        });
 
-		$q->when(request('university'), function ($q, $university) {
-			return $q->where('uni-id', $university);
-		});
+        $q->when(request('isbn'), function ($q, $isbn) {
+            return $q->where('isbn', request('isbn'));
+        }, function ($q) {
+            return $q->with('textbook');
+        });
 
-		$q->when(request('isbn'), function ($q, $isbn) {
-			return $q->where('isbn', request('isbn'));
-		}, function ($q) {
-			return $q->with('textbook');
-		});
+        $q->when(request('title'), function ($q, $title) {
+            return $q->whereHas('textbook', function ($q) use ($title) {
+                return $q->where('book-title', 'LIKE', '%'.SearchHelper::stripStopWords($title).'%');
+            });
+        });
 
-		$q->when(request('title'), function ($q, $title) {
-			return $q->whereHas('textbook', function ($q) use ($title) {
-				return $q->where('book-title', 'LIKE', '%' . SearchHelper::stripStopWords($title) . '%');
-			});
-		});
+        $q->when(request('available'), function ($q, $available) {
+            return $q->available();
+        });
 
-		$q->when(request('available'), function ($q, $available) {
-			return $q->available();
-		});
+        $q->when(request('active'), function ($q, $active) {
+            return $q->active();
+        });
 
-		$q->when(request('active'), function ($q, $active) {
-			return $q->active();
-		});
+        $q->when(request('boosted'), function ($q, $boosted) {
+            return $q->whereHas('boosts');
+        });
 
-		$q->when(request('boosted'), function ($q, $boosted) {
-			return $q->whereHas('boosts');
-		});
+        $q->when(request('user'), function ($q, $user) {
+            return $q->where('user-id', $user);
+        }, function ($q) {
+            $q->with('user');
+        });
 
-		$q->when(request('user'), function ($q, $user) {
-			return $q->where('user-id', $user);
-		}, function ($q) {
-			$q->with('user');
-		});
+        $q->when(request('min_price'), function ($q, $min_price) {
+            return $q->where('price', '>=', $min_price);
+        });
 
-		$q->when(request('min_price'), function ($q, $min_price) {
-			return $q->where('price', '>=', $min_price);
-		});
+        $q->when(request('max_price'), function ($q, $max_price) {
+            return $q->where('price', '<=', $max_price);
+        });
 
-		$q->when(request('max_price'), function ($q, $max_price) {
-			return $q->where('price', '<=', $max_price);
-		});
+        if (request('paginate', true) === true) {
+            return $q->paginate(request('per_page', 50));
+        }
 
-		if (request('paginate', true) === true) {
-			return $q->paginate(request('per_page', 50));
-		}
+        return $q->get();
+    }
 
-		return $q->get();
+    /**
+     * Store a new post in the storage.
+     *
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function store(Request $request)
+    {
+        $request['user-id'] = Auth::user()->{'user-id'};
 
-	}
+        if (!$request['uni-id']) {
+            $request['uni-id'] = Auth::user()->{'uni-id'};
+        }
 
-	/**
-	 * Store a new post in the storage.
-	 *
-	 * @param Illuminate\Http\Request $request
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function store(Request $request) {
-		$request['user-id'] = Auth::user()->{'user-id'};
+        $data = $this->getData($request);
 
-		if (!$request['uni-id']) {
-			$request['uni-id'] = Auth::user()->{'uni-id'};
-		}
+        $this->authorize('create', [Post::class, $data['isbn']]);
 
-		$data = $this->getData($request);
+        try {
+            if (!Textbook::whereIsbn($data['isbn'])->exists()) {
+                $book_data = $this->getBookData($request);
+                if (!isset($book_data['image-url'])) {
+                    $book_data['image-url'] = Textbook::uploadImage($data['isbn'], $request->file('image'));
+                }
+                $book = Textbook::create($book_data);
+                event(new BookAdded($book));
+            }
 
-		$this->authorize('create', [Post::class, $data['isbn']]);
+            $post = Post::create($data);
+            event(new PostAdded($post));
 
-		try {
-			if (!Textbook::whereIsbn($data['isbn'])->exists()) {
-				$book_data = $this->getBookData($request);
-				if (!isset($book_data['image-url'])) {
-					$book_data['image-url'] = Textbook::uploadImage($data['isbn'], $request->file('image'));
-				}
-				$book = Textbook::create($book_data);
-				event(new BookAdded($book));
-			}
+            return $post->load('textbook');
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-			$post = Post::create($data);
-			event(new PostAdded($post));
+    /**
+     * Display the specified post.
+     *
+     * @param int $id
+     *
+     * @return Illuminate\View\View
+     */
+    public function show(Request $request, $id)
+    {
+        $q = Post::with('user', 'textbook', 'order')->withViews()->findOrFail($id);
+        if ($q->order && $request->user('api')->canNot('view', [Order::class, $q->order])) {
+            $q = $q->makeHidden('order');
+        }
 
-			return $post->load('textbook');
+        return $q;
+    }
 
-		} catch (Exception $exception) {
-			return ExceptionHelper::handleError($exception, $request);
-		}
-	}
+    /**
+     * Update the specified post in the storage.
+     *
+     * @param int                     $id
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function update(Post $post, Request $request)
+    {
+        $this->authorize('update', $post);
 
-	/**
-	 * Display the specified post.
-	 *
-	 * @param int $id
-	 *
-	 * @return Illuminate\View\View
-	 */
-	public function show(Request $request, $id) {
-		$q = Post::with('user', 'textbook', 'order')->withViews()->findOrFail($id);
-		if ($q->order && $request->user('api')->canNot('view', [Order::class, $q->order])) {
-			$q = $q->makeHidden('order');
-		}
-		return $q;
-	}
+        try {
+            if (!$request['user-id']) {
+                $request['user-id'] = Auth::user()->{'user-id'};
+            }
 
-	/**
-	 * Update the specified post in the storage.
-	 *
-	 * @param  int $id
-	 * @param Illuminate\Http\Request $request
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function update(Post $post, Request $request) {
-		$this->authorize('update', $post);
+            if (!$request['uni-id']) {
+                $request['uni-id'] = Auth::user()->{'uni-id'};
+            }
 
-		try {
-			if (!$request['user-id']) {
-				$request['user-id'] = Auth::user()->{'user-id'};
-			}
+            $request['isbn'] = $post->isbn;
 
-			if (!$request['uni-id']) {
-				$request['uni-id'] = Auth::user()->{'uni-id'};
-			}
+            $data = $this->getData($request);
 
-			$request['isbn'] = $post->isbn;
+            $post->update($data);
 
-			$data = $this->getData($request);
+            return $post;
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-			$post->update($data);
+    /**
+     * markSold the specified post in the storage.
+     *
+     * @param int                     $id
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function markSold(Post $post, Request $request)
+    {
+        $this->authorize('markSold', $post);
 
-			return $post;
+        try {
+            $post->status = 77;
 
-		} catch (Exception $exception) {
-			return ExceptionHelper::handleError($exception, $request);
-		}
-	}
+            $post->save();
 
-	/**
-	 * markSold the specified post in the storage.
-	 *
-	 * @param  int $id
-	 * @param Illuminate\Http\Request $request
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function markSold(Post $post, Request $request) {
-		$this->authorize('markSold', $post);
-		try {
-			$post->status = 77;
+            return $post;
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-			$post->save();
+    /**
+     * markUnsold the specified post in the storage.
+     *
+     * @param int                     $id
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function markUnsold(Post $post, Request $request)
+    {
+        $this->authorize('markUnsold', $post);
 
-			return $post;
+        try {
+            $post->status = 1;
 
-		} catch (Exception $exception) {
-			return ExceptionHelper::handleError($exception, $request);
-		}
-	}
+            $post->save();
 
-	/**
-	 * markUnsold the specified post in the storage.
-	 *
-	 * @param  int $id
-	 * @param Illuminate\Http\Request $request
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function markUnsold(Post $post, Request $request) {
-		$this->authorize('markUnsold', $post);
-		try {
-			$post->status = 1;
+            return $post;
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-			$post->save();
+    /**
+     * Remove the specified post from the storage.
+     *
+     * @param int $id
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
+    public function destroy(Post $post)
+    {
+        $this->authorize('forceDelete', $post);
 
-			return $post;
+        try {
+            $post->delete();
 
-		} catch (Exception $exception) {
-			return ExceptionHelper::handleError($exception, $request);
-		}
-	}
+            return response()->json(['Resource deleted']);
+        } catch (Exception $exception) {
+            return ExceptionHelper::handleError($exception, $request);
+        }
+    }
 
-	/**
-	 * Remove the specified post from the storage.
-	 *
-	 * @param  int $id
-	 *
-	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-	 */
-	public function destroy(Post $post) {
-		$this->authorize('forceDelete', $post);
+    /**
+     * Get the request's data from the request.
+     *
+     * @param Illuminate\Http\Request\Request $request
+     *
+     * @return array
+     */
+    protected function getData(Request $request)
+    {
+        $rules = [
+            'user-id'          => 'required|numeric|exists:users,user-id',
+            'post-description' => 'required|string|min:10',
+            'isbn'             => 'required|numeric|digits:13',
+            'uni-id'           => 'required|numeric|exists:webometric_universities,uni-id',
+            'price'            => 'required|numeric|min:1|max:1000',
+        ];
 
-		try {
+        $data = $request->validate($rules);
 
-			$post->delete();
+        return $data;
+    }
 
-			return response()->json(['Resource deleted']);
+    /**
+     * Get the request's data from the request.
+     *
+     * @param Illuminate\Http\Request\Request $request
+     *
+     * @return array
+     */
+    protected function getBookData(Request $request)
+    {
+        $rules = [
 
-		} catch (Exception $exception) {
+            'isbn'       => 'required|numeric|digits:13|unique:textbooks,isbn,'.$request->isbn.',isbn',
+            'book-title' => 'required|string|min:5|max:259',
+            'author'     => 'required|string|min:5|max:259',
+            'book-des'   => 'nullable|sometimes|string',
+            'edition'    => 'nullable|string|min:1|max:64',
+            'image-url'  => 'required_without:image|url',
+            'image'      => 'required_without:image-url|image|max:20480',
+        ];
 
-			return ExceptionHelper::handleError($exception, $request);
+        $data = $request->validate($rules);
 
-		}
-	}
-
-	/**
-	 * Get the request's data from the request.
-	 *
-	 * @param Illuminate\Http\Request\Request $request
-	 * @return array
-	 */
-	protected function getData(Request $request) {
-		$rules = [
-			'user-id' => 'required|numeric|exists:users,user-id',
-			'post-description' => 'required|string|min:10',
-			'isbn' => 'required|numeric|digits:13',
-			'uni-id' => 'required|numeric|exists:webometric_universities,uni-id',
-			'price' => 'required|numeric|min:1|max:1000',
-		];
-
-		$data = $request->validate($rules);
-
-		return $data;
-	}
-
-	/**
-	 * Get the request's data from the request.
-	 *
-	 * @param Illuminate\Http\Request\Request $request
-	 * @return array
-	 */
-	protected function getBookData(Request $request) {
-		$rules = [
-
-			'isbn' => 'required|numeric|digits:13|unique:textbooks,isbn,' . $request->isbn . ',isbn',
-			'book-title' => 'required|string|min:5|max:259',
-			'author' => 'required|string|min:5|max:259',
-			'book-des' => 'nullable|sometimes|string',
-			'edition' => 'nullable|string|min:1|max:64',
-			'image-url' => 'required_without:image|url',
-			'image' => 'required_without:image-url|image|max:20480',
-		];
-
-		$data = $request->validate($rules);
-
-		return $data;
-	}
-
+        return $data;
+    }
 }
