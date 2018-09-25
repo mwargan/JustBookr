@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="title">{{ $t('on_campus') }}</div>
-        <template v-if="post && loading === false">
+        <template v-if="(posts.length > 0 || stand_posts.length > 0) && loading === false">
             <!-- Boosted offers card -->
             <card v-for="(post, index) in boostedPosts" :key="'BOOSTED_POST_'+post['post-id']">
                 <card-header :title="post.user.name" :subtitle="post.price" :image="post.user.profilepic" :link="'/user/'+post.user['user-id']" sponsored="Boosted" />
