@@ -129,7 +129,7 @@ class Textbook extends Model {
 	 * @return mixed
 	 */
 	public function universities() {
-		return $this->hasManyThrough('App\Models\WebometricUniversity', 'App\Models\Post', 'isbn', 'uni-id', 'isbn', 'uni-id')->distinct();
+		return $this->hasManyThrough('App\Models\University', 'App\Models\Post', 'isbn', 'uni-id', 'isbn', 'uni-id')->distinct();
 	}
 
 	/**

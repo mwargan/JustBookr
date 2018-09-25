@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App;
 use App\Http\Controllers\Controller;
+use App\Models\University;
 use App\Models\User;
-use App\Models\WebometricUniversity;
 use Auth;
 use Exception;
 use ExceptionHelper;
@@ -261,7 +261,7 @@ class UsersController extends Controller {
 
 		try {
 
-			$uni = WebometricUniversity::findOrFail($request['university']);
+			$uni = University::findOrFail($request['university']);
 			$user = Auth::user();
 			$user->{'uni-id'} = $uni->{'uni-id'};
 			$user->save();

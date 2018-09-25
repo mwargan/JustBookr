@@ -1,41 +1,47 @@
 <template>
     <div>
-        <boost-modal :post="modalPost" @postPromoted="boostPost" />
         <div class="title">{{ $t('on_campus') }}</div>
-        <card v-if="post && loading === false" v-for="(post, index) in boostedPosts" :key="post['post-id']">
-            <card-header :title="post.user.name" :subtitle="post.price" :image="post.user.profilepic" :link="'/user/'+post.user['user-id']" sponsored="Boosted" />
-            <card-content :text="post['post-description']">
-            </card-content>
-            <card-footer :post-id="post['post-id']" v-if="!user || post.user['user-id'] != user['user-id'] && post.status === 1"></card-footer>
-            <card-footer :post-id="post['post-id']" v-else-if="user && post.user['user-id'] == user['user-id'] && post.status === 1 && post.boosts.length == 0">
-                <a href="#" class="link" @click="modalPost = post" data-toggle="modal" data-target="#boostModal">
+        <template v-if="post && loading === false">
+            <!-- Boosted offers card -->
+            <card v-for="(post, index) in boostedPosts" :key="'BOOSTED_POST_'+post['post-id']">
+                <card-header :title="post.user.name" :subtitle="post.price" :image="post.user.profilepic" :link="'/user/'+post.user['user-id']" sponsored="Boosted" />
+                <card-content :text="post['post-description']">
+                </card-content>
+                <card-footer :post-id="post['post-id']" v-if="!user || post.user['user-id'] != user['user-id'] && post.status === 1"></card-footer>
+                <card-footer :post-id="post['post-id']" v-else-if="user && post.user['user-id'] == user['user-id'] && post.status === 1 && post.boosts.length == 0">
+                    <a href="#" class="link" @click="modalPost = post" data-toggle="modal" data-target="#boostModal">
                 {{$t('boost_your_post')}}
                 </a>
-            </card-footer>
-        </card>
-        <card v-if="post && loading === false" v-for="(post, index) in sortedPosts" :key="post['post-id']">
-            <card-header :title="post.user.name" :subtitle="post.price" :image="post.user.profilepic" :link="'/user/'+post.user['user-id']" />
-            <card-content :text="post['post-description']">
-            </card-content>
-            <card-footer :post-id="post['post-id']" v-if="!user || post.user['user-id'] != user['user-id'] && post.status === 1"></card-footer>
-            <card-footer :post-id="post['post-id']" v-else-if="user && post.user['user-id'] == user['user-id'] && post.status === 1 && post.boosts.length == 0">
-                <a href="#" class="link" @click="modalPost = post" data-toggle="modal" data-target="#boostModal">
+                </card-footer>
+            </card>
+            <!-- Student offers card -->
+            <card v-for="(post, index) in sortedPosts" :key="'POST_'+post['post-id']">
+                <card-header :title="post.user.name" :subtitle="post.price" :image="post.user.profilepic" :link="'/user/'+post.user['user-id']" />
+                <card-content :text="post['post-description']">
+                </card-content>
+                <card-footer :post-id="post['post-id']" v-if="!user || post.user['user-id'] != user['user-id'] && post.status === 1"></card-footer>
+                <card-footer :post-id="post['post-id']" v-else-if="user && post.user['user-id'] == user['user-id'] && post.status === 1 && post.boosts.length == 0">
+                    <a href="#" class="link" @click="modalPost = post" data-toggle="modal" data-target="#boostModal">
                 {{$t('boost_your_post')}}
                 </a>
-            </card-footer>
-        </card>
-        <card v-if="post && loading === false" v-for="(post, index) in stand_posts" :key="'POST_'+post['id']">
-            <card-header :title="post.stand.business.name" :subtitle="post.price" sponsored="Sponsored" :image="post.stand.business.logo" :link="'/business/'+post.stand.business.id">
-            </card-header>
-            <card-content :text="post.description">
-            </card-content>
-            <card-footer>
-                <router-link class="link" :to="'/stand/'+post.stand.id">{{ $t('learn_more') }}
-                </router-link>
-            </card-footer>
-        </card>
-        <card-placeholder v-if="loading"></card-placeholder>
-        <card v-if="posts.length < 1 && stand_posts.length < 1 && loading === false">
+                </card-footer>
+            </card>
+            <!-- Business offers card -->
+            <card v-for="(post, index) in stand_posts" :key="'BUSINESS_POST_'+post['id']">
+                <card-header :title="post.stand.business.name" :subtitle="post.price" sponsored="Sponsored" :image="post.stand.business.logo" :link="'/business/'+post.stand.business.id">
+                </card-header>
+                <card-content :text="post.description">
+                </card-content>
+                <card-footer>
+                    <router-link class="link" :to="'/stand/'+post.stand.id">{{ $t('learn_more') }}
+                    </router-link>
+                </card-footer>
+            </card>
+        </template>
+        <!-- Loading card -->
+        <card-placeholder v-else-if="loading"></card-placeholder>
+        <!-- No available posts card -->
+        <card v-else>
             <card-header :title="$t('nobody_is_selling_this_book_at_your_uni_right_now')+'.'">
             </card-header>
             <card-footer>
@@ -44,16 +50,7 @@
             </card-footer>
         </card>
         <div class="title">{{ $t('delivered_to_your_door') }}</div>
-        <card v-if="loading === false && loading === true">
-            <card-header title="JustBookr+" subtitle="Coming soon" image="/images/icons/apple-touch-startup-image-750x1334.png">
-            </card-header>
-            <card-content text="Brand new copy delivered straight to your door!">
-            </card-content>
-            <card-footer>
-                <a class="link" :href="'https://www.amazon.com/s//ref=as_li_ss_tl?field-keywords='+$route.params.isbn+'&linkCode=ll2&tag=justbookr-20'">{{ $t('learn_more') }}
-            </a>
-            </card-footer>
-        </card>
+        <!-- Amazon card -->
         <card>
             <card-header title="Amazon" :subtitle="$t('may_have_a_copy_of_this_textbook')" image="https://lh3.googleusercontent.com/mIeBLLu8xOi-1bPbtRO_HYb5d1VchJDLDH4hebMO7R-GNOfueGDtHCKgPWFjwyCAORQ=w90">
             </card-header>
@@ -62,11 +59,13 @@
                 </a>
             </card-footer>
         </card>
+        <!-- Other editions card -->
         <feed-other-editions :book="book" :user="user"></feed-other-editions>
         <div style="text-align: center;">
             <small class="text-muted" v-if="isUniBased"><fa icon="compass" fixed-width/> {{user.university['uni-name']}}</small>
             <small class="text-muted" v-else>{{ $t('log_in_to_see_posts_at_your_university') }}</small>
         </div>
+        <boost-modal :post="modalPost" @postPromoted="boostPost" />
     </div>
 </template>
 <script>
@@ -91,10 +90,6 @@ export default {
     },
 
     computed: {
-        ...mapGetters({
-            //user: 'auth/user',
-            //thisBook: 'book/getBookByIsbn'
-        }),
 
         isUniBased: function() {
             return this.user && this.user['uni-id'] && this.user.university['uni-name']
@@ -146,7 +141,7 @@ export default {
             }
             await axios('/api/v1/posts?isbn=' + this.$route.params.isbn + '&paginate=false&available=true&active=true' + uni).then(function(response) {
                 data.page++
-                data.$set(data, 'posts', response.data)
+                    data.$set(data, 'posts', response.data)
                 $.each(response.data, function(res, val) {
                     val.textbook = data.book
                     data.$store.dispatch('post/addPost', val)
@@ -164,8 +159,8 @@ export default {
                 uni = "&university=" + (this.user['uni-id'])
             }
             await axios('/api/v1/stand-posts?isbn=' + this.$route.params.isbn + '&paginate=false&available=true&active=true' + uni).then(function(response) {
-                data.loading = false
                 data.$set(data, 'stand_posts', response.data)
+                data.loading = false
             })
         },
         hitGA() {

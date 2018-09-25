@@ -280,10 +280,10 @@
             "delimiter": "; ",
             "range": [],
             "foreign-relation": {
-                "name": "webometricUniversity",
+                "name": "University",
                 "type": "belongsTo",
                 "params": [
-                    "App\\Models/\\WebometricUniversity",
+                    "App\\Models/\\University",
                     "uni-id",
                     "uni-id"
                 ],
@@ -291,11 +291,11 @@
             },
             "foreign-constraint": {
                 "field": "uni-id",
-                "references": "webometric_universities",
+                "references": "universities",
                 "on": "uni-id",
                 "on-delete": "set null",
                 "on-update": "cascade",
-                "references-model": "App\\Models/\\WebometricUniversity",
+                "references-model": "App\\Models/\\University",
                 "is-self-reference": false
             },
             "on-store": null,

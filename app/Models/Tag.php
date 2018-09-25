@@ -69,7 +69,7 @@ class Tag extends Model {
 	 * Get the universities for this model.
 	 */
 	public function universities() {
-		return $this->hasManyThrough('App\Models\WebometricUniversity', 'App\Models\UniversityTag', 'tag_id', 'uni-id', 'tag-id', 'uni_id');
+		return $this->hasManyThrough('App\Models\University', 'App\Models\UniversityTag', 'tag_id', 'uni-id', 'tag-id', 'uni_id');
 	}
 
 }

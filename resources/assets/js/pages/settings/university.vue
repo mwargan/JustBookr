@@ -3,18 +3,18 @@
     <form @submit.prevent="update" @keydown="form.onKeydown($event)">
       <alert-success :form="form" :message="$t('info_updated')"></alert-success>
 
-      <!-- webometricuniversity Name -->
+      <!-- University Name -->
       <div class="form-group row">
         <label class="col-md-3 col-form-label text-md-right">{{ $t('university') }}</label>
         <div class="col-md-7">
-          <input v-model="form.webometricuniversity['uni-name']" type="text" name="webometricuniversity" class="form-control"
+          <input v-model="form.University['uni-name']" type="text" name="University" class="form-control"
             :class="{ 'is-invalid': form.errors.has('uni-name') }">
-          <input v-model="form.webometricuniversity['uni-id']" type="hidden" name="webometricuniversityId">
-          <has-error :form="form" field="webometricuniversityId"></has-error>
+          <input v-model="form.University['uni-id']" type="hidden" name="UniversityId">
+          <has-error :form="form" field="UniversityId"></has-error>
         </div>
       </div>
 
-      <!-- webometricuniversity ID -->
+      <!-- University ID -->
       <div class="form-group row">
         <label class="col-md-3 col-form-label text-md-right">{{ $t('surname') }}</label>
         <div class="col-md-7">
@@ -42,12 +42,12 @@ export default {
   scrollToTop: false,
 
   metaInfo () {
-    return { title: this.$t('webometricuniversity') }
+    return { title: this.$t('University') }
   },
 
   data: () => ({
     form: new Form({
-      webometricuniversity: '',
+      University: '',
       surname: '',
       'uni-name': ''
     })

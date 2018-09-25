@@ -9,7 +9,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    
+
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
 
     <style>
@@ -24,7 +24,7 @@
             padding-right: 15px;
         }
 
-        /* Override the default bootstrap behavior where horizontal description lists 
+        /* Override the default bootstrap behavior where horizontal description lists
            will truncate terms that are too long to fit in the left column.
            Also, add a 8pm to the bottom margin
         */
@@ -94,7 +94,7 @@
             @if (Auth::check())
                 <li><a href="{{ url('/countries') }}">Countries</a></li>
                 <li><a href="{{ url('/tags') }}">Tags</a></li>
-                <li><a href="{{ url('/webometric_universities') }}">Unis</a></li>
+                <li><a href="{{ url('/universities') }}">Unis</a></li>
                 <li><a href="{{ url('/searches') }}">Searches</a></li>
                 <li><a href="{{ url('/points') }}">Points</a></li>
                 <li><a href="{{ url('/reported_posts') }}">Reported Posts</a></li>
@@ -117,7 +117,7 @@
     </div>
 
     <!-- Scripts -->
-    
+
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"
         integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
         crossorigin="anonymous"></script>
@@ -138,7 +138,7 @@
             $(':file').on('fileselect', function(event, label) {
                 $(this).closest('.uploaded-file-group').find('.uploaded-file-name').val(label);
             });
-            
+
             // Deals with the upload file in edit mode
             $('.custom-delete-file:checkbox').change(function(e){
                 var self = $(this);

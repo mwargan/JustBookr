@@ -41,7 +41,7 @@
 			    </option>
 			@endforeach
         </select>
-        
+
         {!! $errors->first('isbn', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
@@ -59,7 +59,7 @@
     <div class="col-md-10">
         <select class="form-control" id="uniid" name="uni-id" required="true">
         	    <option value="" style="display: none;" {{ old('uni-id', optional($post)->{'uni-id'} ?: '') == '' ? 'selected' : '' }} disabled selected>Enter uniid here...</option>
-        	@foreach ($webometricUniversities as $key => $value)
+        	@foreach ($Universities as $key => $value)
 			    <option value="{{ $value }}" {{ old('uni-id', optional($post)->{'uni-id'}) == $value ? 'selected' : '' }}>
 			    	{{ $key }}
 			    </option>

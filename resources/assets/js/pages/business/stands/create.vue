@@ -95,23 +95,22 @@ export default {
     data: () => ({
         form: new Form({
             business_id: '',
-            uni_id: this.user['uni-id'],
+            uni_id: '',
             location: '',
             stand_text: ''
         }),
         complete: false,
         new_stand: null,
         loadingPayment: false,
-        stripeOptions: {
-            // see https://stripe.com/docs/stripe.js#element-options for details
-        }
     }),
     mounted() {
         if(this.user.businesses) {
             this.form.business_id = this.user.businesses[0].id
+            this.form.uni_id = this.user['uni-id']
         } else {
             this.$store.dispatch('auth/fetchUser')
             this.form.business_id = this.user.businesses[0].id
+            this.form.uni_id = this.user['uni-id']
         }
     },
     methods: {
@@ -138,8 +137,7 @@ export default {
     computed: {
         ...mapGetters({
             user: 'auth/user'
-          }),
-    stripe_key: () => window.config.stripe_key
+          })
     }
 }
 </script>

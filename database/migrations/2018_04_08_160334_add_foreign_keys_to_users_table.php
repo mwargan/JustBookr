@@ -10,24 +10,19 @@ class AddForeignKeysToUsersTable extends Migration {
 	 *
 	 * @return void
 	 */
-	public function up()
-	{
-		Schema::table('users', function(Blueprint $table)
-		{
-			$table->foreign('uni-id', 'users_ibfk_1')->references('uni-id')->on('webometric_universities')->onUpdate('CASCADE')->onDelete('SET NULL');
+	public function up() {
+		Schema::table('users', function (Blueprint $table) {
+			$table->foreign('uni-id', 'users_ibfk_1')->references('uni-id')->on('universities')->onUpdate('CASCADE')->onDelete('SET NULL');
 		});
 	}
-
 
 	/**
 	 * Reverse the migrations.
 	 *
 	 * @return void
 	 */
-	public function down()
-	{
-		Schema::table('users', function(Blueprint $table)
-		{
+	public function down() {
+		Schema::table('users', function (Blueprint $table) {
 			$table->dropForeign('users_ibfk_1');
 		});
 	}

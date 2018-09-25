@@ -6,7 +6,7 @@
         </div>
         <footer class="footer border-top mt-3" id="page-footer">
             <div class="container">
-                <span class="text-muted">JustBookr 2018</span> | <router-link to="/faq">{{ $t('frequently_asked_questions') }}</router-link> | <router-link to="/terms-and-conditions">{{ $t('terms_and_conditions') }}</router-link> | <router-link to="/business">{{ $t('justbookr_for_business') }}</router-link> | <a target="_BLANK" href="https://instagram.com/JustBookr" rel="noopener">Instagram</a> | <a target="_BLANK" href="https://facebook.com/JustBookr" rel="noopener">Facebook</a><!--  |
+                <span class="text-muted">JustBookr 2018</span> | <router-link to="/faq">{{ $t('frequently_asked_questions') }}</router-link> | <router-link to="/terms-and-conditions">{{ $t('terms_and_conditions') }}</router-link> | <router-link to="/business">{{ $t('justbookr_for_business') }}</router-link> | <a target="_BLANK" href="https://instagram.com/JustBookr" rel="noopener">Instagram</a> | <a target="_BLANK" href="https://facebook.com/JustBookr" rel="noopener">Facebook</a> | <a target="_BLANK" href="https://github.com/mwargan/JustBookr" rel="noopener">GitHub</a><!--  |
                 <locale-dropdown style="display: inline-block;left:-16px;" /> -->
             </div>
         </footer>

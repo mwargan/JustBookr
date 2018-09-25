@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateWebometricUniversitiesTable extends Migration {
+class CreateUniversitiesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -11,7 +11,7 @@ class CreateWebometricUniversitiesTable extends Migration {
 	 * @return void
 	 */
 	public function up() {
-		Schema::create('webometric_universities', function (Blueprint $table) {
+		Schema::create('universities', function (Blueprint $table) {
 			$table->integer('uni-id', true);
 			$table->string('uni-name', 150);
 			$table->string('en-name', 150)->nullable();
@@ -37,7 +37,7 @@ class CreateWebometricUniversitiesTable extends Migration {
 	 * @return void
 	 */
 	public function down() {
-		Schema::drop('webometric_universities');
+		Schema::drop('universities');
 	}
 
 }

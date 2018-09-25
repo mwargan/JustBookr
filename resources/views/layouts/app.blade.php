@@ -24,7 +24,7 @@
             padding-right: 15px;
         }
 
-        /* Override the default bootstrap behavior where horizontal description lists 
+        /* Override the default bootstrap behavior where horizontal description lists
            will truncate terms that are too long to fit in the left column.
            Also, add a 8pm to the bottom margin
         */
@@ -94,7 +94,7 @@
             @if (Auth::check())
                 <li><a href="{{ url('/countries') }}">Countries</a></li>
                 <li><a href="{{ url('/tags') }}">Tags</a></li>
-                <li><a href="{{ url('/webometric_universities') }}">Unis</a></li>
+                <li><a href="{{ url('/universities') }}">Unis</a></li>
                 <li><a href="{{ url('/searches') }}">Searches</a></li>
                 <li><a href="{{ url('/points') }}">Points</a></li>
                 <li><a href="{{ url('/reported_posts') }}">Reported Posts</a></li>

@@ -64,7 +64,7 @@ class BusinessStand extends Model {
 	 * Get the uni for this model.
 	 */
 	public function university() {
-		return $this->belongsTo('App\Models\WebometricUniversity', 'uni_id');
+		return $this->belongsTo('App\Models\University', 'uni_id');
 	}
 
 	/**

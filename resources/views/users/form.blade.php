@@ -52,7 +52,7 @@
     <div class="col-md-10">
         <select class="form-control" id="uniid" name="uni-id">
         	    <option value="" style="display: none;" {{ old('uni-id', optional($user)->{'uni-id'} ?: '') == '' ? 'selected' : '' }} disabled selected>Enter uniid here...</option>
-        	@foreach ($webometricUniversities as $key => $webometricUniversity)
+        	@foreach ($Universities as $key => $University)
 			    <option value="{{ $key }}" {{ old('uni-id', optional($user)->{'uni-id'}) == $key ? 'selected' : '' }}>
 			    	{{ $key }}
 			    </option>

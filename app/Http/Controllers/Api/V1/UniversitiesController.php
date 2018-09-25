@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Country;
-use App\Models\WebometricUniversity;
+use App\Models\University;
 use DB;
 use Exception;
 use ExceptionHelper;
@@ -18,7 +18,7 @@ class UniversitiesController extends Controller {
 		$this->middleware(['auth:api', 'optimizeImages'], ['except' => ['index', 'show', 'views']]);
 	}
 	/**
-	 * Display a listing of the webometric universities.
+	 * Display a listing of the Universities.
 	 *
 	 * @return Illuminate\View\View
 	 */
@@ -38,7 +38,7 @@ class UniversitiesController extends Controller {
 
 		$country = $request['country'];
 
-		$q = WebometricUniversity::withCount('users')->orderBy($orderBy, $orderSort)->with('country');
+		$q = University::withCount('users')->orderBy($orderBy, $orderSort)->with('country');
 
 		if ($active === 'true') {
 			$q = $q->active();
@@ -65,14 +65,14 @@ class UniversitiesController extends Controller {
 	}
 
 	/**
-	 * Store a new webometric university in the storage.
+	 * Store a new University in the storage.
 	 *
 	 * @param Illuminate\Http\Request $request
 	 *
 	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
 	 */
 	public function store(Request $request) {
-		$this->authorize('create', WebometricUniversity::class);
+		$this->authorize('create', University::class);
 		try {
 
 			//Without this error returns undefined index
@@ -80,9 +80,9 @@ class UniversitiesController extends Controller {
 
 			$data = $this->getData($request);
 
-			$webometricUniversity = WebometricUniversity::create($data);
+			$University = University::create($data);
 
-			return response()->json(['university' => $webometricUniversity]);
+			return response()->json(['university' => $University]);
 
 		} catch (Exception $exception) {
 			return ExceptionHelper::handleError($exception, $request);
@@ -90,16 +90,16 @@ class UniversitiesController extends Controller {
 	}
 
 	/**
-	 * Display the specified webometric university.
+	 * Display the specified University.
 	 *
 	 * @param int $id
 	 *
 	 * @return Illuminate\View\View
 	 */
 	public function show(Request $request, $id) {
-		$webometricUniversity = WebometricUniversity::with('country')->findOrFail($id);
+		$University = University::with('country')->findOrFail($id);
 
-		return $webometricUniversity;
+		return $University;
 
 	}
 
@@ -112,7 +112,7 @@ class UniversitiesController extends Controller {
  */
 	public function views(Request $request, $id) {
 		#->whereRaw('`date-viewed` >= DATE_SUB(NOW(),INTERVAL 1 YEAR)')
-		$q = WebometricUniversity::findOrFail($id)->bookViews()->selectRaw('MONTH(`date-viewed`) as month, count(*) as score')->groupBy(DB::raw('month'))->distinct();
+		$q = University::findOrFail($id)->bookViews()->selectRaw('MONTH(`date-viewed`) as month, count(*) as score')->groupBy(DB::raw('month'))->distinct();
 
 		if ($request['past_year']) {
 			$q->whereRaw('`date-viewed` >= DATE_SUB(NOW(),INTERVAL 1 YEAR)');
@@ -124,14 +124,14 @@ class UniversitiesController extends Controller {
 	}
 
 	/**
-	 * Update the specified webometric university in the storage.
+	 * Update the specified University in the storage.
 	 *
 	 * @param  int $id
 	 * @param Illuminate\Http\Request $request
 	 *
 	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
 	 */
-	public function update(WebometricUniversity $university, Request $request) {
+	public function update(University $university, Request $request) {
 		$this->authorize('update', $university);
 		try {
 
@@ -151,17 +151,17 @@ class UniversitiesController extends Controller {
 	}
 
 	/**
-	 * Remove the specified webometric university from the storage.
+	 * Remove the specified University from the storage.
 	 *
 	 * @param  int $id
 	 *
 	 * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
 	 */
-	public function destroy(WebometricUniversity $webometricUniversity) {
-		$this->authorize('forceDelete', $webometricUniversity);
+	public function destroy(University $University) {
+		$this->authorize('forceDelete', $University);
 		try {
 
-			$webometricUniversity->delete();
+			$University->delete();
 
 			return response()->json(['Resource deleted']);
 

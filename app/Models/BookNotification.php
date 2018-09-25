@@ -62,7 +62,7 @@ class BookNotification extends Model {
 	 * Get the uni for this model.
 	 */
 	public function uni() {
-		return $this->belongsTo('App\Models\WebometricUniversity', 'uni_id');
+		return $this->belongsTo('App\Models\University', 'uni_id');
 	}
 
 	/**

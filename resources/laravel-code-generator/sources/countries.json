@@ -217,10 +217,10 @@
     ],
     "relations": [
         {
-            "name": "webometricUniversities",
+            "name": "Universities",
             "type": "hasMany",
             "params": [
-                "App\\Models\\WebometricUniversity",
+                "App\\Models\\University",
                 "country_id",
                 "id"
             ],

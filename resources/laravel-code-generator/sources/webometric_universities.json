@@ -583,7 +583,7 @@
         }
     ],
     "auto-manage-created-and-updated-at": false,
-    "table-name": "webometric_universities",
+    "table-name": "universities",
     "protection": {
         "is-model-protected": false,
         "is-controller-protected": false,

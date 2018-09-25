@@ -14,9 +14,9 @@ use App\Models\StandPost;
 use App\Models\Tag;
 use App\Models\Textbook;
 use App\Models\TextbookView;
+use App\Models\University;
 use App\Models\User;
 use App\Models\UserRating;
-use App\Models\WebometricUniversity;
 use App\Policies\BookNotificationPolicy;
 use App\Policies\BusinessPolicy;
 use App\Policies\BusinessStandPolicy;
@@ -29,9 +29,9 @@ use App\Policies\StandPostPolicy;
 use App\Policies\TagPolicy;
 use App\Policies\TextbookPolicy;
 use App\Policies\TextbookViewPolicy;
+use App\Policies\UniversityPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\UserRatingPolicy;
-use App\Policies\WebometricUniversityPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\Passport;
 
@@ -49,7 +49,7 @@ class AuthServiceProvider extends ServiceProvider {
 		BusinessStand::class => BusinessStandPolicy::class,
 		Textbook::class => TextbookPolicy::class,
 		UserRating::class => UserRatingPolicy::class,
-		WebometricUniversity::class => WebometricUniversityPolicy::class,
+		University::class => UniversityPolicy::class,
 		User::class => UserPolicy::class,
 		Country::class => CountryPolicy::class,
 		Tag::class => TagPolicy::class,

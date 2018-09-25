@@ -50,7 +50,7 @@
             <dt>Email</dt>
             <dd>{{ $user->email }}</dd>
             <dt>University</dt>
-            <dd>{{ optional($user->webometricUniversity)->{'uni-name'} }}</dd>
+            <dd>{{ optional($user->University)->{'uni-name'} }}</dd>
             <dt>Country</dt>
             <dd>{{ $user->country }}</dd>
             <dt>City</dt>

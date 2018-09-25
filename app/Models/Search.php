@@ -75,7 +75,7 @@ class Search extends Model {
 	 * Get the user for this model.
 	 */
 	public function university() {
-		return $this->belongsTo('App\Models\WebometricUniversity', 'uni-id', 'uni');
+		return $this->belongsTo('App\Models\University', 'uni-id', 'uni');
 	}
 
 	/**

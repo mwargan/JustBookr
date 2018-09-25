@@ -287,10 +287,10 @@
                             "delimiter": "; ",
                             "range": [],
                             "foreign-relation": {
-                                "name": "webometricUniversity",
+                                "name": "University",
                                 "type": "belongsTo",
                                 "params": [
-                                    "App\\Models/\\WebometricUniversity",
+                                    "App\\Models/\\University",
                                     "uni-id",
                                     "uni-id"
                                 ],
@@ -298,11 +298,11 @@
                             },
                             "foreign-constraint": {
                                 "field": "uni-id",
-                                "references": "webometric_universities",
+                                "references": "universities",
                                 "on": "uni-id",
                                 "on-delete": "no action",
                                 "on-update": "cascade",
-                                "references-model": "App\\Models/\\WebometricUniversity",
+                                "references-model": "App\\Models/\\University",
                                 "is-self-reference": false
                             },
                             "on-store": null,
@@ -1047,10 +1047,10 @@
                     ],
                     "relations": [
                         {
-                            "name": "webometricUniversities",
+                            "name": "Universities",
                             "type": "hasMany",
                             "params": [
-                                "App\\Models\\WebometricUniversity",
+                                "App\\Models\\University",
                                 "country_id",
                                 "id"
                             ],
@@ -1524,10 +1524,10 @@
                             "delimiter": "; ",
                             "range": [],
                             "foreign-relation": {
-                                "name": "webometricUniversity",
+                                "name": "University",
                                 "type": "belongsTo",
                                 "params": [
-                                    "App\\Models/\\WebometricUniversity",
+                                    "App\\Models/\\University",
                                     "uni-id",
                                     "uni-id"
                                 ],
@@ -1535,11 +1535,11 @@
                             },
                             "foreign-constraint": {
                                 "field": "uni-id",
-                                "references": "webometric_universities",
+                                "references": "universities",
                                 "on": "uni-id",
                                 "on-delete": "set null",
                                 "on-update": "cascade",
-                                "references-model": "App\\Models/\\WebometricUniversity",
+                                "references-model": "App\\Models/\\University",
                                 "is-self-reference": false
                             },
                             "on-store": null,
@@ -2065,14 +2065,14 @@
         ]
     },
     {
-        "model-name": "WebometricUniversity",
-        "resource-file": "\\Users\\mwargan\\Documents\\JustBookr\\Website\\blog\\resources\\laravel-code-generator\\sources\\webometric_universities.json",
-        "table-name": "webometric_universities",
+        "model-name": "University",
+        "resource-file": "\\Users\\mwargan\\Documents\\JustBookr\\Website\\blog\\resources\\laravel-code-generator\\sources\\universities.json",
+        "table-name": "universities",
         "migrations": [
             {
-                "name": "2018_04_08_010400_create_webometric_universities_table",
-                "class-name": "CreateWebometricUniversitiesTable",
-                "path": "/Users/mwargan/Documents/JustBookr/Website/blog/database/migrations/2018_04_08_010400_create_webometric_universities_table.php",
+                "name": "2018_04_08_010400_create_universities_table",
+                "class-name": "CreateUniversitiesTable",
+                "path": "/Users/mwargan/Documents/JustBookr/Website/blog/database/migrations/2018_04_08_010400_create_universities_table.php",
                 "is-create": true,
                 "is-virtual": true,
                 "is-organized": false,
@@ -2663,7 +2663,7 @@
                         }
                     ],
                     "auto-manage-created-and-updated-at": false,
-                    "table-name": "webometric_universities",
+                    "table-name": "universities",
                     "protection": {
                         "is-model-protected": false,
                         "is-controller-protected": false,

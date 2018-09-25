@@ -5,13 +5,13 @@
     <div class="panel panel-default">
 
         <div class="panel-heading clearfix">
-            
+
             <span class="pull-left">
-                <h4 class="mt-5 mb-5">Create New Webometric University</h4>
+                <h4 class="mt-5 mb-5">Create New University</h4>
             </span>
 
             <div class="btn-group btn-group-sm pull-right" role="group">
-                <a href="{{ route('webometric_universities.webometric_university.index') }}" class="btn btn-primary" title="Show All Webometric University">
+                <a href="{{ route('universities.university.index') }}" class="btn btn-primary" title="Show All University">
                     <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                 </a>
             </div>
@@ -19,7 +19,7 @@
         </div>
 
         <div class="panel-body">
-        
+
             @if ($errors->any())
                 <ul class="alert alert-danger">
                     @foreach ($errors->all() as $error)
@@ -28,10 +28,10 @@
                 </ul>
             @endif
 
-            <form method="POST" action="{{ route('webometric_universities.webometric_university.store') }}" accept-charset="UTF-8" id="create_webometric_university_form" name="create_webometric_university_form" class="form-horizontal">
+            <form method="POST" action="{{ route('universities.university.store') }}" accept-charset="UTF-8" id="create_university_form" name="create_university_form" class="form-horizontal">
             {{ csrf_field() }}
-            @include ('webometric_universities.form', [
-                                        'webometricUniversity' => null,
+            @include ('universities.form', [
+                                        'University' => null,
                                       ])
 
                 <div class="form-group">

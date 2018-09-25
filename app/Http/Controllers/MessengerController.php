@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Textbook;
+use App\Models\University;
 use App\Models\User;
-use App\Models\WebometricUniversity;
 use Illuminate\Http\Request;
 
 class MessengerController extends Controller {
@@ -78,7 +78,7 @@ class MessengerController extends Controller {
 	}
 	public function universities($q) {
 		//Get all records from Textbooks table
-		$universities = WebometricUniversity::whereRaw("MATCH (`uni-name`, `en-name`, `abr`) AGAINST (? IN NATURAL LANGUAGE MODE) OR `uni-name` LIKE '%?%' OR `en-name` LIKE '%?%' OR `abr` LIKE '%?%'", [$q, $q, $q, $q])->orderByRaw("MATCH (`uni-name`, `en-name`, `abr`) AGAINST (? IN NATURAL LANGUAGE MODE) DESC", [$q])->with('country')->paginate(9);
+		$universities = University::whereRaw("MATCH (`uni-name`, `en-name`, `abr`) AGAINST (? IN NATURAL LANGUAGE MODE) OR `uni-name` LIKE '%?%' OR `en-name` LIKE '%?%' OR `abr` LIKE '%?%'", [$q, $q, $q, $q])->orderByRaw("MATCH (`uni-name`, `en-name`, `abr`) AGAINST (? IN NATURAL LANGUAGE MODE) DESC", [$q])->with('country')->paginate(9);
 		$det = array();
 
 		foreach ($universities as $row) {

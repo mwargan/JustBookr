@@ -20,7 +20,7 @@
                 <dt class="d-inline">What makes JustBookr better than posting on, for example, Facebook groups?</dt>
             </summary>
             <p>
-                Facebook groups get messy, quickly. On JustBookr, you can easily see all the available posts for a specific book you might need, get suggestions on how to price your books competitively when you're ready to sell, and so much more things all geared towards your textbook needs. And, it's free.
+                On JustBookr, you can easily see all the available posts for a specific book you might need, get suggestions on how to price your books competitively when you're ready to sell, and so much more things all geared towards your textbook needs. If you want to then share your posts on Facebook, WhatsApp, or anywhere else, we've made it easy for you to do so at the tap of a button. And, it's free.
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">
@@ -28,7 +28,7 @@
                 <dt class="d-inline">Is JustBookr free?</dt>
             </summary>
             <p>
-                <b>Yes.</b> You can sign up, order, buy, post, and sell for free on JustBookr. You may choose to boost your post to show your offer before all the others, but you don't have to. Pricing is calculated by our algorithm and is based on the duration that you want to boost your post and the value of the book that you have posted.<br/><br/>
+                <b>Yes.</b> You can sign up, order, buy, post, and sell for free on JustBookr. You may choose to boost your post to show your offer before all the others, but you don't have to (more info below).<br/><br/>
                 JustBookr for businesses has pricing <router-link :to="{ name: 'business' }">available here</router-link>.
             </p>
         </details>
@@ -131,6 +131,14 @@
         </details>
         <details class="row w-75 mx-auto mb-2">
             <summary>
+                <dt class="d-inline">Nobody has bought my books yet - how can I sell them faster?</dt>
+            </summary>
+            <p>
+                There's two ways that can directly increase your chances of selling your book; <b>you can boost your posts on JustBookr (more info below), and you can share your posts on your other social media networks</b>. Do both of these to maximize your chances!
+            </p>
+        </details>
+        <details class="row w-75 mx-auto mb-2">
+            <summary>
                 <dt class="d-inline">I own a business that sells books - can I use JustBookr to show my offers to students?</dt>
             </summary>
             <p>
@@ -196,7 +204,7 @@
             <summary>
                 <dt class="d-inline">Can I see all of the ratings I received?</dt>
             </summary>
-            <p><b>No,</b> you can only see a count of positive ratings you've recieved.
+            <p><b>No,</b> you can only see a count of positive ratings you've received.
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">
@@ -218,14 +226,14 @@
             <summary>
                 <dt class="d-inline">Why should I boost my post?</dt>
             </summary>
-            <p>Boosting your post is a good idea <b>because it increases your chance of selling your book faster</b> by showing your post before all the other posts.
+            <p>Boosting your post is a good idea <b>because it increases your chance of selling your book faster</b> by showing your post before all the other posts, and on more pages.
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">
             <summary>
                 <dt class="d-inline">How much does it cost to boost my post?</dt>
             </summary>
-            <p>Pricing is calculated by our algorithm and is <b>based on the duration that you want to boost your post and the value of the book</b> that you have posted.
+            <p>Pricing is calculated by our algorithm and is <b>based on the duration that you want to boost your post and the value of the book</b> that you have posted. As an example, if you post a book for sale that is valued at €50 (regardless of your price), it would cost €3 to boost for a week, €6 for two weeks, and €8 for 3 weeks.
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">

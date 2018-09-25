@@ -5,7 +5,7 @@ namespace App\Models;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Model;
 
-class WebometricUniversity extends Model {
+class University extends Model {
 
 	use Cachable;
 

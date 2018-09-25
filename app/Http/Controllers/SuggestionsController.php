@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Textbook;
+use App\Models\University;
 use App\Models\User;
-use App\Models\WebometricUniversity;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -38,7 +38,7 @@ class SuggestionsController extends Controller {
 			->paginate(8);
 	}
 
-	public function universityBooks(Request $request, WebometricUniversity $university) {
+	public function universityBooks(Request $request, University $university) {
 		return Textbook::join('tags_textbooks', 'tags_textbooks.isbn', '=', 'textbooks.isbn')
 			->join('university_tags', 'tags_textbooks.tag-id', '=', 'university_tags.tag_id')
 			->where("university_tags.uni_id", $university->{'uni-id'})

@@ -3,19 +3,19 @@
 @section('content')
 
     <div class="panel panel-default">
-  
+
         <div class="panel-heading clearfix">
 
             <div class="pull-left">
-                <h4 class="mt-5 mb-5">{{ !empty($title) ? $title : 'Webometric University' }}</h4>
+                <h4 class="mt-5 mb-5">{{ !empty($title) ? $title : 'University' }}</h4>
             </div>
             <div class="btn-group btn-group-sm pull-right" role="group">
 
-                <a href="{{ route('webometric_universities.webometric_university.index') }}" class="btn btn-primary" title="Show All Webometric University">
+                <a href="{{ route('universities.university.index') }}" class="btn btn-primary" title="Show All University">
                     <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                 </a>
 
-                <a href="{{ route('webometric_universities.webometric_university.create') }}" class="btn btn-success" title="Create New Webometric University">
+                <a href="{{ route('universities.university.create') }}" class="btn btn-success" title="Create New University">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 </a>
 
@@ -32,11 +32,11 @@
                 </ul>
             @endif
 
-            <form method="POST" action="{{ route('webometric_universities.webometric_university.update', $webometricUniversity->{'uni-id'}) }}" id="edit_webometric_university_form" name="edit_webometric_university_form" accept-charset="UTF-8" class="form-horizontal">
+            <form method="POST" action="{{ route('universities.university.update', $University->{'uni-id'}) }}" id="edit_university_form" name="edit_university_form" accept-charset="UTF-8" class="form-horizontal">
             {{ csrf_field() }}
             <input name="_method" type="hidden" value="PUT">
-            @include ('webometric_universities.form', [
-                                        'webometricUniversity' => $webometricUniversity,
+            @include ('universities.form', [
+                                        'University' => $University,
                                       ])
 
                 <div class="form-group">

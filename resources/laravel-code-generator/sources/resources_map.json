@@ -25,9 +25,9 @@
         "table-name": "users"
     },
     {
-        "model-name": "WebometricUniversity",
-        "resource-file": "webometric_universities.json",
-        "table-name": "webometric_universities"
+        "model-name": "University",
+        "resource-file": "universities.json",
+        "table-name": "universities"
     },
     {
         "model-name": "Search",

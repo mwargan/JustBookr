@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\University;
 use App\Models\User;
-use App\Models\WebometricUniversity;
 use Tests\TestCase;
 
 class UniversityTest extends TestCase {
@@ -22,7 +22,7 @@ class UniversityTest extends TestCase {
 	 * @return void
 	 */
 	public function testListUniversity() {
-		$university = WebometricUniversity::inRandomOrder()->active()->first();
+		$university = University::inRandomOrder()->active()->first();
 		$response = $this->json('GET', '/api/v1/universities/' . $university->{'uni-id'});
 		$response->assertStatus(200);
 	}
@@ -32,7 +32,7 @@ class UniversityTest extends TestCase {
 	 * @return void
 	 */
 	public function testUpdateUniversityAsGuest() {
-		$university = WebometricUniversity::inRandomOrder()->active()->first();
+		$university = University::inRandomOrder()->active()->first();
 		$response = $this->json('PATCH', '/api/v1/universities/' . $university->{'uni-id'});
 		$response->assertStatus(401);
 	}
@@ -52,7 +52,7 @@ class UniversityTest extends TestCase {
 	 * @return void
 	 */
 	public function testDeleteUniversityAsGuest() {
-		$university = WebometricUniversity::inRandomOrder()->inactive()->first();
+		$university = University::inRandomOrder()->inactive()->first();
 		$response = $this->json('DELETE', '/api/v1/universities/' . $university->{'uni-id'});
 		$response->assertStatus(401);
 	}
@@ -62,7 +62,7 @@ class UniversityTest extends TestCase {
 	 * @return void
 	 */
 	public function testDeleteUniversityAsAuthenticatedUser() {
-		$university = WebometricUniversity::inRandomOrder()->inactive()->first();
+		$university = University::inRandomOrder()->inactive()->first();
 		$user = User::find(config('app.admin_id'));
 		$response = $this->actingAs($user, 'api')->json('DELETE', '/api/v1/universities/' . $university->{'uni-id'});
 		$response->assertStatus(200);
@@ -95,7 +95,7 @@ class UniversityTest extends TestCase {
 	 * @return void
 	 */
 	public function testDeleteUniversityAsAuthenticatedUserWithoutPermission() {
-		$university = WebometricUniversity::inRandomOrder()->inactive()->first();
+		$university = University::inRandomOrder()->inactive()->first();
 		$user = User::inRandomOrder()->where('user-id', '!=', config('app.admin_id'))->first();
 		$response = $this->actingAs($user, 'api')->json('DELETE', '/api/v1/universities/' . $university->{'uni-id'});
 		$response->assertStatus(403);
@@ -108,7 +108,7 @@ class UniversityTest extends TestCase {
 	 */
 	public function testUpdateUniversityAsAuthenticatedUserWithoutPermission() {
 		$user = User::inRandomOrder()->where('user-id', '!=', config('app.admin_id'))->first();
-		$university = WebometricUniversity::inRandomOrder()->inactive()->first();
+		$university = University::inRandomOrder()->inactive()->first();
 		$response = $this->actingAs($user, 'api')->json('PATCH', '/api/v1/universities/' . $university->{'uni-id'});
 		$response->assertStatus(403);
 	}
@@ -118,7 +118,7 @@ class UniversityTest extends TestCase {
 	 * @return void
 	 */
 	public function testUpdateUniversityAsAuthenticatedUserWithPermission() {
-		$university = WebometricUniversity::inactive()->first();
+		$university = University::inactive()->first();
 		$user = User::find(config('app.admin_id'));
 		$response = $this->actingAs($user, 'api')->json('PATCH', '/api/v1/universities/' . $university->{'uni-id'}, $university->toArray());
 		$response->assertStatus(200);

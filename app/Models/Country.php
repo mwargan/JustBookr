@@ -61,7 +61,7 @@ class Country extends Model {
 	 * Get the universities for this model.
 	 */
 	public function universities() {
-		return $this->hasMany('App\Models\WebometricUniversity', 'country_id', 'id');
+		return $this->hasMany('App\Models\University', 'country_id', 'id');
 	}
 
 }

@@ -13,7 +13,7 @@ class AddForeignKeysToUniversityTagsTable extends Migration {
 	public function up() {
 		Schema::table('university_tags', function (Blueprint $table) {
 			$table->foreign('tag_id', 'tag_key')->references('tag-id')->on('tags')->onUpdate('CASCADE')->onDelete('CASCADE');
-			$table->foreign('uni_id', 'university_key')->references('uni-id')->on('webometric_universities')->onUpdate('CASCADE')->onDelete('CASCADE');
+			$table->foreign('uni_id', 'university_key')->references('uni-id')->on('universities')->onUpdate('CASCADE')->onDelete('CASCADE');
 		});
 	}
 

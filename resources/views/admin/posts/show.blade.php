@@ -50,7 +50,7 @@
             <dt>Quality</dt>
             <dd>{{ $post->quality }}</dd>
             <dt>Uni</dt>
-            <dd>{{ optional($post->webometricUniversity)->{'uni-name'} }}</dd>
+            <dd>{{ optional($post->University)->{'uni-name'} }}</dd>
             <dt>Sku</dt>
             <dd>{{ $post->sku }}</dd>
             <dt>Price</dt>

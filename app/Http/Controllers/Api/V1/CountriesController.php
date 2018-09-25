@@ -49,7 +49,7 @@ class CountriesController extends Controller {
 	}
 
 	/**
-	 * Store a new webometric university in the storage.
+	 * Store a new University in the storage.
 	 *
 	 * @param Illuminate\Http\Request $request
 	 *

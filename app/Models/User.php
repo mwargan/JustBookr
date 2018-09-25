@@ -95,10 +95,10 @@ class User extends Authenticatable {
 		'positive_ratings', 'profilepic', 'points',
 	];
 	/**
-	 * Get the webometricUniversity for this model.
+	 * Get the University for this model.
 	 */
 	public function university() {
-		return $this->belongsTo('App\Models\WebometricUniversity', 'uni-id', 'uni-id');
+		return $this->belongsTo('App\Models\University', 'uni-id', 'uni-id');
 	}
 
 	/**
