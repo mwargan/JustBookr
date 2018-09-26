@@ -165,6 +165,7 @@ class UniversitiesController extends Controller
 
         try {
             $university->delete();
+
             return response()->json(['Resource deleted']);
         } catch (Exception $exception) {
             return ExceptionHelper::handleError($exception, $request);
@@ -181,19 +182,19 @@ class UniversitiesController extends Controller
     protected function getData(Request $request)
     {
         $rules = [
-            'uni-name' => 'required|string|min:1|max:150',
-            'en-name' => 'nullable|string|max:150',
-            'abr' => 'nullable|string|max:64',
-            'country_id' => 'required|numeric|exists:countries,id',
-            'city' => 'nullable|string|max:64',
-            'address' => 'nullable|string|max:259',
+            'uni-name'    => 'required|string|min:1|max:150',
+            'en-name'     => 'nullable|string|max:150',
+            'abr'         => 'nullable|string|max:64',
+            'country_id'  => 'required|numeric|exists:countries,id',
+            'city'        => 'nullable|string|max:64',
+            'address'     => 'nullable|string|max:259',
             'description' => 'nullable',
-            'uni-tel' => 'nullable|string|max:59',
-            'uni-pic' => 'nullable|url|max:259',
-            'uni-logo' => 'nullable|url|max:259',
-            'uni-lat' => 'nullable|numeric|min:-9999.999999|max:9999.999999',
-            'uni-lon' => 'nullable|numeric|min:-9999.999999|max:9999.999999',
-            'url' => 'nullable|url',
+            'uni-tel'     => 'nullable|string|max:59',
+            'uni-pic'     => 'nullable|url|max:259',
+            'uni-logo'    => 'nullable|url|max:259',
+            'uni-lat'     => 'nullable|numeric|min:-9999.999999|max:9999.999999',
+            'uni-lon'     => 'nullable|numeric|min:-9999.999999|max:9999.999999',
+            'url'         => 'nullable|url',
         ];
         $data = $request->validate($rules);
 

@@ -120,7 +120,7 @@ class TagsController extends Controller
     {
         $rules = [
             't-data' => 'required|string|min:1|max:20',
-            't-pic' => 'nullable|string|min:0|max:159',
+            't-pic'  => 'nullable|string|min:0|max:159',
         ];
 
         $data = $request->validate($rules);
