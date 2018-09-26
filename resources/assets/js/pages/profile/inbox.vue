@@ -69,7 +69,7 @@
                 <div class="facebook-date m-0">Sell your first textbook and you'll see the magic!</div>
             </div>
             <card-footer>
-                <router-link class="link" to="/sell">{{ $t('sell_textbooks') }}</router-link>
+                <router-link class="link" to="/sell">{{ $t('sell_a_book') }}</router-link>
             </card-footer>
         </card>
         <!-- Rate Client Modal -->

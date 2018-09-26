@@ -31,8 +31,8 @@ class ExampleTest extends DuskTestCase
                 ->type('password', 'secretPassword');
             $browser->script('window.scrollTo(0, document.body.scrollHeight);');
             $browser->press('Sign up')
-                ->waitForText('Sell textbooks')
-                ->assertSee('Sell textbooks');
+                ->waitForText('Your university')
+                ->assertSee('Your university');
             $browser
                 ->type('.col-md-7 > input[type="search"]', 'IUM')
                 ->waitForText('Monaco')
@@ -47,9 +47,8 @@ class ExampleTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->maximize()
                 ->visit('/sell/9780273753360')
-                ->waitForText('Sell textbooks')
-                ->clickLink('Sell textbooks')
-                ->waitForText('ISBN-13')
+                ->waitForText('Sell books')
+                ->waitForText('Post description')
                 ->type('#description', 'BROWSER TEST POST')
                 ->press('Post')
                 ->waitForText('Boost your post')
@@ -62,7 +61,7 @@ class ExampleTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/discover')
                 ->resize(1024, 768)
-                ->waitForText('Sell textbooks')
+                ->waitForText('Sell a book')
                 ->click('.dropdown > a')
                 ->assertSee('Logout')
                 ->clickLink('Logout')
@@ -82,8 +81,8 @@ class ExampleTest extends DuskTestCase
                 ->type('password', 'secretPassword');
             $browser->script('window.scrollTo(0, document.body.scrollHeight);');
             $browser->press('Login')
-                ->waitForText('Sell textbooks')
-                ->assertSee('Sell textbooks');
+                ->waitForText('Sell a book')
+                ->assertSee('Sell a book');
         });
     }
 }

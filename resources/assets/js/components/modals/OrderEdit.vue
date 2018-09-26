@@ -14,7 +14,7 @@
                         <div class="modal-body">
                             <!-- Name -->
                             <div class="form-group row">
-                                <label for="location-meet" class="col-md-3 col-form-label text-md-right">{{ $t('where_do_you_want_to_meet') }}?</label>
+                                <label for="location-meet" class="col-md-3 col-form-label text-md-right">{{ $t('where') }}?</label>
                                 <div class="col-md-7">
                                     <select v-model="form['location-meet']" name="location-meet" class="form-control" :class="{ 'is-invalid': form.errors.has('location-meet') }" :placeholder="$t('example')+': '+$t('at_the_library')" required autofocus>
                                         <option>{{ $t('at_the_cafeteria') }}</option>

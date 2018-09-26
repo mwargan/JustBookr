@@ -26,21 +26,8 @@ class TagsController extends Controller
     public function index()
     {
         $tags = Tag::paginate(25);
-        if ($request->wantsJson()) {
-            return response()->json(['tag' => $tags]);
-        }
 
-        return view('tags.index', compact('tags'));
-    }
-
-    /**
-     * Show the form for creating a new tag.
-     *
-     * @return Illuminate\View\View
-     */
-    public function create()
-    {
-        return view('tags.create');
+        return $tags;
     }
 
     /**
@@ -59,7 +46,7 @@ class TagsController extends Controller
 
             $tag = Tag::create($data);
 
-            return response()->json(['tag' => $tag]);
+            return $tag;
         } catch (Exception $exception) {
             return ExceptionHelper::handleError($exception, $request);
         }
@@ -76,21 +63,7 @@ class TagsController extends Controller
     {
         $tag = Tag::findOrFail($id);
 
-        return response()->json(['tag' => $tag]);
-    }
-
-    /**
-     * Show the form for editing the specified tag.
-     *
-     * @param int $id
-     *
-     * @return Illuminate\View\View
-     */
-    public function edit($id)
-    {
-        $tag = Tag::findOrFail($id);
-
-        return view('tags.edit', compact('tag'));
+        return $tag;
     }
 
     /**
@@ -110,7 +83,7 @@ class TagsController extends Controller
 
             $tag->update($data);
 
-            return response()->json(['tag' => $tag]);
+            return $tag;
         } catch (Exception $exception) {
             return ExceptionHelper::handleError($exception, $request);
         }
@@ -147,7 +120,7 @@ class TagsController extends Controller
     {
         $rules = [
             't-data' => 'required|string|min:1|max:20',
-            't-pic'  => 'nullable|string|min:0|max:159',
+            't-pic' => 'nullable|string|min:0|max:159',
         ];
 
         $data = $request->validate($rules);

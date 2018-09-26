@@ -34,6 +34,9 @@ export default {
     shape () {
       if (this.imageShape == "square") {
         return "scale-down"
+      }
+      else if (this.imageShape == "original") {
+        return
       } else {
         return "rounded-circle cover"
       }

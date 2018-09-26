@@ -4,7 +4,7 @@
             <div :title="$t('sell')">
                 <div class="row">
                     <div class="col-md-7 m-auto">
-                        <h1 class="text-center mb-3">{{ $t('sell_textbooks') }}</h1>
+                        <h1 class="text-center mb-3">{{ $t('sell_books') }}</h1>
                     </div>
                 </div>
                 <!--                 <checkmark :active="form.successful"></checkmark>
@@ -116,7 +116,7 @@
                             </div>
                         </div>
                     </template>
-                    <p v-else class="col-md-7 offset-md-3">Use only the ISBN-13 numbers; no spaces or dashes. The ISBN-13 is a 13 digit code starting with 97 found on the back of the book.<img src="/images/backside_with_isbn_highlighted.jpg" alt="" class="find-isbn"></p>
+                    <p v-else class="col-md-7 offset-md-3">Type in <span v-if="supportsCamera">or scan </span>the ISBN-13 number, a 13 digit code starting with 97 usually found on the back of the book. Don't use spaces or dashes!<img src="/images/backside_with_isbn_highlighted.jpg" alt="" class="find-isbn"></p>
                     <!-- Submit Button -->
                     <div class="form-group row">
                         <div class="col-md-7 offset-md-3">
@@ -190,7 +190,7 @@ export default {
         }
         $('#isbn').focus()
         this.getTexts()
-        var placeholders = ['What can you say specifically about your copy? Any valuable notes?', 'What can you say specifically about your copy? Are there coffee stains?', 'What can you say specifically about your copy? Is it still wrapped up?', "My copy of the textbook is..."];
+        var placeholders = ['What can you say specifically about your copy? Any valuable notes?', 'What can you say specifically about your copy? Are there coffee stains?', 'What can you say specifically about your copy? Is it still wrapped up?', "My copy of the book is..."];
         var self = this;
         (function cycle() {
             var placeholder = placeholders.shift();

@@ -1,6 +1,12 @@
 <template>
     <div>
         <transition-group name="fade" mode="out-in">
+            <!-- Welcome card -->
+            <card key="welcome-card">
+                <card-header :title="welcome_text" :subtitle="welcome_subtext" image="/images/logoDark.svg" image-shape="original" :link="welcome_link">
+                </card-header>
+            </card>
+            <!-- Boosted posts card -->
             <card v-for="(post, index) in boostedPosts" :key="'B_'+index">
                 <card-header :title="post.user.name" :subtitle="post.price" :image="post.user.profilepic" sponsored="Boosted" :link="'/user/'+post['user-id']">
                 </card-header>
@@ -99,6 +105,36 @@ export default {
                     return null
                 }
             })
+        },
+        welcome_text() {
+            let d = new Date();
+            let time = d.getHours();
+            let string = "Good morning";
+            if (time > 11 && time < 18) {
+                string = "Good afternoon";
+            }
+            else if (time > 17) {
+                string = "Good evening";
+            }
+            string += " "+this.user.name;
+            return string;
+        },
+        welcome_subtext() {
+            let string = "Thank you for using JustBookr";
+            if (this.user.unread_orders) {
+                string = "You have unread messages in your inbox";
+            }
+            else if (this.user.profilepic.match(/JBicon/g)) {
+                string = "Set a profile picture by clicking on the placeholder image above";
+            }
+            return string;
+        },
+        welcome_link() {
+            let string = null;
+            if (this.user.unread_orders) {
+                string = "/inbox";
+            }
+            return string;
         },
         sortedBooks() {
             return uniqBy(this.posts, 'isbn')

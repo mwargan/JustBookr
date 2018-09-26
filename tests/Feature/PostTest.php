@@ -26,7 +26,8 @@ class PostTest extends TestCase
      */
     public function testListPost()
     {
-        $response = $this->json('GET', '/api/v1/posts/1');
+        $post = Post::inRandomOrder()->available()->first();
+        $response = $this->json('GET', '/api/v1/posts/' . $post->{'post-id'});
         $response->assertStatus(200);
     }
 
@@ -37,7 +38,8 @@ class PostTest extends TestCase
      */
     public function testUpdatePostAsGuest()
     {
-        $response = $this->json('PATCH', '/api/v1/posts/1');
+        $post = Post::inRandomOrder()->available()->first();
+        $response = $this->json('PATCH', '/api/v1/posts/' . $post->{'post-id'});
         $response->assertStatus(401);
     }
 
@@ -59,7 +61,8 @@ class PostTest extends TestCase
      */
     public function testDeletePostAsGuest()
     {
-        $response = $this->json('DELETE', '/api/v1/posts/1');
+        $post = Post::inRandomOrder()->available()->first();
+        $response = $this->json('DELETE', '/api/v1/posts/' . $post->{'post-id'});
         $response->assertStatus(401);
     }
 
@@ -72,7 +75,7 @@ class PostTest extends TestCase
     {
         $post = Post::inRandomOrder()->available()->first();
         $user = $post->user;
-        $response = $this->actingAs($user, 'api')->json('DELETE', '/api/v1/posts/'.$post->{'post-id'});
+        $response = $this->actingAs($user, 'api')->json('DELETE', '/api/v1/posts/' . $post->{'post-id'});
         $response->assertStatus(200);
     }
 
@@ -97,7 +100,7 @@ class PostTest extends TestCase
     {
         $post = Post::inRandomOrder()->available()->first();
         $user = User::where('user-id', '!=', $post->{'user-id'})->first();
-        $response = $this->actingAs($user, 'api')->json('DELETE', '/api/v1/posts/'.$post->{'post-id'});
+        $response = $this->actingAs($user, 'api')->json('DELETE', '/api/v1/posts/' . $post->{'post-id'});
         $response->assertStatus(403);
     }
 
@@ -109,7 +112,8 @@ class PostTest extends TestCase
     public function testUpdatePostAsAuthenticatedUserWithoutPermission()
     {
         $user = User::latest('user-registered')->first();
-        $response = $this->actingAs($user, 'api')->json('PATCH', '/api/v1/posts/1');
+        $post = Post::inRandomOrder()->available()->where('user-id', '!=', $user->{'user-id'})->first();
+        $response = $this->actingAs($user, 'api')->json('PATCH', '/api/v1/posts/' . $post->{'post-id'});
         $response->assertStatus(403);
     }
 
@@ -122,7 +126,7 @@ class PostTest extends TestCase
     {
         $post = Post::latest('date')->available()->first();
         $user = $post->user;
-        $response = $this->actingAs($user, 'api')->json('PATCH', '/api/v1/posts/'.$post->{'post-id'}, ['post-description' => 'TEST - ASSERTION POST', 'price' => '100', 'uni-id' => '16763']);
+        $response = $this->actingAs($user, 'api')->json('PATCH', '/api/v1/posts/' . $post->{'post-id'}, ['post-description' => 'TEST - ASSERTION POST', 'price' => '100', 'uni-id' => '16763']);
         $response->assertStatus(200);
     }
 
@@ -135,7 +139,7 @@ class PostTest extends TestCase
     {
         $post = Post::latest('date')->available()->first();
         $user = $post->user;
-        $response = $this->actingAs($user, 'api')->json('POST', '/api/v1/posts/'.$post->{'post-id'}.'/mark-sold');
+        $response = $this->actingAs($user, 'api')->json('POST', '/api/v1/posts/' . $post->{'post-id'} . '/mark-sold');
         $response->assertStatus(200);
     }
 
@@ -148,7 +152,7 @@ class PostTest extends TestCase
     {
         $post = Post::latest('date')->available()->first();
         $user = User::where('user-id', '!=', $post->{'user-id'})->first();
-        $response = $this->actingAs($user, 'api')->json('POST', '/api/v1/posts/'.$post->{'post-id'}.'/mark-sold');
+        $response = $this->actingAs($user, 'api')->json('POST', '/api/v1/posts/' . $post->{'post-id'} . '/mark-sold');
         $response->assertStatus(403);
     }
 
@@ -159,9 +163,9 @@ class PostTest extends TestCase
      */
     public function testMarkUnsoldPostAsAuthenticatedUserWithPermission()
     {
-        $post = Post::latest('date')->where('status', 77)->first();
+        $post = Post::latest('date')->unavailable()->first();
         $user = $post->user;
-        $response = $this->actingAs($user, 'api')->json('POST', '/api/v1/posts/'.$post->{'post-id'}.'/mark-available');
+        $response = $this->actingAs($user, 'api')->json('POST', '/api/v1/posts/' . $post->{'post-id'} . '/mark-available');
         $response->assertStatus(200);
     }
 
@@ -172,8 +176,9 @@ class PostTest extends TestCase
      */
     public function testMarkUnsoldPostAsAuthenticatedUserWithoutPermission()
     {
-        $user = User::find(121);
-        $response = $this->actingAs($user, 'api')->json('POST', '/api/v1/posts/1/mark-available');
+        $user = User::latest('user-registered')->first();
+        $post = Post::inRandomOrder()->unavailable()->where('user-id', '!=', $user->{'user-id'})->first();
+        $response = $this->actingAs($user, 'api')->json('POST', '/api/v1/posts/' . $post->{'post-id'} . '/mark-available');
         $response->assertStatus(403);
     }
 }

@@ -5,10 +5,10 @@
                 <img itemprop="image" src="/images/logoDark.svg" height="45" alt="JustBookr Logo" />
             </router-link>
             <form class="form-inline my-2 my-lg-0" action="#" v-on:submit.prevent="submit" method="get" style="max-width: 73%;">
-                <input required name="query" v-model="searchQ" class="form-control search-input" type="search" :placeholder="$t('find_textbooks')" aria-label="Search" list="suggestionsList">
+                <input required name="query" v-model="searchQ" class="form-control search-input" type="search" :placeholder="$t('find_books')" aria-label="Search" list="suggestionsList">
                 <datalist id="suggestionsList">
-                    <option :value="book['book-title']" v-for="book in this.allBooks"></option>
-                    <option :value="uni['uni-name']" v-for="uni in this.allUniversities"></option>
+                    <option :value="book['book-title']" v-for="book in sortedBooks"></option>
+                    <option :value="uni['uni-name']" v-for="uni in sortedUniversities"></option>
                 </datalist>
             </form>
             <!--                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" :aria-label="$t('toggle_navigation')">
@@ -24,7 +24,7 @@
                     <!-- Authenticated -->
                     <li v-if="user" class="nav-item">
                         <router-link :to="{ name: 'profile.my-textbooks' }" class="nav-link text-dark py-1 mr-1">
-                            {{ $t("your_textbooks") }}
+                            {{ $t("your_books") }}
                         </router-link>
                     </li>
                     <li v-if="user" class="nav-item">
@@ -34,7 +34,7 @@
                     </li>
                     <li v-if="user" class="nav-item">
                         <router-link :to="{ name: 'sell' }" class="nav-link py-1 mr-3 text-success">
-                            {{ $t("sell_textbooks") }}
+                            {{ $t("sell_a_book") }}
                         </router-link>
                     </li>
                     <li v-if="user" class="nav-item dropdown">
@@ -104,6 +104,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import LocaleDropdown from './LocaleDropdown'
+import uniqBy from 'lodash/uniqBy'
 
 export default {
     data: () => ({
@@ -117,7 +118,13 @@ export default {
             user: 'auth/user',
             allBooks: 'book/books',
             allUniversities: 'university/universities'
-        })
+        }),
+        sortedBooks() {
+            return uniqBy(this.allBooks, 'book-title')
+        },
+        sortedUniversities() {
+            return uniqBy(this.allUniversities, 'uni-name')
+        }
     },
 
     components: {
@@ -163,8 +170,8 @@ img.rounded-circle.profile-photo {
     font-weight: 600;
     font-size: 1.1rem;
     border: 1px solid #e3e3e3 !important;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     height: 50px;
 }
 

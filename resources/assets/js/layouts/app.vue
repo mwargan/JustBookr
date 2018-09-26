@@ -32,7 +32,7 @@
                             {{ $t('profile') }}
                         </router-link>
                         <router-link :to="{ name: 'profile.my-textbooks' }" class="dropdown-item p-3">
-                            {{ $t("your_textbooks") }}
+                            {{ $t("your_books") }}
                         </router-link>
                         <router-link :to="{ name: 'settings.profile' }" class="dropdown-item p-3">
                             {{ $t('settings') }}

@@ -12,7 +12,7 @@
                     <form class="form-horizontal" role="form" @submit.prevent="boostPost" @keydown="form.onKeydown($event)" v-if="post">
                         <div class="modal-body">
                             <!-- Price -->
-                            <div class="row">
+                            <div class="row mb-5">
                                 <div class="col-md-5">
                                     <img class="responsive" src="/images/icons/custom/business/posts.svg" style="max-height: 150px;">
                                 </div>

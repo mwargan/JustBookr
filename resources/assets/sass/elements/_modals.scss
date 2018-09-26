@@ -1,0 +1,12 @@
+.modal, .swal2-container {
+  -webkit-backdrop-filter: blur(5px);
+}
+.modal-content, .swal2-modal {
+  border-radius: 1rem;
+}
+.modal-header {
+  border-bottom: none;
+}
+.modal-footer {
+  border-top: none;
+}

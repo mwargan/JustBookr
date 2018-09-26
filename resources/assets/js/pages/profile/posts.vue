@@ -56,7 +56,7 @@ export default {
                 },
                 {
                     icon: "book",
-                    name: this.$t('textbooks'),
+                    name: this.$t('your_books'),
                     route: 'profile.my-textbooks'
                 },
                 {

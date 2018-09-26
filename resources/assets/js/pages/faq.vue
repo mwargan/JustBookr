@@ -240,7 +240,7 @@
             <summary>
                 <dt class="d-inline">How do I pay for a post boost?</dt>
             </summary>
-            <p>You can pay <b>with your credit card</b>. You only have to fill in your card details once; JustBookr will remember a reference to an encrypted version of them until you choose to update your card.
+            <p>You can pay <b>with your credit or debit card</b>. You only have to fill in your card details once; JustBookr will remember a reference to an encrypted version of them until you choose to update your card.
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">

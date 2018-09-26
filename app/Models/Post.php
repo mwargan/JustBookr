@@ -179,6 +179,11 @@ class Post extends Model
         return $query->where('status', 1);
     }
 
+    public function scopeUnavailable($query)
+    {
+        return $query->where('status', '!=', 1);
+    }
+
     public function scopeWithViews($query)
     {
         return $query->withCount([
