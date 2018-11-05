@@ -12,13 +12,13 @@
                 <card v-if="posted && posted.textbook && form.successful">
                     <card-header v-if="posted.boosts && posted.boosts.length > 0" :title="user.name" :subtitle="posted.price" :image="user.profilepic" :link="'/user/'+user['user-id']" sponsored="Boosted">
                     </card-header>
-                    <card-header v-else :title="user.name" :subtitle="posted.price" :image="user.profilepic" :link="'/user/'+user['user-id']">
+                    <card-header v-else :title="sellAs.name" :subtitle="posted.price" :image="user.profilepic" :link="'/user/'+user['user-id']">
                     </card-header>
                     <card-content :text="posted['post-description']">
                         <card-content-book :title="posted.textbook['book-title']" :subtitle="posted.textbook['author']" :image="posted.textbook['image-url']" :text="posted.textbook['edition']" :isbn="posted.textbook.isbn" />
                     </card-content>
                     <card-footer>
-                        <a href="#" class="link" data-toggle="modal" data-target="#boostModal" v-if="posted.boosts.length == 0">{{$t('boost_your_post')}}</a>
+                        <a href="#" class="link" data-toggle="modal" data-target="#boostModal" v-if="posted.boosts.length == 0 && sellAs.id == null">{{$t('boost_your_post')}}</a>
                         <a class="link" @click="sharePost()">{{ $t('share') }}</a>
                     </card-footer>
                 </card>
@@ -117,12 +117,25 @@
                         </div>
                     </template>
                     <p v-else class="col-md-7 offset-md-3">Type in <span v-if="supportsCamera">or scan </span>the ISBN-13 number, a 13 digit code starting with 97 usually found on the back of the book. Don't use spaces or dashes!<img src="/images/backside_with_isbn_highlighted.jpg" alt="" class="find-isbn"></p>
-                    <!-- Submit Button -->
-                    <div class="form-group row">
-                        <div class="col-md-7 offset-md-3">
-                            <v-button type="primary" class="btn-block" :disabled="isdisabled" :loading="form.busy">{{ $t('post') }}</v-button>
+                        <!-- Submit Button -->
+                        <div class="form-group row">
+                            <div class="col-md-7 offset-md-3">
+                                <v-button type="primary" class="btn-block" :disabled="isdisabled" :loading="form.busy">{{ $t('post') }}</v-button>
+                                <span class="mt-2" v-if="user.businesses">Selling as <a class="dropdown-toggle" href="#" role="button"
+                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{sellAs.name}}</a>
+                                <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#"
+                                    @click.prevent="setSellAs(null, user.name)">
+                                    {{ user.name }}
+                                  </a>
+                                  <a v-if="user.businesses && value.stands.length > 0" v-for="(value, key) in user.businesses" class="dropdown-item" href="#"
+                                    @click.prevent="setSellAs(value.stands[0]['id'], value.name)">
+                                    {{ value.name }} {{ value.stands[0]['location'].toLowerCase() }}
+                                  </a>
+                                </div>
+                                </span>
+                            </div>
                         </div>
-                    </div>
                 </form>
             </div>
             <quagga-modal @giveBarcode="giveBarcode" v-if="supportsCamera" />
@@ -158,6 +171,10 @@ export default {
         posted_title: "",
         posted: {},
         book: {},
+        sellAs: {
+            id: null,
+            name: null
+        },
         texts: ['Book is in great condition!', 'My copy is slightly used.', 'Has a little damage but nothing major.'],
         description_placeholder_text: '',
         form: new Form({
@@ -188,6 +205,7 @@ export default {
         if (this.$route.params.isbn) {
             this.form.isbn = this.$route.params.isbn
         }
+        this.sellAs.name = this.user.name
         $('#isbn').focus()
         this.getTexts()
         var placeholders = ['What can you say specifically about your copy? Any valuable notes?', 'What can you say specifically about your copy? Are there coffee stains?', 'What can you say specifically about your copy? Is it still wrapped up?', "My copy of the book is..."];
@@ -247,7 +265,12 @@ export default {
         async post() {
             this.form.successful = false
             var v = this
-            this.form.submit('post', '/api/v1/posts', {
+            var submitUrl = '/api/v1/posts'
+            if (this.sellAs.id) {
+                this.form.stand_id = this.sellAs.id
+                submitUrl = '/api/v1/stand-posts'
+            }
+            this.form.submit('post', submitUrl, {
                     // Transform form data to FormData
                     transformRequest: [function(data, headers) {
                         return objectToFormData(v.form)
@@ -273,6 +296,9 @@ export default {
                     })
                     scroll(0, 0)
                 })
+                .catch( data  => {
+                    console.log(data)
+                })
         },
         async getTexts() {
             var data = this
@@ -291,6 +317,10 @@ export default {
         },
         boostPost(response) {
             this.posted.boosts = [true]
+        },
+        setSellAs(id, name) {
+            this.sellAs.id = id
+            this.sellAs.name = name
         },
         sharePost() {
             $('#shareModal').modal('show')

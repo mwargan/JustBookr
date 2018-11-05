@@ -37,7 +37,7 @@
                 </card-header>
                 <template v-if="stand.is_active">
                     <card-footer :loading="stand.loading">
-                        <router-link class="link" :to="'/stand/'+stand.id+'/add-books'">{{ $t('add_books') }}
+                        <router-link class="link" :to="'/sell'">{{ $t('add_books') }}
                 </router-link>
                     <a @click="deactivate(stand.id, index)" class="link" >{{ $t('deactivate') }}
                 </a></card-footer>

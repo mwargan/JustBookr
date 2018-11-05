@@ -76,12 +76,13 @@ class StandPostsController extends Controller
      */
     public function store(Request $request)
     {
+        $request['is_active'] = 1;
+
         $data = $this->getData($request);
 
         $this->authorize('create', [StandPost::class, $data['stand_id']]);
 
         try {
-            $request['is_active'] = 1;
 
             $user = $request->user('api');
 
@@ -209,11 +210,11 @@ class StandPostsController extends Controller
     protected function getData(Request $request)
     {
         $rules = [
-            'stand_id'    => 'exists:business_stands,id',
-            'isbn'        => 'string|min:11|max:15|nullable',
+            'stand_id' => 'exists:business_stands,id',
+            'isbn' => 'string|min:11|max:15|nullable',
             'description' => 'string|min:1|max:1000|nullable',
-            'price'       => 'string|min:1|nullable',
-            'is_active'   => 'boolean|nullable',
+            'price' => 'string|min:1|nullable',
+            'is_active' => 'boolean|nullable',
 
         ];
 

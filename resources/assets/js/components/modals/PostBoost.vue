@@ -12,7 +12,7 @@
                     <form class="form-horizontal" role="form" @submit.prevent="boostPost" @keydown="form.onKeydown($event)" v-if="post">
                         <div class="modal-body">
                             <!-- Price -->
-                            <div class="row mb-5">
+                            <div class="row mb-3">
                                 <div class="col-md-5">
                                     <img class="responsive" src="/images/icons/custom/business/posts.svg" style="max-height: 150px;">
                                 </div>
@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <a href="mailto:support@justbookr.com" class="btn mr-auto text-secondary">{{ $t('help') }}</a>
+                            <router-link to="/faq" class="btn mr-auto text-secondary">{{ $t('help') }}</router-link>
                             <v-button @click="boostPost" :loading="form.busy" :disabled="payment_loading || !this.user || !this.user.stripe_id">
                                 {{ $t('boost_for') }} {{price}}
                             </v-button>

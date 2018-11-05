@@ -97,7 +97,7 @@ class UsersController extends Controller
         $this->authorize('create', User::class);
 
         try {
-            $request['password'] = chr(mt_rand(97, 122)).substr(md5(time()), 1);
+            $request['password'] = chr(mt_rand(97, 122)) . substr(md5(time()), 1);
             $data = $this->getData($request);
             $user = User::create($data);
 
@@ -140,7 +140,7 @@ class UsersController extends Controller
      */
     public function me(Request $request)
     {
-        return $request->user()->load('university.country', 'businesses')->append('unread_orders')->makeVisible(['email', 'surname', 'card_brand', 'card_last_four', 'stripe_id', 'trial_ends_at']);
+        return $request->user()->load('university.country', 'businesses.stands')->append('unread_orders')->makeVisible(['email', 'surname', 'card_brand', 'card_last_four', 'stripe_id', 'trial_ends_at']);
     }
 
     /**
@@ -280,7 +280,7 @@ class UsersController extends Controller
     {
         try {
             $user = $request->user('api');
-            $link = Storage::putFile('images/Uploads/users/'.$user->{'user-id'}.'/images/avatar', $request->file('image'), 'public');
+            $link = Storage::putFile('images/Uploads/users/' . $user->{'user-id'} . '/images/avatar', $request->file('image'), 'public');
             $user->profilepic = Storage::url($link);
             $user->save();
 
@@ -320,20 +320,20 @@ class UsersController extends Controller
     protected function getData(Request $request)
     {
         $rules = [
-            'name'       => 'required|string|min:1|max:64',
-            'surname'    => 'required|string|min:1|max:64',
-            'aboutme'    => 'nullable|string|min:0|max:8388607',
-            'username'   => 'nullable|unique:users,username|string|min:0|max:259',
-            'password'   => 'sometimes|required|string|min:1|max:8388607',
-            'email'      => 'required|email|unique:users,email,'.request('user.user-id').',user-id',
-            'uni-id'     => 'nullable|exists:webometric_universities,uni-id',
-            'country'    => 'nullable|exists:countries,name|string|min:0|max:20',
-            'city'       => 'nullable|string|min:0|max:64',
-            'address'    => 'nullable|string|min:0|max:259',
-            'user-tel'   => 'nullable|string|unique:users,user-tel|min:0|max:20',
-            'userlevel'  => 'boolean',
+            'name' => 'required|string|min:1|max:64',
+            'surname' => 'required|string|min:1|max:64',
+            'aboutme' => 'nullable|string|min:0|max:8388607',
+            'username' => 'nullable|unique:users,username|string|min:0|max:259',
+            'password' => 'sometimes|required|string|min:1|max:8388607',
+            'email' => 'required|email|unique:users,email,' . request('user.user-id') . ',user-id',
+            'uni-id' => 'nullable|exists:webometric_universities,uni-id',
+            'country' => 'nullable|exists:countries,name|string|min:0|max:20',
+            'city' => 'nullable|string|min:0|max:64',
+            'address' => 'nullable|string|min:0|max:259',
+            'user-tel' => 'nullable|string|unique:users,user-tel|min:0|max:20',
+            'userlevel' => 'boolean',
             'profilepic' => 'nullable|url',
-            'image'      => 'image',
+            'image' => 'image',
             'newsletter' => 'sometimes|boolean',
         ];
 

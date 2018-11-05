@@ -29,7 +29,7 @@
                 <div class="facebook-date m-0 center">{{ $t('post_your_textbooks_for_sale') }}</div>
             </div>
             <card-footer>
-                <router-link class="link" to="/sell">{{ $t('sell_textbooks') }}</router-link>
+                <router-link class="link" to="/sell">{{ $t('sell_books') }}</router-link>
             </card-footer>
         </card>
         <card-placeholder v-if="loading"></card-placeholder>
@@ -81,7 +81,7 @@
             </div>
         </div>
         <!-- Share Modal -->
-        <share-modal :link="share.link" quote="I'm selling my textbook on JustBookr!" />
+        <share-modal :link="share.link" quote="I'm selling my books on JustBookr!" />
     </div>
 </template>
 <script>

@@ -4,7 +4,7 @@
 
 [![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://justbookr.com)
 
-JustBookr is a platform that allows students to trade textbooks at their university.
+JustBookr is a platform that allows students to trade books at their university.
 
 This code has been published to help others see live examples of websites built using VueJS and Laravel, as well as to allow the community to better this platform and add their contributions; so commit away ;)!
 
@@ -46,7 +46,7 @@ Make sure you have done the previous testing step before.
 git add .
 git commit -m "Commit Message"
 git push origin master
-# DONE - us the next step only if on Elastic Beanstalk
+# DONE - use the next step only if on Elastic Beanstalk
 eb deploy JustBookr
 ```
 
@@ -55,10 +55,10 @@ A little while after deployment (after all CI's have finished), use `git pull or
 ## Platform Features
 
 Currently, JustBookr allows users to:
-- Add new textbooks to the database
-- Post textbooks for sale at a given university
-- Search for textbooks at a given university
-- Buy textbooks, where users choose a time and place to meet (no payment system online)
+- Add new books to the database
+- Post books for sale at a given university
+- Search for books at a given university
+- Buy books, where users choose a time and place to meet (no payment system online)
 - Rate their meetings with buyers and sellers
 - Share their posts on Facebook
 

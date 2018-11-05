@@ -21,7 +21,7 @@ class GoogleBookController extends Controller
             [
                 'query' => [
                     'key' => config('services.googleBooks.key'),
-                    'q'   => $input,
+                    'q' => $input,
                 ],
             ]
         );
@@ -58,7 +58,7 @@ class GoogleBookController extends Controller
             [
                 'query' => [
                     'key' => config('services.googleBooks.key'),
-                    'q'   => 'isbn: '.$input,
+                    'q' => 'isbn: ' . $input,
                 ],
             ]
         );
@@ -68,6 +68,9 @@ class GoogleBookController extends Controller
             return response()->json('No book found', 404);
         }
         $result = $this->transformToJustBookrFormat($response->items[0], request('save', true));
+        if (!isset($result->isbn)) {
+            return response()->json(['errors' => 'There was an error'], 422);
+        }
         if (request('format', 'JustBookr') == 'google') {
             return response()->json($response);
         }
@@ -89,15 +92,16 @@ class GoogleBookController extends Controller
         }
 
         foreach ($data->industryIdentifiers as $identifier) {
-            if ($identifier->type === 'ISBN_13') {
+            if ($identifier->type === 'ISBN_13' && $isbn === $identifier->identifier) {
                 $isbn = $identifier->identifier;
+                break;
             }
             continue;
         }
 
         $title = $data->title;
         if (isset($data->subtitle)) {
-            $title .= ' - '.$data->subtitle;
+            $title .= ' - ' . $data->subtitle;
         }
         if (isset($data->authors)) {
             $authors = implode(', ', $data->authors);
@@ -126,13 +130,13 @@ class GoogleBookController extends Controller
         }
 
         $result = [
-            'isbn'       => $isbn,
+            'isbn' => $isbn,
             'book-title' => $title,
-            'author'     => $authors,
-            'book-des'   => $description,
-            'edition'    => $edition,
-            'image-url'  => $image,
-            'isGoogle'   => true,
+            'author' => $authors,
+            'book-des' => $description,
+            'edition' => $edition,
+            'image-url' => $image,
+            'isGoogle' => true,
             'googleLink' => $link,
         ];
 

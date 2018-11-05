@@ -12,7 +12,7 @@
             <summary>
                 <dt class="d-inline">What is JustBookr?</dt>
             </summary>
-            <p>JustBookr is a free student built platform for trading textbooks with other students on your university campus.
+            <p>JustBookr is a free student built platform for trading books with other students on your university campus.
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">
@@ -20,7 +20,7 @@
                 <dt class="d-inline">What makes JustBookr better than posting on, for example, Facebook groups?</dt>
             </summary>
             <p>
-                On JustBookr, you can easily see all the available posts for a specific book you might need, get suggestions on how to price your books competitively when you're ready to sell, and so much more things all geared towards your textbook needs. If you want to then share your posts on Facebook, WhatsApp, or anywhere else, we've made it easy for you to do so at the tap of a button. And, it's free.
+                On JustBookr, you can easily see all the available posts for a specific book you might need, get suggestions on how to price your books competitively when you're ready to sell, and so much more things all geared towards your book needs. If you want to then share your posts on Facebook, WhatsApp, or anywhere else, we've made it easy for you to do so at the tap of a button. And, it's free.
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">
@@ -70,14 +70,14 @@
             <summary>
                 <dt class="d-inline">What price should I set for my book?</dt>
             </summary>
-            <p>For textbooks that others have posted before, <b>you'll see a suggested average price</b> based on all of those previous posts; that's a good starting point for pricing your book competitively. Otherwise, if you're the first to post the book - <b>a good rule of thumb is between 30% and 50% less than you bought it for</b>, depending on the condition.
+            <p>For books that others have posted before, <b>you'll see a suggested average price</b> based on all of those previous posts; that's a good starting point for pricing your book competitively. Otherwise, if you're the first to post the book - <b>a good rule of thumb is between 30% and 50% less than you bought it for</b>, depending on the condition.
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">
             <summary>
                 <dt class="d-inline">What should I write in my post description?</dt>
             </summary>
-            <p>The post description is the place to <b>describe the condition of your book and really sell yourself</b>. Try to stand out of the crowd by showing a bit of your personality - it can go a long way to selling your textbook faster!
+            <p>The post description is the place to <b>describe the condition of your book and really sell yourself</b>. Try to stand out of the crowd by showing a bit of your personality - it can go a long way to selling your book faster!
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">
@@ -126,7 +126,7 @@
             <summary>
                 <dt class="d-inline">I already sold my book, how can I mark my post as unavailable on JustBookr?</dt>
             </summary>
-            <p><b>Go over to your textbooks, find your post, press "Edit", and then press "Mark as sold".</b> It's very important that if you sell your book outside of JustBookr, you mark it as sold (if you sell it here then it's all automatic). This makes sure JustBookr stays relevant and also gives you a little boost in ranking for your other and future posts.
+            <p><b>Go over to your books, find your post, press "Edit", and then press "Mark as sold".</b> It's very important that if you sell your book outside of JustBookr, you mark it as sold (if you sell it here then it's all automatic). This makes sure JustBookr stays relevant and also gives you a little boost in ranking for your other and future posts.
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">
@@ -165,7 +165,7 @@
             <summary>
                 <dt class="d-inline">Where do I manage my orders?</dt>
             </summary>
-            <p><b>If you are the seller, check your <router-link :to="'/inbox'">inbox</router-link>, otherwise it's in <router-link :to="'/your-textbooks'">your textbooks</router-link>.</b>
+            <p><b>If you are the seller, check your <router-link :to="'/inbox'">inbox</router-link>, otherwise it's in <router-link :to="'/your-textbooks'">your books</router-link>.</b>
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">
@@ -197,7 +197,7 @@
             <summary>
                 <dt class="d-inline">How do I rate someone?</dt>
             </summary>
-            <p><b>After the meeting has already occured, if you are the seller, you can rate the buyer in your <router-link :to="'/inbox'">inbox</router-link>, otherwise you can rate the seller in <router-link :to="'/your-textbooks'">your textbooks</router-link>.</b>
+            <p><b>After the meeting has already occured, if you are the seller, you can rate the buyer in your <router-link :to="'/inbox'">inbox</router-link>, otherwise you can rate the seller in <router-link :to="'/your-textbooks'">your books</router-link>.</b>
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">
@@ -219,7 +219,7 @@
             <summary>
                 <dt class="d-inline">How do I boost my post?</dt>
             </summary>
-            <p><b>Go to <router-link :to="'/your-textbooks'">your textbooks</router-link>, tap on the textbook post you want to post, then tap on "Boost".</b>
+            <p><b>Go to <router-link :to="'/your-textbooks'">your books</router-link>, tap on the book post you want to post, then tap on "Boost".</b>
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">
