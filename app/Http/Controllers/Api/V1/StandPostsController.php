@@ -77,7 +77,9 @@ class StandPostsController extends Controller
     public function store(Request $request)
     {
         $request['is_active'] = 1;
-
+        if (isset($request['post-description']) && !$request['description']) {
+            $request['description'] = $request['post-description'];
+        }
         $data = $this->getData($request);
 
         $this->authorize('create', [StandPost::class, $data['stand_id']]);

@@ -16,10 +16,11 @@
       </div>
       <ul class="list-group list-group-flush">
         <router-link :to="'/stand/'+stand.id" class="list-group-item" :key="stand.id" v-for="stand in business.stands">
-            <!-- <img width="45" height="45" alt="Caroline Birch" class="cover facebook-avatar float-left mr-3 clearfix" :src="view.seller.avatar"> -->
+            <img width="45" height="45" :alt="stand.university['uni-name']" class="cover facebook-avatar float-left mr-3 clearfix" :src="stand.university['uni-logo']">
             <div>{{ stand.university['uni-name'] }}</div>
-            <div class="text-muted">{{ stand.location }} <span v-if="stand.nearest_open_date && stand.nearest_close_date">∙ {{ getHumanDate(stand.nearest_open_date, stand.nearest_close_date) }}</span><span v-else>∙ Opening times not available</span></div>
-        </router-link>
+            <div class="text-muted">{{ stand.stand_text }}</div>
+<!--             <div class="text-muted">{{ stand.location }} <span v-if="stand.nearest_open_date && stand.nearest_close_date">∙ {{ getHumanDate(stand.nearest_open_date, stand.nearest_close_date) }}</span><span v-else>∙ Opening times not available</span></div>
+ -->        </router-link>
       </ul>
     </div>
   </div>

@@ -126,14 +126,17 @@ export default {
         }
     },
     created() {
-        this.getPosts()
-        this.getStandPosts()
+        this.loadPosts()
     },
 
     methods: {
-
-        async getPosts() {
+        async loadPosts() {
             this.loading = true
+            await this.getPosts()
+            await this.getStandPosts()
+            this.loading = false
+        },
+        async getPosts() {
             var data = this
             var uni = ""
             if (this.user && this.user['uni-id']) {
@@ -141,7 +144,7 @@ export default {
             }
             await axios('/api/v1/posts?isbn=' + this.$route.params.isbn + '&paginate=false&available=true&active=true' + uni).then(function(response) {
                 data.page++
-                    data.$set(data, 'posts', response.data)
+                data.$set(data, 'posts', response.data)
                 $.each(response.data, function(res, val) {
                     val.textbook = data.book
                     data.$store.dispatch('post/addPost', val)
@@ -152,7 +155,6 @@ export default {
             })
         },
         async getStandPosts() {
-            this.loading = true
             var data = this
             var uni = ""
             if (this.user && this.user['uni-id']) {
@@ -160,7 +162,6 @@ export default {
             }
             await axios('/api/v1/stand-posts?isbn=' + this.$route.params.isbn + '&paginate=false&available=true&active=true' + uni).then(function(response) {
                 data.$set(data, 'stand_posts', response.data)
-                data.loading = false
             })
         },
         hitGA() {

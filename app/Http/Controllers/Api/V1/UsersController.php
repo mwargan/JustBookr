@@ -215,18 +215,18 @@ class UsersController extends Controller
         $this->authorize('update', $user);
 
         try {
+
             $data = $this->getData($request);
+            $user->update($data);
+
             if ($data['email'] && $data['email'] !== $user->email) {
                 Newsletter::updateEmailAddress($user->email, $data['email']);
             }
             if (isset($data['newsletter']) && $data['newsletter'] == 1) {
-                return 'yes';
                 Newsletter::subscribeOrUpdate($user->email, ['uni-id' => $user->{'uni-id'}]);
             } elseif (isset($data['newsletter']) && !$data['newsletter']) {
-                return 'unsub';
-                Newsletter::unsubscribe($user->email, ['uni-id' => $user->{'uni-id'}]);
+                Newsletter::unsubscribe($user->email);
             }
-            $user->update($data);
 
             return response()->json(['data' => $user->load('university.country')]);
         } catch (Exception $exception) {

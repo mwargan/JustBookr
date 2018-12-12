@@ -31,8 +31,8 @@ class LogRegisteredUser implements ShouldQueue
     {
         if (config('app.env') == 'production') {
             Newsletter::subscribe($event->user->email, ['FNAME' => $event->user->name, 'LNAME' => $event->user->surname, 'user_id' => $event->user->{'user-id'}], 'JustBookr');
+            $admin = User::findOrFail(config('app.admin_id'));
+            $admin->notify(new NewUser($event->user));
         }
-        $admin = User::findOrFail(config('app.admin_id'));
-        $admin->notify(new NewUser($event->user));
     }
 }

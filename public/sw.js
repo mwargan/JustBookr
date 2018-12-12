@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.4.1/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.e3502fc8cfc3f7c78990cb81b8a9b11e.js"
+  "precache-manifest.d2afd851b1bce5ab613b27cbce703838.js"
 );
 
 workbox.skipWaiting();
@@ -29,7 +29,8 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerRoute(/https:\/\/justbookr.com/, workbox.strategies.networkFirst({ cacheName: "JustBookr-production", plugins: [] }), 'GET');
+workbox.routing.registerNavigationRoute("/https://justbookr.com/");
+
 workbox.routing.registerRoute(/\.(?:png|jpg|jpeg|svg)$/, workbox.strategies.cacheFirst(), 'GET');
 workbox.routing.registerRoute(/https:\/\/fonts.(googleapis|gstatic).com/, workbox.strategies.cacheFirst({ cacheName: "google-fonts", plugins: [] }), 'GET');
-workbox.routing.registerNavigationRoute("/https://justbookr.com/");
+workbox.routing.registerRoute(/https:\/\/justbookr.com/, workbox.strategies.networkFirst({ cacheName: "JustBookr-production", plugins: [] }), 'GET');
