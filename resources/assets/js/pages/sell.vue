@@ -121,7 +121,7 @@
                         <div class="form-group row">
                             <div class="col-md-7 offset-md-3">
                                 <v-button type="primary" class="btn-block" :disabled="isdisabled" :loading="form.busy">{{ $t('post') }}</v-button>
-                                <span class="mt-2" v-if="user.businesses">Selling as <a class="dropdown-toggle" href="#" role="button"
+                                <span class="mt-2" v-if="user.businesses && user.businesses.length > 0">Selling as <a class="dropdown-toggle" href="#" role="button"
                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{sellAs.name}}</a>
                                 <div class="dropdown-menu">
                                 <a class="dropdown-item" href="#"

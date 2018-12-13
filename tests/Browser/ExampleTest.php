@@ -33,7 +33,14 @@ class ExampleTest extends DuskTestCase
             $browser->press('Sign up')
                 ->waitForText('Your university')
                 ->assertSee('Your university');
-            $browser
+        });
+    }
+
+    public function testBasicSetUni()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->maximize()
+                ->visit('/your-university')
                 ->type('.col-md-7 > input[type="search"]', 'IUM')
                 ->waitForText('Monaco')
                 ->click('#app > div.app-layout > div > div > div:nth-child(3)')

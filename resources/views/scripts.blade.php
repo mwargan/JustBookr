@@ -39,7 +39,7 @@ $polyfills = [
   <script src="{{ mix('js/manifest.js') }}" defer></script>
   <script src="{{ mix('js/vendor.js') }}" defer></script>
   <script src="{{ mix('js/app.js') }}" defer></script>
-{{--   <script async>
+  <script async>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
             navigator.serviceWorker.register('/sw.js').then(function(registration) {
@@ -51,6 +51,6 @@ $polyfills = [
             });
         });
     }
-  </script> --}}
+  </script>
 @endif
 <script src="https://js.stripe.com/v3/"></script>
