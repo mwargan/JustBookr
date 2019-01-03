@@ -82,6 +82,13 @@
                 <small class="text-muted d-block">{{university['uni-name']}}</small>
             </router-link>
         </div>
+        <div class="row w-95 mx-auto" style="max-width: 1080px;" v-if="country && country_university_count">
+           <div class="col-md-12 text-center align-self-center">
+                <router-link class="mb-4 mx-auto mt-auto mb-auto" :to="'/country/'+country+'/universities'">
+                    +{{country_university_count}} universities in {{country_name}}
+                </router-link>
+            </div>
+        </div>
         <div class="row w-95 mx-auto" style="min-height: 275px;">
             <div class="col-md-6 text-center align-self-center">
                 <img class="responsive" src="/images/icons/custom/business/post.svg" alt="Book to sell at university" style="max-height: 300px;">
@@ -128,7 +135,10 @@ export default {
         title: window.config.appName,
         loading: true,
         suggested: [],
-        universities: []
+        universities: [],
+        country: null,
+        country_name: null,
+        country_university_count: null,
     }),
     methods: {
         getSuggested() {
@@ -170,6 +180,13 @@ export default {
                     data.$store.dispatch('university/addUniversity', val)
                 })
             })
+            axios("https://ipinfo.io").then(function(response) {
+                data.country = response.data.country
+                axios('/api/v1/universities?country=' + data.country).then(function(response) {
+                    data.country_university_count = response.data.total
+                    data.country_name = response.data.data[0].country.name
+                })
+            }, "jsonp")
         }
     }
 }

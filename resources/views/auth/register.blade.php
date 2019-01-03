@@ -23,7 +23,7 @@
                         {{ csrf_field() }}
 
                         <div class="row form-group{{ $errors->has('name') ? ' is-invalid' : '' }} {{ $errors->has('surname') ? ' has-error' : '' }}">
-                            <label for="full_name" class="col-md-3 control-label col-form-label text-md-right">Full name</label>
+                            <label for="full_name" class="col-md-3 control-label col-form-label text-md-right" data-hj-whitelist>Full name</label>
 
                             <div class="col-md-7">
                                 <input id="full_name" type="text" class="form-control" name="full_name" value="{{ old('full_name') }}" required autofocus>

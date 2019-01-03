@@ -5,7 +5,7 @@
             <div class="form-group row">
                 <label class="col-md-3 col-form-label text-md-right">{{ $t('your_university') }}</label>
                 <div class="col-md-7">
-                    <vue-fuse placeholder="Search for your university" :keys="keys" :list="universities" event-name="unisChanged" inputChangeEventName="uniSearchInputChanged" class="form-control" autofocus></vue-fuse>
+                    <vue-fuse placeholder="Search for your university" :keys="keys" :list="universities" event-name="unisChanged" inputChangeEventName="uniSearchInputChanged" class="form-control" autofocus data-hj-whitelist></vue-fuse>
                     <small class="form-text text-muted">Select your university or college so JustBookr can show you posts and textbooks at your campus.</small>
                 </div>
             </div>

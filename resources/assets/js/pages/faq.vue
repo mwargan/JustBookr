@@ -17,19 +17,19 @@
         </details>
         <details class="row w-75 mx-auto mb-2">
             <summary>
-                <dt class="d-inline">What makes JustBookr better than posting on, for example, Facebook groups?</dt>
-            </summary>
-            <p>
-                On JustBookr, you can easily see all the available posts for a specific book you might need, get suggestions on how to price your books competitively when you're ready to sell, and so much more things all geared towards your book needs. If you want to then share your posts on Facebook, WhatsApp, or anywhere else, we've made it easy for you to do so at the tap of a button. And, it's free.
-            </p>
-        </details>
-        <details class="row w-75 mx-auto mb-2">
-            <summary>
                 <dt class="d-inline">Is JustBookr free?</dt>
             </summary>
             <p>
                 <b>Yes.</b> You can sign up, order, buy, post, and sell for free on JustBookr. You may choose to boost your post to show your offer before all the others, but you don't have to (more info below).<br/><br/>
                 JustBookr for businesses has pricing <router-link :to="{ name: 'business' }">available here</router-link>.
+            </p>
+        </details>
+        <details class="row w-75 mx-auto mb-2">
+            <summary>
+                <dt class="d-inline">What makes JustBookr better than posting on, for example, Facebook groups?</dt>
+            </summary>
+            <p>
+                On JustBookr, you can easily see all the available posts for a specific book you might need, get suggestions on how to price your books competitively when you're ready to sell, and so much more things all geared towards your book needs. If you want to then share your posts on Facebook, WhatsApp, or anywhere else, we've made it easy for you to do so at the tap of a button. And, it's free.
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">

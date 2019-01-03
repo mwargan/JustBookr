@@ -1,7 +1,7 @@
 <template>
     <div>
         <card v-if="sortedBooks.length <= 0">
-            <card-header :title="$t('join_your_university_community')+'!'" subtitle="Sign up now!">
+            <card-header :title="$t('join_your_university_community')+'!'" link="/sign-up" subtitle="Sign up now!">
             </card-header>
         </card>
         <transition-group name="fade" mode="out-in">

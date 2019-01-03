@@ -31,7 +31,7 @@
                         <label class="col-md-3 col-form-label text-md-right" for="isbn">{{ $t('isbn') }}</label>
                         <div class="col-md-7">
                             <div class="input-group">
-                                <input v-model="form.isbn" id="isbn" type="number" pattern="[0-9]*" name="isbn" class="form-control" :class="{ 'is-invalid': form.errors.has('isbn') }" maxlength="13" minlength="13" max="9799999999999" min="9780000000000" required placeholder="978xxxxxxxxxx" list="sellSuggestionsList" autofocus :disabled="loading">
+                                <input v-model="form.isbn" id="isbn" type="number" pattern="[0-9]*" name="isbn" class="form-control" :class="{ 'is-invalid': form.errors.has('isbn') }" maxlength="13" minlength="13" max="9799999999999" min="9780000000000" required placeholder="978xxxxxxxxxx" list="sellSuggestionsList" autofocus :disabled="loading" data-hj-whitelist>
                                 <datalist id="sellSuggestionsList">
                                     <option :value="book.isbn" v-for="book in this.allBooks"></option>
                                 </datalist>
@@ -57,7 +57,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label text-md-right" for="b-title">{{ $t('book-title') }}</label>
                             <div class="col-md-7">
-                                <input v-model="form['book-title']" type="text" id="b-title" name="book-title" class="form-control" :class="{ 'is-invalid': form.errors.has('book-title') }" required placeholder="Example: Management an Introduction">
+                                <input v-model="form['book-title']" type="text" id="b-title" name="book-title" class="form-control" :class="{ 'is-invalid': form.errors.has('book-title') }" required placeholder="Example: Management an Introduction" data-hj-whitelist>
                                 <has-error :form="form" field="book-title"></has-error>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label text-md-right" for="author">{{ $t('authors_comma_seperated') }}</label>
                             <div class="col-md-7">
-                                <input v-model="form.author" type="text" name="author" id="author" class="form-control" :class="{ 'is-invalid': form.errors.has('author') }" required placeholder="Example: Jan R. Williams, Susan F. Haka, Mark S. Bettner">
+                                <input v-model="form.author" type="text" name="author" id="author" class="form-control" :class="{ 'is-invalid': form.errors.has('author') }" required placeholder="Example: Jan R. Williams, Susan F. Haka, Mark S. Bettner" data-hj-whitelist>
                                 <has-error :form="form" field="author"></has-error>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label text-md-right" for="description">{{ $t('post_description') }}</label>
                             <div class="col-md-7">
-                                <textarea v-model="form['post-description']" type="text" id="description" name="post-description" class="form-control" :class="{ 'is-invalid': form.errors.has('post-description') }" maxlength="250" minlength="10" :placeholder="this.description_placeholder_text" required></textarea>
+                                <textarea v-model="form['post-description']" type="text" id="description" name="post-description" class="form-control" :class="{ 'is-invalid': form.errors.has('post-description') }" maxlength="250" minlength="10" :placeholder="this.description_placeholder_text" required data-hj-whitelist></textarea>
                                 <div v-if="texts" class="recent_text_wrapper scroller" v-show="!form['post-description']">
                                     <button v-for="text in texts" class="recent_text p-2 mb-0" type="button" v-on:click="form['post-description'] = text">{{ text }}</button>
                                 </div>
@@ -107,7 +107,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">{{ user.university.country.currency }}</span>
                                 </div>
-                                <input v-model="form.price" type="number" pattern="[0-9]*" name="price" class="form-control" :class="{ 'is-invalid': form.errors.has('price') }" maxlength="3" minlength="1" required id="price">
+                                <input v-model="form.price" type="number" pattern="[0-9]*" name="price" class="form-control" :class="{ 'is-invalid': form.errors.has('price') }" maxlength="3" minlength="1" required id="price" data-hj-whitelist>
                                 <div class="input-group-append">
                                     <span class="input-group-text">.00</span>
                                 </div>

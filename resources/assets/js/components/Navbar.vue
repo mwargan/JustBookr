@@ -5,7 +5,7 @@
                 <img itemprop="image" src="/images/logoDark.svg" height="45" alt="JustBookr Logo" />
             </router-link>
             <form class="form-inline my-2 my-lg-0" action="#" v-on:submit.prevent="submit" method="get" style="max-width: 73%;">
-                <input required name="query" v-model="searchQ" class="form-control search-input" type="search" :placeholder="$t('find_books')" aria-label="Search" list="suggestionsList">
+                <input required name="query" v-model="searchQ" class="form-control search-input" type="search" :placeholder="$t('find_books')" aria-label="Search" list="suggestionsList" data-hj-whitelist>
                 <datalist id="suggestionsList">
                     <option :value="book['book-title']" v-for="book in sortedBooks"></option>
                     <option :value="uni['uni-name']" v-for="uni in sortedUniversities"></option>
