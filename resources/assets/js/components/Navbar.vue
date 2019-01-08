@@ -5,11 +5,16 @@
                 <img itemprop="image" src="/images/logoDark.svg" height="45" alt="JustBookr Logo" />
             </router-link>
             <form class="form-inline my-2 my-lg-0" action="#" v-on:submit.prevent="submit" method="get" style="max-width: 73%;">
+                <div class="input-group">
                 <input required name="query" v-model="searchQ" class="form-control search-input" type="search" :placeholder="$t('find_books')" aria-label="Search" list="suggestionsList" data-hj-whitelist>
                 <datalist id="suggestionsList">
                     <option :value="book['book-title']" v-for="book in sortedBooks"></option>
                     <option :value="uni['uni-name']" v-for="uni in sortedUniversities"></option>
                 </datalist>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><fa icon="search" fixed-width/></button>
+                </span>
+            </div>
             </form>
             <!--                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" :aria-label="$t('toggle_navigation')">
                     <span class="navbar-toggler-icon"></span>
@@ -164,15 +169,32 @@ img.rounded-circle.profile-photo {
     height: 2rem;
 }
 
-.search-input {
-    width: 500px;
-    max-width: 100%;
+.search-input, .input-group-btn {
+    max-width: 81%;
     font-weight: 600;
     font-size: 1.1rem;
     border: 1px solid #e3e3e3 !important;
-    border-radius: 1rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     height: 50px;
+    background-color: #f7f7f7;
+    transition: 0.3s ease-in-out all;
+}
+.search-input {
+    width: 450px;
+    border-radius: 1rem;
+    border-right: none !important;
+}
+
+.input-group-btn {
+    width: 50px;
+    border-radius: 0rem 1rem 1rem 0;
+    border-left: none !important;
+}
+.input-group-btn > button {
+    background-color: #f7f7f7;
+    height: 100%;
+    border-radius: 0rem 1rem 1rem 0;
+    color: #6b747d;
 }
 
 .search-input:valid,

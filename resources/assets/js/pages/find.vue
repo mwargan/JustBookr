@@ -3,7 +3,7 @@
         <div class="title">{{ $t('textbooks') }}</div>
         <template v-if="!loading">
             <card v-show="sortedBooks && sortedBooks.length < 1 && !google_loading">
-                <card-header :title="$t('we_couldnt_find_the_textbook_youre_looking_for')">
+                <card-header :title="$t('we_couldnt_find_the_textbook_youre_looking_for')" subtitle="Tip: use the books ISBN-13 number for best results">
                 </card-header>
                 <card-content>
                     <div id="suggested" class="scroller" v-if="suggested">
@@ -25,6 +25,10 @@
                 <card-content>
                     <card-content-book :title="post['book-title']" :subtitle="post['author']" :image="post['image-url']" :text="post.isGoogle ? $t('prefilled_by_google_books') : post['edition']" :isbn="post.isbn"></card-content-book>
                 </card-content>
+            </card>
+            <card v-show="sortedBooks.length > 0">
+                <card-header icon="info" title="Try finding books using their ISBN-13, title, or author" subtitle="You can find universities too!">
+                </card-header>
             </card>
         </template>
         <transition name="fade">

@@ -1,6 +1,10 @@
 <template>
     <div>
         <div class="title">{{total}} {{ $t('universities') }}</div>
+        <card v-show="universities.length > 0">
+            <card-header icon="info" title="You can find your university by name using the search bar above" subtitle="Try both the native language and English spellings for best results">
+            </card-header>
+        </card>
         <card v-if="university" v-for="(university, index) in universities" :key="university['uni-id']">
             <card-header :title="university['uni-name']" :subtitle="university['en-name']" :image="university['uni-logo']" :link="'/university/'+university['uni-id']+'/info'" />
         </card>

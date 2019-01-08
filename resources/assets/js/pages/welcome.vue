@@ -52,7 +52,14 @@
                 </router-link>
             </div>
         </div>
-        <div class="row w-95 mx-auto mb-3" style="min-height: 275px;">
+        <div class="row w-95 mx-auto" style="max-width: 1080px;" v-if="sortedBooks[0]">
+           <div class="col-md-12 text-center align-self-center">
+                <router-link class="mb-4 mx-auto mt-auto mb-auto btn btn-secondary" :to="'/find/978'">
+                    +25 million titles
+                </router-link>
+            </div>
+        </div>
+        <div class="row w-95 mx-auto mb-5 mt-5" style="min-height: 275px;">
             <div class="col-md-6 text-center align-self-center">
                 <img class="responsive" src="/images/icons/custom/business/book.svg" alt="Book to buy at university" style="max-height: 300px;">
             </div>
@@ -64,7 +71,8 @@
                     The whole power with JustBookr comes from the fact that it's always been and always will be a textbook exchange and trade platfrom that allows students to trade their second hand textbooks on campus. This means that the whole site is made so that you can do just that, faster and easier.
                 </p>
                 <div class="d-block">
-                    <router-link class="btn btn-primary" to="/discover">Find books sold on campus</router-link>
+                    <router-link class="btn btn-primary mt-3" to="/discover">Find books sold on campus</router-link>
+                    <router-link class="btn btn-secondary mt-3" to="/faq">Still have questions...</router-link>
                 </div>
             </div>
         </div>
@@ -77,19 +85,19 @@
             </div>
         </div>
         <div class="row w-95 mx-auto" style="max-width: 1080px;">
-            <router-link :to="'/university/'+university['uni-id']" v-for="(university, index) in universities" :key="university['uni-id']" class="col-md-3 col-sm-6 text-center mb-3 align-self-center">
+            <router-link :to="'/university/'+university['uni-id']" v-for="(university, index) in universities" :key="university['uni-id']" class="col-md-3 col-sm-6 text-center mb-3 align-self-center" style="max-width: 50%;">
                 <img class="rounded img-thumbnail" v-lazy="university['uni-logo']" onerror="this.src='/images/image_error.svg'" :alt="university['uni-name']" style="height:150px;background:#fff;">
                 <small class="text-muted d-block">{{university['uni-name']}}</small>
             </router-link>
         </div>
         <div class="row w-95 mx-auto" style="max-width: 1080px;" v-if="country && country_university_count">
            <div class="col-md-12 text-center align-self-center">
-                <router-link class="mb-4 mx-auto mt-auto mb-auto" :to="'/country/'+country+'/universities'">
+                <router-link class="mb-4 mx-auto mt-auto mb-auto btn btn-secondary" :to="'/country/'+country+'/universities'">
                     +{{country_university_count}} universities in {{country_name}}
                 </router-link>
             </div>
         </div>
-        <div class="row w-95 mx-auto" style="min-height: 275px;">
+        <div class="row w-95 mx-auto mt-5" style="min-height: 275px;">
             <div class="col-md-6 text-center align-self-center">
                 <img class="responsive" src="/images/icons/custom/business/post.svg" alt="Book to sell at university" style="max-height: 300px;">
             </div>
@@ -99,7 +107,8 @@
                 </h2>
                 <p>Where to sell student textbooks? Right here! Post your old textbooks for sale on your university campus so that other students can buy them. It's simple, and only face to face do money and textbook exchange!
                     <div class="d-block">
-                        <router-link class="btn btn-primary" to="/sell">Post a textbook for sale</router-link>
+                        <router-link class="btn btn-primary mt-3" to="/sell">Post a textbook for sale</router-link>
+                        <router-link class="btn btn-secondary mt-3" to="/faq">What? FAQ, please</router-link>
                     </div>
                 </p>
             </div>

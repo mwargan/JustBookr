@@ -21,7 +21,6 @@
             </summary>
             <p>
                 <b>Yes.</b> You can sign up, order, buy, post, and sell for free on JustBookr. You may choose to boost your post to show your offer before all the others, but you don't have to (more info below).<br/><br/>
-                JustBookr for businesses has pricing <router-link :to="{ name: 'business' }">available here</router-link>.
             </p>
         </details>
         <details class="row w-75 mx-auto mb-2">
