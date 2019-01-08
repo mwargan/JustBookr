@@ -27,7 +27,7 @@
                 </card-content>
             </card>
             <card v-show="sortedBooks.length > 0">
-                <card-header icon="info" title="Try finding books using their ISBN-13, title, or author" subtitle="You can find universities too!">
+                <card-header icon="info" title="Try finding books using their ISBN-13, title, or author" subtitle="You can find universities and people too!">
                 </card-header>
             </card>
         </template>

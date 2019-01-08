@@ -170,7 +170,7 @@ img.rounded-circle.profile-photo {
 }
 
 .search-input, .input-group-btn {
-    max-width: 81%;
+    max-width: 77%;
     font-weight: 600;
     font-size: 1.1rem;
     border: 1px solid #e3e3e3 !important;
