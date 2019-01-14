@@ -45,7 +45,7 @@ class Bill extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->line("You've ordered " . $this->order->post->textbook->{'book-title'} . ' from ' . $this->order->post->user->name . ' for ' . $this->order->post->price . '.')
+            ->line("You've ordered ".$this->order->post->textbook->{'book-title'}.' from '.$this->order->post->user->name.' for '.$this->order->post->price.'.')
             ->action('Track order', url('your-textbooks'))
             ->line('Thanks for using JustBookr!');
     }
@@ -60,8 +60,8 @@ class Bill extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'title' => "You've ordered " . $this->order->post->textbook->{'book-title'},
-            'text' => 'From ' . $this->order->post->user->name,
+            'title' => "You've ordered ".$this->order->post->textbook->{'book-title'},
+            'text'  => 'From '.$this->order->post->user->name,
         ];
     }
 }
