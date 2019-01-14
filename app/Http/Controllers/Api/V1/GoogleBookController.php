@@ -21,7 +21,7 @@ class GoogleBookController extends Controller
             [
                 'query' => [
                     'key' => config('services.googleBooks.key'),
-                    'q'   => $input,
+                    'q' => $input,
                 ],
             ]
         );
@@ -58,7 +58,7 @@ class GoogleBookController extends Controller
             [
                 'query' => [
                     'key' => config('services.googleBooks.key'),
-                    'q'   => 'isbn: '.$input,
+                    'q' => 'isbn: ' . $input,
                 ],
             ]
         );
@@ -74,7 +74,6 @@ class GoogleBookController extends Controller
         if (request('format', 'JustBookr') == 'google') {
             return response()->json($response);
         }
-
         return response()->json($result);
     }
 
@@ -92,7 +91,7 @@ class GoogleBookController extends Controller
         }
 
         foreach ($data->industryIdentifiers as $identifier) {
-            if ($identifier->type === 'ISBN_13' && $isbn === $identifier->identifier) {
+            if ($identifier->type === 'ISBN_13') {
                 $isbn = $identifier->identifier;
                 break;
             }
@@ -101,7 +100,7 @@ class GoogleBookController extends Controller
 
         $title = $data->title;
         if (isset($data->subtitle)) {
-            $title .= ' - '.$data->subtitle;
+            $title .= ' - ' . $data->subtitle;
         }
         if (isset($data->authors)) {
             $authors = implode(', ', $data->authors);
@@ -130,20 +129,19 @@ class GoogleBookController extends Controller
         }
 
         $result = [
-            'isbn'       => $isbn,
+            'isbn' => $isbn,
             'book-title' => $title,
-            'author'     => $authors,
-            'book-des'   => $description,
-            'edition'    => $edition,
-            'image-url'  => $image,
-            'isGoogle'   => true,
+            'author' => $authors,
+            'book-des' => $description,
+            'edition' => $edition,
+            'image-url' => $image,
+            'isGoogle' => true,
             'googleLink' => $link,
         ];
 
         if ($save == true) {
             Textbook::firstOrCreate(['isbn' => $result['isbn']], $result);
         }
-
         return (object) $result;
     }
 }

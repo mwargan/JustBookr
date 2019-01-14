@@ -25,7 +25,7 @@
                                 <label class="col-md-3 col-form-label text-md-right" for="price">{{ $t('boost_time') }}</label>
                                 <div class="col-md-7">
                                     <div class="input-group">
-                                        <input v-model="form.expires_at" type="number" pattern="[0-9]*" name="price" class="form-control" :class="{ 'is-invalid': form.errors.has('expires_at') }" maxlength="3" minlength="1" required min="2" max="182">
+                                        <input v-model="form.expires_at" type="number" pattern="[0-9]*" name="price" class="form-control" :class="{ 'is-invalid': form.errors.has('expires_at') }" maxlength="3" minlength="1" required min="2" max="182" data-hj-whitelist>
                                         <div class="input-group-append">
                                             <span class="input-group-text">days</span>
                                         </div>

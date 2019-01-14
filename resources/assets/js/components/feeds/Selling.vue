@@ -50,7 +50,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 control-label">{{ $t('post_description') }}</label>
                                 <div class="col-md-7">
-                                    <textarea class="form-control" name="post-description" v-model="editForm['post-description']" :class="{ 'is-invalid': editForm.errors.has('post-description') }" maxlength="250" minlength="10" required>{{editForm['post-description']}}</textarea>
+                                    <textarea class="form-control" name="post-description" v-model="editForm['post-description']" :class="{ 'is-invalid': editForm.errors.has('post-description') }" maxlength="250" minlength="10" required data-hj-whitelist>{{editForm['post-description']}}</textarea>
                                     <has-error :form="editForm" field="post-description"></has-error>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">{{ user.university.country.currency }}</span>
                                     </div>
-                                    <input type="number" class="form-control" name="price" v-model="editForm.price" :class="{ 'is-invalid': editForm.errors.has('price') }" maxlength="3" minlength="1" required>
+                                    <input type="number" class="form-control" name="price" v-model="editForm.price" :class="{ 'is-invalid': editForm.errors.has('price') }" maxlength="3" minlength="1" required data-hj-whitelist>
                                     <div class="input-group-append">
                                         <span class="input-group-text">.00</span>
                                     </div>

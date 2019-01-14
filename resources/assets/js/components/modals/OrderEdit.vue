@@ -16,7 +16,7 @@
                             <div class="form-group row">
                                 <label for="location-meet" class="col-md-3 col-form-label text-md-right">{{ $t('where') }}?</label>
                                 <div class="col-md-7">
-                                    <select v-model="form['location-meet']" name="location-meet" class="form-control" :class="{ 'is-invalid': form.errors.has('location-meet') }" :placeholder="$t('example')+': '+$t('at_the_library')" required autofocus>
+                                    <select v-model="form['location-meet']" name="location-meet" class="form-control" :class="{ 'is-invalid': form.errors.has('location-meet') }" :placeholder="$t('example')+': '+$t('at_the_library')" required autofocus data-hj-whitelist>
                                         <option>{{ $t('at_the_cafeteria') }}</option>
                                         <option>{{ $t('at_the_library') }}</option>
                                         <option>{{ $t('by_the_main_entrance') }}</option>
@@ -30,7 +30,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label text-md-right">{{ $t('when') }}?</label>
                                 <div class="col-md-7">
-                                    <input v-model="date" type="datetime-local" name="location-date" class="form-control" :class="{ 'is-invalid': form.errors.has('location-date') }" required placeholder="DD/MM/YYYY HH:MM" :min="$moment().format($moment.HTML5_FMT.DATETIME_LOCAL)" :max="$moment().add(1, 'M').format($moment.HTML5_FMT.DATETIME_LOCAL)">
+                                    <input v-model="date" type="datetime-local" name="location-date" class="form-control" :class="{ 'is-invalid': form.errors.has('location-date') }" required placeholder="DD/MM/YYYY HH:MM" :min="$moment().format($moment.HTML5_FMT.DATETIME_LOCAL)" :max="$moment().add(1, 'M').format($moment.HTML5_FMT.DATETIME_LOCAL)" data-hj-whitelist>
                                     <has-error :form="form" field="location-date"></has-error>
                                     <small class="form-text text-muted">{{ $t('today_is') }} {{ $moment().format("dddd, MMMM Do") }}.<a class="float-right" @click="setDate()">{{ $t('set_tomorrow') }}</a></small>
                                     <!--  <small class="form-text text-muted" v-if="time_to_reply">{{thisPost.user.name}} usually replies {{time_to_reply.toLowerCase()}}.</small> -->

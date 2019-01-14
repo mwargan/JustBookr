@@ -86,7 +86,7 @@
         </div>
         <div class="row w-95 mx-auto" style="max-width: 1080px;">
             <router-link :to="'/university/'+university['uni-id']" v-for="(university, index) in universities" :key="university['uni-id']" class="col-md-3 col-sm-6 text-center mb-3 align-self-center" style="max-width: 50%;">
-                <img class="rounded img-thumbnail" v-lazy="university['uni-logo']" onerror="this.src='/images/image_error.svg'" :alt="university['uni-name']" style="height:150px;background:#fff;">
+                <img class="rounded img-thumbnail university-img" v-lazy="university['uni-logo']" onerror="this.src='/images/image_error.svg'" :alt="university['uni-name']" style="height:150px;background:#fff;">
                 <small class="text-muted d-block">{{university['uni-name']}}</small>
             </router-link>
         </div>
@@ -218,5 +218,9 @@ export default {
 
 .light {
     font-weight: 200;
+}
+
+.university-img {
+    width:150px;
 }
 </style>

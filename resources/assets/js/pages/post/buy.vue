@@ -40,7 +40,7 @@
             <div class="form-group row">
                 <label class="col-md-3 col-form-label text-md-right">{{ $t('when') }}?</label>
                 <div class="col-md-7">
-                    <input v-model="date" type="datetime-local" name="location-date" class="form-control" :class="{ 'is-invalid': form.errors.has('location-date') }" required placeholder="DD/MM/YYYY HH:MM" :min="$moment().format($moment.HTML5_FMT.DATETIME_LOCAL)" :max="$moment().add(1, 'M').format($moment.HTML5_FMT.DATETIME_LOCAL)">
+                    <input v-model="date" type="datetime-local" name="location-date" class="form-control" :class="{ 'is-invalid': form.errors.has('location-date') }" required placeholder="DD/MM/YYYY HH:MM" :min="$moment().format($moment.HTML5_FMT.DATETIME_LOCAL)" :max="$moment().add(1, 'M').format($moment.HTML5_FMT.DATETIME_LOCAL)" data-hj-whitelist>
                     <has-error :form="form" field="location-date"></has-error>
                     <small class="form-text text-muted">{{ $t('today_is') }} {{ $moment().format("dddd, MMMM Do") }}.<a class="float-right" @click="setDate()">{{ $t('set_tomorrow') }}</a></small>
                     <small class="form-text text-muted" v-if="time_to_reply">{{thisPost.user.name}} usually replies {{time_to_reply.toLowerCase()}}.</small>
@@ -50,7 +50,7 @@
             <div class="form-group row">
                 <label class="col-md-3 col-form-label text-md-right">{{ $t('message') }} <small class="text-muted">{{ $t('optional') }}</small></label>
                 <div class="col-md-7">
-                    <input type="text" v-model="form.comment" name="comment" class="form-control" :class="{ 'is-invalid': form.errors.has('comment') }">
+                    <input type="text" v-model="form.comment" name="comment" class="form-control" :class="{ 'is-invalid': form.errors.has('comment') }" data-hj-whitelist>
                     <has-error :form="form" field="comment"></has-error>
                     <small class="form-text text-muted">Include an optional message for the seller.</small>
                 </div>
