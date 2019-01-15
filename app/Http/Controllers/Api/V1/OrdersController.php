@@ -238,15 +238,15 @@ class OrdersController extends Controller
     protected function getData(Request $request)
     {
         $rules = [
-            'user-id-sell' => 'sometimes',
-            'user-id-buy' => 'required|exists:users,user-id',
-            'post-id' => 'required|unique:connected_users,post-id,' . request('post-id') . ',post-id',
-            'comment' => 'nullable|string|max:500',
-            'timestamp' => 'nullable|date_format:j/n/Y g:i A',
+            'user-id-sell'  => 'sometimes',
+            'user-id-buy'   => 'required|exists:users,user-id',
+            'post-id'       => 'required|unique:connected_users,post-id,'.request('post-id').',post-id',
+            'comment'       => 'nullable|string|max:500',
+            'timestamp'     => 'nullable|date_format:j/n/Y g:i A',
             'location-meet' => 'required|string|min:1|max:150',
             'location-date' => 'required|date_format:U',
             'location-time' => 'nullable|string|min:0|max:20',
-            'replied' => 'nullable|date_format:j/n/Y g:i A',
+            'replied'       => 'nullable|date_format:j/n/Y g:i A',
 
         ];
 
@@ -270,9 +270,9 @@ class OrdersController extends Controller
                 {
                     return [
                         'user.name.first' => 'required',
-                        'user.name.last' => 'required',
-                        'user.email' => 'required|email|unique:users,email',
-                        'user.password' => 'required|confirmed',
+                        'user.name.last'  => 'required',
+                        'user.email'      => 'required|email|unique:users,email',
+                        'user.password'   => 'required|confirmed',
                     ];
                 }
             case 'PUT':
@@ -280,9 +280,9 @@ class OrdersController extends Controller
                 {
                     return [
                         'user.name.first' => 'required',
-                        'user.name.last' => 'required',
-                        'user.email' => 'required|email|unique:users,email,' . $user->id,
-                        'user.password' => 'required|confirmed',
+                        'user.name.last'  => 'required',
+                        'user.email'      => 'required|email|unique:users,email,'.$user->id,
+                        'user.password'   => 'required|confirmed',
                     ];
                 }
             default:break;
