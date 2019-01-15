@@ -29,7 +29,7 @@
                 <div class="facebook-date m-0 center">{{ $t('post_your_textbooks_for_sale') }}</div>
             </div>
             <card-footer>
-                <router-link class="link" to="/sell">{{ $t('sell_books') }}</router-link>
+                <router-link class="link" to="/sell">{{ $t('post_books_for_sale') }}</router-link>
             </card-footer>
         </card>
         <card-placeholder v-if="loading"></card-placeholder>
@@ -99,6 +99,11 @@ export default {
         activePosts() {
             return this.posts.filter(function(post) {
                 return post.status === 1;
+            })
+        },
+        inactivePosts() {
+            return this.posts.filter(function(post) {
+                return post.status === 0;
             })
         }
     },

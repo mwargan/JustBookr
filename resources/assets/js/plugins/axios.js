@@ -54,7 +54,7 @@ axios.interceptors.response.use(response => response, error => {
   if (status === 403) {
     swal({
       type: 'error',
-      title: 'You don\t have permission to do this!',
+      title: 'Uh oh!',
       text: 'You don\t have sufficient rights to perform this action. If you are posting a book for sale, this usually means that you already posted the same book before (you can only post one copy of each book unless you sign up as a business).',
       reverseButtons: true,
       confirmButtonText: i18n.t('ok')

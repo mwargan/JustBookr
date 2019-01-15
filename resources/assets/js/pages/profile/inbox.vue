@@ -173,7 +173,7 @@ export default {
             var data = this
             await axios('/api/v1/orders?seller=' + this.user['user-id'] + '&paginate=false').then(function(response) {
                 data.page++
-                    data.loading = false
+                data.loading = false
                 $.each(response.data, function(res, val) {
                     val.loading = false
                     data.posts.push(val)
@@ -195,7 +195,7 @@ export default {
                 this.$set(this.posts[index], 'replied', response.data.replied)
                 this.posts[index].loading = false
                 this.user.unread_orders--
-                    this.$store.dispatch('auth/updateUser', { user: this.user })
+                this.$store.dispatch('auth/updateUser', { user: this.user })
 
             })
         },
@@ -222,11 +222,12 @@ export default {
             swal({
                     type: 'warning',
                     title: data.$t('you_are_about_to_cancel_this_meeting'),
+                    text: "If you just want to choose a different time or place, tap 'Go back' and then 'Edit' after accepting the meeting",
                     confirmButtonText: data.$t('cancel_meeting'),
                     cancelButtonText: data.$t('go_back'),
                     showCancelButton: true
                 })
-                .then(async(result) => {
+                .then(async (result) => {
                     console.log(result)
                     if (result) {
                         axios.delete('/api/v1/orders/' + id).then(function(response) {
@@ -345,10 +346,10 @@ label>img {
 }
 
 label {
-    width: 100%!important;
-    padding-bottom: 0!important;
+    width: 100% !important;
+    padding-bottom: 0 !important;
     opacity: 0.5;
-    transition: all .2s ease!important;
+    transition: all .2s ease !important;
 }
 
 label:after {

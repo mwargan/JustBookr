@@ -173,7 +173,7 @@ import swal from 'sweetalert2'
 import EditOrderModal from '~/components/modals/OrderEdit'
 
 export default {
-    props: ['user', 'posts'],
+    props: ['user', 'posts', 'inactivePosts'],
     components: {
         EditOrderModal
     },
@@ -181,7 +181,7 @@ export default {
         totalBought() {
             var self = this
             return this.purchased.filter(function(post) {
-                return (!post.replied || !self.checkHasRating(post)) || (post.replied && self.checkHasRating(post) && self.posts.filter(e => e.isbn === post.post.isbn).length === 0)
+                return (!post.replied || !self.checkHasRating(post)) || (post.replied && self.checkHasRating(post) && self.posts.filter(e => e.isbn === post.post.isbn).length === 0 && self.inactivePosts.filter(e => e.isbn === post.post.isbn).length === 0)
             })
         }
     },
@@ -232,6 +232,7 @@ export default {
             swal({
                     type: 'warning',
                     title: data.$t('you_are_about_to_cancel_this_meeting'),
+                    text: "If you just want to choose a different time or place, tap 'Go back' and then 'Edit'",
                     confirmButtonText: data.$t('cancel_meeting'),
                     cancelButtonText: data.$t('go_back'),
                     showCancelButton: true

@@ -211,6 +211,8 @@ class OrdersController extends Controller
 
             if ($request->user('api')->{'user-id'} === $order->{'user-id-buy'}) {
                 $post->status = 1;
+            } else {
+                $post->status = 78;
             }
 
             $post->save();
@@ -236,15 +238,15 @@ class OrdersController extends Controller
     protected function getData(Request $request)
     {
         $rules = [
-            'user-id-sell'  => 'sometimes',
-            'user-id-buy'   => 'required|exists:users,user-id',
-            'post-id'       => 'required|unique:connected_users,post-id,'.request('post-id').',post-id',
-            'comment'       => 'nullable|string|max:500',
-            'timestamp'     => 'nullable|date_format:j/n/Y g:i A',
+            'user-id-sell' => 'sometimes',
+            'user-id-buy' => 'required|exists:users,user-id',
+            'post-id' => 'required|unique:connected_users,post-id,' . request('post-id') . ',post-id',
+            'comment' => 'nullable|string|max:500',
+            'timestamp' => 'nullable|date_format:j/n/Y g:i A',
             'location-meet' => 'required|string|min:1|max:150',
             'location-date' => 'required|date_format:U',
             'location-time' => 'nullable|string|min:0|max:20',
-            'replied'       => 'nullable|date_format:j/n/Y g:i A',
+            'replied' => 'nullable|date_format:j/n/Y g:i A',
 
         ];
 
@@ -259,31 +261,31 @@ class OrdersController extends Controller
         $user = User::find($this->users);
 
         switch ($this->method()) {
-        case 'GET':
-        case 'DELETE':
-            {
-                return [];
-            }
-        case 'POST':
-            {
-                return [
-                    'user.name.first' => 'required',
-                    'user.name.last'  => 'required',
-                    'user.email'      => 'required|email|unique:users,email',
-                    'user.password'   => 'required|confirmed',
-                ];
-            }
-        case 'PUT':
-        case 'PATCH':
-            {
-                return [
-                    'user.name.first' => 'required',
-                    'user.name.last'  => 'required',
-                    'user.email'      => 'required|email|unique:users,email,'.$user->id,
-                    'user.password'   => 'required|confirmed',
-                ];
-            }
-        default:break;
+            case 'GET':
+            case 'DELETE':
+                {
+                    return [];
+                }
+            case 'POST':
+                {
+                    return [
+                        'user.name.first' => 'required',
+                        'user.name.last' => 'required',
+                        'user.email' => 'required|email|unique:users,email',
+                        'user.password' => 'required|confirmed',
+                    ];
+                }
+            case 'PUT':
+            case 'PATCH':
+                {
+                    return [
+                        'user.name.first' => 'required',
+                        'user.name.last' => 'required',
+                        'user.email' => 'required|email|unique:users,email,' . $user->id,
+                        'user.password' => 'required|confirmed',
+                    ];
+                }
+            default:break;
         }
     }
 }

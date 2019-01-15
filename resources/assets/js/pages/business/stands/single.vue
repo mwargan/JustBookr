@@ -24,7 +24,7 @@
         </div>
         <template v-if="stand.posts.length > 0">
             <card>
-                <card-header icon="info" :title="$t('purchase_books_from_this_stand_by_visiting_them_on_campus')+'.'">
+                <card-header icon="info" :title="$t('purchase_books_from_this_stand_by_visiting_them_on_campus')+'.'" :subtitle="stand.stand_text">
             </card-header>
             </card>
             <card v-for="(post, index) in stand.posts" :key="post.id">

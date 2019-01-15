@@ -1,13 +1,15 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-7">
                 <div key="1x" class="title">{{ $t('bought') }}</div>
-                <feed-purchased :user="user" :posts="posts" />
+                <feed-purchased :user="user" :posts="posts" :inactivePosts="inactivePosts" />
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-5">
                 <div key="0x" class="title">{{ $t('selling') }}</div>
                 <feed-selling :user="user" @set-posts="setPosts" />
+                <div key="2x" class="title">{{ $t('sold') }}</div>
+                <feed-sold :user="user"  @set-inactive-posts="setInactivePosts" />
             </div>
         </div>
     </div>
@@ -15,10 +17,11 @@
 <script>
 import feedPurchased from '~/components/feeds/Purchased.vue'
 import feedSelling from '~/components/feeds/Selling.vue'
+import feedSold from '~/components/feeds/Sold.vue'
 
 export default {
     scrollToTop: false,
-    components: { feedPurchased, feedSelling },
+    components: { feedPurchased, feedSelling, feedSold },
     props: ['user'],
     metaInfo() {
         return { title: this.$t('your_textbooks') }
@@ -27,7 +30,8 @@ export default {
     computed: {},
 
     data: () => ({
-        posts: []
+        posts: [],
+        inactivePosts: []
     }),
 
     created() {},
@@ -35,6 +39,9 @@ export default {
     methods: {
         setPosts(value) {
             this.posts = value
+        },
+        setInactivePosts(value) {
+            this.inactivePosts = value
         }
     }
 
