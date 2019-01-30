@@ -16,7 +16,7 @@ class SearchHelper
         $wordlist = ['or', 'and', 'the', 'of', 'for', 'in', 'an', 'a', 'to', 'that', 'our', 'in', 'on', 'is', '&', ':', '?', '!', 'ISBN-13', 'ISBN13', 'ISBN 13', 'ISBN', 'editions', 'edition', 'authors', 'author'];
 
         foreach ($wordlist as &$word) {
-            $word = '/\b' . preg_quote($word, '/') . '\b/i';
+            $word = '/\b'.preg_quote($word, '/').'\b/i';
         }
 
         return trim(preg_replace($wordlist, '', $string));

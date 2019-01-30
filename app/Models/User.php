@@ -89,8 +89,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'last_login' => 'date:U',
-        'seen' => 'date:U',
+        'last_login'      => 'date:U',
+        'seen'            => 'date:U',
         'user-registered' => 'date:U',
     ];
 
@@ -300,7 +300,7 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-        return $this->name . ' ' . $this->surname;
+        return $this->name.' '.$this->surname;
     }
 
     public function getPositiveRatingsAttribute()
