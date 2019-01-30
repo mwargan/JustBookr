@@ -1,6 +1,6 @@
 <template>
     <div>
-        <page-header :title="book['book-title']" :subtitle="book.author" :subtext="subtext" :image="book['image-url']"></page-header>
+        <page-header :title="book['book-title']" :subtitle="book.author" :subtitle-link="'/find/'+book.author" :subtext="subtext" :image="book['image-url']"></page-header>
 <!--         <div>{{book}}</div>
  -->        <div class="row">
             <ul class="nav nav-pills mb-2">

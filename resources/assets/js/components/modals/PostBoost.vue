@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <router-link to="/faq" class="btn mr-auto text-secondary">{{ $t('help') }}</router-link>
+                            <router-link to="/faq" class="btn mr-auto text-secondary" data-dismiss="modal" aria-label="Close">{{ $t('help') }}</router-link>
                             <v-button @click="boostPost" :loading="form.busy" :disabled="payment_loading || !this.user || !this.user.stripe_id">
                                 {{ $t('boost_for') }} {{price}}
                             </v-button>

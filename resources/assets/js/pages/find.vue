@@ -203,7 +203,7 @@ export default {
                     maxPatternLength: 32,
                     minMatchCharLength: 1,
                     keys: [
-                        "isbn", "book-title", "edition"
+                        "isbn", "book-title", "edition", "author"
                     ]
                 }
                 this.$search(query, this.results.books, options).then(results => {

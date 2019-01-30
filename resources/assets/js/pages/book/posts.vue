@@ -5,14 +5,8 @@
             <!-- Boosted offers card -->
             <card v-for="(post, index) in boostedPosts" :key="'BOOSTED_POST_'+post['post-id']">
                 <card-header :title="post.user.name" :subtitle="post.price" :image="post.user.profilepic" :link="'/user/'+post.user['user-id']" sponsored="Boosted" />
-                <card-content :text="post['post-description']">
-                </card-content>
-                <card-footer :post-id="post['post-id']" v-if="!user || post.user['user-id'] != user['user-id'] && post.status === 1"></card-footer>
-                <card-footer :post-id="post['post-id']" v-else-if="user && post.user['user-id'] == user['user-id'] && post.status === 1 && post.boosts.length == 0">
-                    <a href="#" class="link" @click="modalPost = post" data-toggle="modal" data-target="#boostModal">
-                {{$t('boost_your_post')}}
-                </a>
-                </card-footer>
+                <card-content :text="post['post-description']" />
+                <card-footer :post-id="post['post-id']" v-if="!user || post.user['user-id'] != user['user-id'] && post.status === 1" />
             </card>
             <!-- Student offers card -->
             <card v-for="(post, index) in sortedPosts" :key="'POST_'+post['post-id']">
@@ -28,10 +22,8 @@
             </card>
             <!-- Business offers card -->
             <card v-for="(post, index) in stand_posts" :key="'BUSINESS_POST_'+post['id']">
-                <card-header :title="post.stand.business.name" :subtitle="post.price" sponsored="Sponsored" :image="post.stand.business.logo" :link="'/business/'+post.stand.business.id">
-                </card-header>
-                <card-content :text="post.description">
-                </card-content>
+                <card-header :title="post.stand.business.name" :subtitle="post.price" sponsored="Sponsored" :image="post.stand.business.logo" :link="'/business/'+post.stand.business.id" />
+                <card-content :text="post.description" />
                 <card-footer>
                     <router-link class="link" :to="'/stand/'+post.stand.id">{{ $t('learn_more') }}
                     </router-link>
@@ -39,7 +31,7 @@
             </card>
         </template>
         <!-- Loading card -->
-        <card-placeholder v-else-if="loading"></card-placeholder>
+        <card-placeholder v-else-if="loading" />
         <!-- No available posts card -->
         <card v-else>
             <card-header :title="$t('nobody_is_selling_this_book_at_your_uni_right_now')+'.'">
@@ -61,6 +53,7 @@
         </card>
         <!-- Other editions card -->
         <feed-other-editions :book="book" :user="user"></feed-other-editions>
+        <!-- Location being used tag -->
         <div style="text-align: center;">
             <small class="text-muted" v-if="isUniBased"><fa icon="compass" fixed-width/> {{user.university['uni-name']}}</small>
             <small class="text-muted" v-else>{{ $t('log_in_to_see_posts_at_your_university') }}</small>

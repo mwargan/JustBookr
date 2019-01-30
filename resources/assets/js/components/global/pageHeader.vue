@@ -6,7 +6,9 @@
             </div>
             <div class="col-sm-6 m-auto">
                 <h1 class="mt-1">{{ title }}</h1>
-                <h5 v-if="subtitle" v-html="subtitle"></h5>
+                <h5 v-if="subtitle && subtitleLink"><router-link class="link" :to="subtitleLink">{{ subtitle }}
+                    </router-link></h5>
+                <h5 v-else-if="subtitle" v-html="subtitle"></h5>
                 <transition name="fade">
                     <span class="text-muted" v-if="subtext" v-html="subtext"></span>
                 </transition>
@@ -18,7 +20,7 @@
 <script>
 export default {
     name: 'page-header',
-    props: ['image', 'title', 'subtitle', 'subtext', 'image-shape'],
+    props: ['image', 'title', 'subtitle', 'subtitle-link', 'subtext', 'image-shape'],
     computed: {
         shape () {
             if (this['image-shape'] == "circle")

@@ -25,10 +25,10 @@ class SearchController extends Controller
         } else {
             $q = '978';
         }
-        //return $q;
+        // return $q;
         $uni = $request->input('uni', null);
 
-        return Textbook::whereRaw('`book-title` LIKE ? OR MATCH (textbooks.`isbn`, `book-title`, `edition`, `author`) AGAINST (?) OR soundex(textbooks.`book-title`) LIKE soundex(?) OR isbn LIKE ?', ['%'.$q.'%', '*'.$q.'*', '*'.$q.'*', '%'.$q.'%'])->orderByRaw('MATCH (textbooks.`isbn`, `book-title`, `edition`, `author`) AGAINST (?) DESC', ['*'.$q.'*'])->withCount([
+        return Textbook::whereRaw('`book-title` LIKE ? OR `author` LIKE ? OR MATCH (textbooks.`isbn`, `book-title`, `edition`, `author`) AGAINST (?) OR soundex(textbooks.`book-title`) LIKE soundex(?) OR isbn LIKE ?', ['%' . $q . '%', '%' . $q . '%', '*' . $q . '*', '*' . $q . '*', '%' . $q . '%'])->orderByRaw('MATCH (textbooks.`isbn`, `book-title`, `edition`, `author`) AGAINST (?) DESC', ['*' . $q . '*'])->withCount([
             'posts' => function ($query) use ($uni) {
                 $query->available()->active()->when($uni, function ($query) use ($uni) {
                     return $query->where('uni-id', $uni);

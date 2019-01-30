@@ -259,5 +259,7 @@
     "sell_a_book": "Sell a book",
     "sell_books": "Sell books",
     "find_books": "Find books",
-    "post_books_for_sale": "Post books for sale"
+    "post_books_for_sale": "Post books for sale",
+    "boost": "Boost",
+    "reschedule": "Reschedule"
 }

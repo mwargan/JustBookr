@@ -53,7 +53,7 @@ class OrderPolicy
      */
     public function create(User $user, Post $post)
     {
-        if ($post->status === 1 && $post->{'uni-id'} === $user->{'uni-id'} && $post->{'user-id'} !== $user->{'user-id'}) {
+        if ($post->status === 1 && $post->{'uni-id'} === $user->{'uni-id'} && $post->{'user-id'} !== $user->{'user-id'} && $user->points >= 0) {
             return true;
         }
 

@@ -1,6 +1,7 @@
 <template>
     <div>
-        <page-header v-if="university" :title="university['uni-name']" :subtext="university.abr" :subtitle="subtext" :image="university['uni-logo']"></page-header>
+        <page-header v-if="university" :title="university['uni-name']" :subtext="university.abr" :subtitle="university.country.name" :image="university['uni-logo']" :subtitle-link="'/country/'+university.country.iso2"></page-header>
+
         <div class="row">
             <ul class="nav nav-pills" style="margin-bottom:1rem;">
                 <li v-for="tab in tabs" class="nav-item">
@@ -70,9 +71,6 @@ export default {
         }),
         university() {
             return this.thisUniversity(this.$route.params.id)
-        },
-        subtext() {
-            return " <a href='/country/" + this.university.country.iso2 + "'>" + this.university.country.name + "</a>"
         }
     }
 }

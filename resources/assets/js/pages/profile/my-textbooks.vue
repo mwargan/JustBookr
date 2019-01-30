@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-lg-7">
+            <div class="col-lg-8">
                 <div key="1x" class="title">{{ $t('bought') }}</div>
                 <feed-purchased :user="user" :posts="posts" :inactivePosts="inactivePosts" />
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-4">
                 <div key="0x" class="title">{{ $t('selling') }}</div>
                 <feed-selling :user="user" @set-posts="setPosts" />
                 <div key="2x" class="title">{{ $t('sold') }}</div>

@@ -3,7 +3,7 @@
         <card v-if="!loading && moneyMade">
             <div class="card-header text-center">
                 <div class="facebook-name m-0 center text-success">+{{ user.university.country.currency }}{{moneyMade.toLocaleString()}}</div>
-                <div class="facebook-date m-0 center">You earned by selling books</div>
+                <div class="facebook-date m-0 center">Earned by selling books</div>
             </div>
         </card>
         <card v-if="posts.length > 0 && !loading" v-for="(post, index) in posts" :key="post['post-id']">

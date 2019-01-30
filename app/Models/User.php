@@ -89,8 +89,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'last_login'      => 'date:U',
-        'seen'            => 'date:U',
+        'last_login' => 'date:U',
+        'seen' => 'date:U',
         'user-registered' => 'date:U',
     ];
 
@@ -126,7 +126,7 @@ class User extends Authenticatable
      * Get the connectedUsers for this model.
      */
     // public function sales() {
-    // 	return $this->hasMany('App\Models\Order', 'user-id-sell', 'user-id');
+    //     return $this->hasMany('App\Models\Order', 'user-id-sell', 'user-id');
     // }
 
     // hasManyThrough($related, $through, $firstKey = null, $secondKey = null, $localKey = null, $secondLocalKey = null)
@@ -136,7 +136,7 @@ class User extends Authenticatable
     }
 
     // public function businesses() {
-    // 	return $this->hasManyThrough('App\Models\Business', 'App\Models\UsersBusiness', 'user_id', 'id', 'user-id', 'business_id')->where('is_active', 1);
+    //     return $this->hasManyThrough('App\Models\Business', 'App\Models\UsersBusiness', 'user_id', 'id', 'user-id', 'business_id')->where('is_active', 1);
     // }
 
     /**
@@ -300,7 +300,7 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-        return $this->name.' '.$this->surname;
+        return $this->name . ' ' . $this->surname;
     }
 
     public function getPositiveRatingsAttribute()

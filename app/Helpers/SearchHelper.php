@@ -13,10 +13,10 @@ class SearchHelper
      */
     public static function stripStopWords($string)
     {
-        $wordlist = ['or', 'and', 'the', 'of', 'for', 'in', 'a', 'to', 'an', 'that', 'our', 'in', '&', '-', ':', '?', '!', 'ISBN-13', 'ISBN13', 'ISBN', 'edition', 'author'];
+        $wordlist = ['or', 'and', 'the', 'of', 'for', 'in', 'an', 'a', 'to', 'that', 'our', 'in', 'on', 'is', '&', ':', '?', '!', 'ISBN-13', 'ISBN13', 'ISBN 13', 'ISBN', 'editions', 'edition', 'authors', 'author'];
 
         foreach ($wordlist as &$word) {
-            $word = '/\b'.preg_quote($word, '/').'\b/i';
+            $word = '/\b' . preg_quote($word, '/') . '\b/i';
         }
 
         return trim(preg_replace($wordlist, '', $string));

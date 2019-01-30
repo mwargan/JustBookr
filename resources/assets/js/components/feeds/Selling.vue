@@ -1,8 +1,10 @@
 <template>
     <div>
         <card v-if="views && !loading && activePosts.length > 0">
-            <card-header :title="'+'+views+' post views in the last month'" subtitle="Share your posts to get more views">
-            </card-header>
+            <div class="card-header text-center">
+                <div class="facebook-name m-0 center">+{{views.toLocaleString()}}</div>
+                <div class="facebook-date m-0 center">Post views in the past 30 days</div>
+            </div>
         </card>
         <card v-for="(post, index) in activePosts" :key="post['post-id']">
             <card-header v-if="post.boosts.length > 0" :title="post.textbook['book-title']" :subtitle="post.price" :image="post.textbook['image-url']" image-shape="square" :link="'/textbook/'+post.isbn" sponsored="Boosted">
@@ -14,6 +16,9 @@
             <card-footer v-if="post.status == 1" :loading="post.loading">
                 <a class="link" @click="sharePost(post, index)">{{ $t('share') }}</a>
                 <a class="link" @click="edit(post, index)">{{ $t('edit') }}</a>
+                <a v-if="post.boosts.length == 0" href="#" class="link" @click="modalPost = post" data-toggle="modal" data-target="#boostModal">
+                {{$t('boost')}}
+                </a>
             </card-footer>
         </card>
         <card v-if="!loading && activePosts.length === 0">
@@ -82,6 +87,8 @@
         </div>
         <!-- Share Modal -->
         <share-modal :link="share.link" quote="I'm selling my books on JustBookr!" />
+        <!-- Boost Modal -->
+        <boost-modal :post="modalPost" @postPromoted="boostPost" />
     </div>
 </template>
 <script>
@@ -89,11 +96,13 @@ import axios from 'axios'
 import Form from 'vform'
 import swal from 'sweetalert2'
 import ShareModal from '~/components/modals/Share'
+import BoostModal from '~/components/modals/PostBoost'
 
 export default {
     props: ['user'],
      components: {
-        ShareModal
+        ShareModal,
+        BoostModal
     },
     computed: {
         activePosts() {
@@ -120,7 +129,8 @@ export default {
         editForm: new Form({
             'post-description': '',
             price: 0
-        })
+        }),
+        modalPost: {}
     }),
 
     created() {
@@ -146,7 +156,6 @@ export default {
                 this.views = response.data.views_past_month
             })
         },
-
         edit(post, index) {
             this.editForm['post-id'] = post['post-id']
             this.editForm['post-description'] = post['post-description']
@@ -189,6 +198,9 @@ export default {
                 eventAction: 'share',
                 eventLabel: post.isbn
             })
+        },
+        boostPost(response) {
+            this.posts.find(post => post['post-id'] === response.post_id).boosts = [true]
         }
     }
 }

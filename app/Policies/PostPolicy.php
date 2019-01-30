@@ -30,6 +30,10 @@ class PostPolicy
             return false;
         }
 
+        if ($user->points < 0) {
+            return false;
+        }
+
         return true;
     }
 

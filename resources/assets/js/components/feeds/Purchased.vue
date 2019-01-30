@@ -46,7 +46,7 @@
                     <router-link v-if="post.replied && checkHasRating(post)" class="link" :to="'/sell/'+post.textbook.isbn">{{ $t('sell') }}</router-link>
                     <a v-else-if="post.replied && Date.now() > Number(post['location-date']+'000')" class="link" @click="rate(post, index)">{{ $t('rate_your_meeting_with') }} {{post.post.user.name}}</a>
                     <template v-else>
-                        <a class="link" @click="selectedOrder = post" data-toggle="modal" data-target="#modal-edit-order">{{ $t('edit') }}</a>
+                        <a class="link" @click="selectedOrder = post" data-toggle="modal" data-target="#modal-edit-order">{{ $t('reschedule') }}</a>
                         <a class="link" @click="deleteOrder(post['connect-id'], index)">{{ $t('cancel') }}</a>
                     </template>
                 </card-footer>

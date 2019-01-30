@@ -9,41 +9,49 @@
                         <card-header :link="'/post/'+post.post['post-id']" :title="post.post.textbook['book-title']" :subtitle="post.post.price" :image="post.post.textbook['image-url']" imageShape="square">
                         </card-header>
                     </card>
-                    <div class="list-group" style="margin-top:1rem;" v-if="!checkHasRating(post) || !post.replied">
+                    <div class="list-group" style="margin-top:1rem;" v-if="!checkHasRating(post) || !post.replied || Date.now() < Number(post['location-date']+'000') || post['location-date'] < post.replied">
                         <a class="list-group-item list-group-item-action flex-column align-items-start disabled">
                             <div class="d-flex w-100 justify-content-between">
                                 <template v-if="post.replied">
-                                    <h6 class="mb-1 text-muted">Order confirmed</h6>
+                                    <h6 class="mb-0 text-muted">Order confirmed</h6>
                                     <small class="text-muted">{{getHumanDate(post.replied)}}</small>
                                 </template>
-                                <h6 v-else class="mb-1 text-primary">Waiting for your confirmation...</h6>
+                                <h6 v-else class="mb-0 text-primary">Waiting for your confirmation...</h6>
                             </div>
                         </a>
                         <a class="list-group-item list-group-item-action flex-column align-items-start disabled">
                             <div class="d-flex w-100 justify-content-between">
-                                <h6 v-if="post.replied && Date.now() < Number(post['location-date']+'000')" class="mb-1 text-primary">Waiting for meeting...</h6>
-                                <h6 class="mb-1 text-primary" v-else-if="post['location-date'] < post.replied">Waiting for you to set a new meeting time...</h6>
-                                <h6 v-else class="mb-1 text-muted">Actual meeting</h6>
+                                <h6 v-if="post.replied && Date.now() < Number(post['location-date']+'000')" class="mb-0 text-primary">Waiting for meeting...</h6>
+                                <h6 class="mb-0 text-primary" v-else-if="post['location-date'] < post.replied">Waiting for you to set a new meeting time...</h6>
+                                <h6 v-else class="mb-0 text-muted">Actual meeting</h6>
                                 <small class="text-muted" v-if="post.replied && post['location-date'] > post.replied">{{getHumanDate(post['location-date'])}}</small>
                             </div>
-                            <p v-if="Date.now() < Number(post['location-date']+'000') && post['location-date'] > post.replied" class="mb-1">{{$moment(post['location-date'], 'X').calendar()}}, {{post['location-meet']}}.</p>
-                            <p v-else-if="!post.replied" class="mb-1 text-danger">{{$moment(post['location-date'], 'X').calendar()}}, {{post['location-meet']}}.</p>
+                            <p v-if="Date.now() < Number(post['location-date']+'000') && post['location-date'] > post.replied && post.replied" class="mb-0">{{$moment(post['location-date'], 'X').calendar()}}, {{post['location-meet']}}.</p>
+                            <p v-else-if="post.replied" class="mb-0 text-danger">Meeting was scheduled for {{$moment(post['location-date'], 'X').calendar()}}, {{post['location-meet'].toLowerCase()}}.</p>
                         </a>
                         <a class="list-group-item list-group-item-action flex-column align-items-start disabled">
                             <div class="d-flex w-100 justify-content-between">
-                                <h6 v-if="post.replied && Date.now() > Number(post['location-date']+'000') && post['location-date'] > post.replied" class="mb-1 text-primary">Rate your meeting</h6>
-                                <h6 v-else class="mb-1 text-muted">Rate your meeting</h6>
+                                <h6 v-if="post.replied && Date.now() > Number(post['location-date']+'000') && post['location-date'] > post.replied" class="mb-0 text-primary">Rate your meeting</h6>
+                                <h6 v-else class="mb-0 text-muted">Rate your meeting</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="list-group" style="margin-top:1rem;" v-else>
+                        <a class="list-group-item list-group-item-action flex-column align-items-start disabled">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0 text-muted">Meeting complete</h6>
+                                <small class="text-muted">{{getHumanDate(post['location-date'])}}</small>
                             </div>
                         </a>
                     </div>
                 </card-content>
-                <card-footer :po="post" v-if="Date.now() < Number(post['location-date']+'000') || post.replied == null || !checkHasRating(post)" :loading="post.loading">
+                <card-footer :po="post" v-if="Date.now() < Number(post['location-date']+'000') || post.replied == null || !checkHasRating(post) || post['location-date'] < post.replied" :loading="post.loading">
                     <template v-if="post.replied === null">
                         <a @click="accept(post['connect-id'], index)" class="link" onclick="ga('send', 'event', 'Button', 'Click', 'Reply');">{{ $t('accept') }}</a>
                         <a @click="deleteOrder(post['connect-id'], index)" class="link">{{ $t('decline') }}</a>
                     </template>
                     <template v-else-if="Date.now() < Number(post['location-date']+'000') || post['location-date'] < post.replied">
-                        <a class="link" @click="selectedOrder = post" data-toggle="modal" data-target="#modal-edit-order">{{ $t('edit') }}</a>
+                        <a class="link" @click="selectedOrder = post" data-toggle="modal" data-target="#modal-edit-order">{{ $t('reschedule') }}</a>
                         <a @click="deleteOrder(post['connect-id'], index)" class="link">{{ $t('cancel') }}</a>
                     </template>
                     <template v-else>
