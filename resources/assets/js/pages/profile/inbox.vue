@@ -2,7 +2,10 @@
     <div>
         <transition-group name="fade" mode="out-in">
             <card :po="post" v-for="(post, index) in posts" :key="post['post-id']">
-                <card-header :link="'/user/'+post.buyer['user-id']" :title="fullNames[index]" :subtitle="getHumanDate(post.timestamp)" :image="post.buyer.profilepic">
+                <card-header v-if="post.replied" :link="'/user/'+post.buyer['user-id']" :title="fullNames[index]" :subtitle="getHumanDate(post.timestamp)" :image="post.buyer.profilepic">
+                </card-header>
+
+                <card-header v-else title="New order" :subtitle="getHumanDate(post.timestamp)">
                 </card-header>
                 <card-content :text="post.comment">
                     <card style="margin-top:1rem;">
@@ -24,10 +27,10 @@
                                 <h6 v-if="post.replied && Date.now() < Number(post['location-date']+'000')" class="mb-0 text-primary">Waiting for meeting...</h6>
                                 <h6 class="mb-0 text-primary" v-else-if="post['location-date'] < post.replied">Waiting for you to set a new meeting time...</h6>
                                 <h6 v-else class="mb-0 text-muted">Actual meeting</h6>
-                                <small class="text-muted" v-if="post.replied && post['location-date'] > post.replied">{{getHumanDate(post['location-date'])}}</small>
+                                <small class="text-muted" v-if="!post.replied || post['location-date'] > post.replied">{{getHumanDate(post['location-date'])}}</small>
                             </div>
                             <p v-if="Date.now() < Number(post['location-date']+'000') && post['location-date'] > post.replied && post.replied" class="mb-0">{{$moment(post['location-date'], 'X').calendar()}}, {{post['location-meet']}}.</p>
-                            <p v-else-if="post.replied" class="mb-0 text-danger">Meeting was scheduled for {{$moment(post['location-date'], 'X').calendar()}}, {{post['location-meet'].toLowerCase()}}.</p>
+                            <p v-else-if="!post.replied && Date.now() > Number(post['location-date']+'000')" class="mb-0 text-danger">Meeting was scheduled for {{$moment(post['location-date'], 'X').calendar()}}, {{post['location-meet'].toLowerCase()}}.</p>
                         </a>
                         <a class="list-group-item list-group-item-action flex-column align-items-start disabled">
                             <div class="d-flex w-100 justify-content-between">

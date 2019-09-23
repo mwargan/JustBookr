@@ -46,7 +46,7 @@ class PostsController extends Controller
 
         $q->when(request('title'), function ($q, $title) {
             return $q->whereHas('textbook', function ($q) use ($title) {
-                return $q->where('book-title', 'LIKE', '%'.SearchHelper::stripStopWords($title).'%');
+                return $q->where('book-title', 'LIKE', '%' . SearchHelper::stripStopWords($title) . '%');
             });
         });
 
@@ -251,11 +251,11 @@ class PostsController extends Controller
     protected function getData(Request $request)
     {
         $rules = [
-            'user-id'          => 'required|numeric|exists:users,user-id',
+            'user-id' => 'required|numeric|exists:users,user-id',
             'post-description' => 'required|string|min:10',
-            'isbn'             => 'required|numeric|digits:13',
-            'uni-id'           => 'required|numeric|exists:webometric_universities,uni-id',
-            'price'            => 'required|numeric|min:1|max:1000',
+            'isbn' => 'required|numeric|digits:13',
+            'uni-id' => 'required|numeric|exists:webometric_universities,uni-id',
+            'price' => 'required|numeric|min:1|max:1000',
         ];
 
         $data = $request->validate($rules);
@@ -274,13 +274,13 @@ class PostsController extends Controller
     {
         $rules = [
 
-            'isbn'       => 'required|numeric|digits:13|unique:textbooks,isbn,'.$request->isbn.',isbn',
+            'isbn' => 'required|numeric|digits:13|unique:textbooks,isbn,' . $request->isbn . ',isbn',
             'book-title' => 'required|string|min:5|max:259',
-            'author'     => 'required|string|min:5|max:259',
-            'book-des'   => 'nullable|sometimes|string',
-            'edition'    => 'nullable|string|min:1|max:64',
-            'image-url'  => 'required_without:image|url',
-            'image'      => 'required_without:image-url|image|max:20480',
+            'author' => 'required|string|min:5|max:259',
+            'book-des' => 'nullable|sometimes|string',
+            'edition' => 'nullable|string|min:1|max:64',
+            'image-url' => 'required_without:image|url',
+            'image' => 'required_without:image-url|image|max:20480',
         ];
 
         $data = $request->validate($rules);
