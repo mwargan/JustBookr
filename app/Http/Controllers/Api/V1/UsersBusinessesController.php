@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Business;
-use App\Models\User;
 use App\Models\UsersBusiness;
 use Exception;
 use ExceptionHelper;

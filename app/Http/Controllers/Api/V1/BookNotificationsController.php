@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\BookNotification;
-use App\Models\User;
 use Exception;
 use ExceptionHelper;
 use Illuminate\Http\Request;
@@ -69,11 +68,11 @@ class BookNotificationsController extends Controller
         $this->authorize('create', BookNotification::class);
 
         try {
-            if (!$request['user_id']) {
+            if (! $request['user_id']) {
                 $request['user_id'] = $request->user()->{'user-id'};
             }
 
-            if (!$request['uni_id']) {
+            if (! $request['uni_id']) {
                 $request['uni_id'] = $request->user()->{'uni-id'};
             }
 

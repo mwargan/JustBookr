@@ -64,6 +64,6 @@ class TextbookView extends Model
      */
     public function setDateviewedAttribute($value)
     {
-        $this->attributes['date-viewed'] = !empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
+        $this->attributes['date-viewed'] = ! empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
     }
 }

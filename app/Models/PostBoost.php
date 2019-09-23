@@ -68,7 +68,7 @@ class PostBoost extends Model
      */
     public function setExpiresAtAttribute($value)
     {
-        $this->attributes['expires_at'] = !empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
+        $this->attributes['expires_at'] = ! empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
     }
 
     /**

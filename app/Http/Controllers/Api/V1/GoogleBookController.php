@@ -28,7 +28,7 @@ class GoogleBookController extends Controller
         $res->getStatusCode(); // 200
         $response = json_decode($res->getBody());
         $results = [];
-        if (!$response || !isset($response->items)) {
+        if (! $response || ! isset($response->items)) {
             return response()->json($response);
         }
         foreach ($response->items as $item) {
@@ -64,11 +64,11 @@ class GoogleBookController extends Controller
         );
         $res->getStatusCode(); // 200
         $response = json_decode($res->getBody());
-        if (!$response || !isset($response->items)) {
+        if (! $response || ! isset($response->items)) {
             return response()->json('No book found', 404);
         }
         $result = $this->transformToJustBookrFormat($response->items[0], request('save', true));
-        if (!isset($result->isbn)) {
+        if (! isset($result->isbn)) {
             return response()->json(['errors' => 'There was an error'], 422);
         }
         if (request('format', 'JustBookr') == 'google') {
@@ -87,7 +87,7 @@ class GoogleBookController extends Controller
         $image = null;
         $data = $response->volumeInfo;
 
-        if (!isset($data->industryIdentifiers)) {
+        if (! isset($data->industryIdentifiers)) {
             return;
         }
 
@@ -125,7 +125,7 @@ class GoogleBookController extends Controller
 
         $link = $data->canonicalVolumeLink;
 
-        if (!$isbn || !$data || !$image) {
+        if (! $isbn || ! $data || ! $image) {
             return;
         }
 

@@ -117,7 +117,7 @@ class Order extends Model
      */
     public function setTimestampAttribute($value)
     {
-        $this->attributes['timestamp'] = !empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
+        $this->attributes['timestamp'] = ! empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
     }
 
     /**
@@ -129,7 +129,7 @@ class Order extends Model
      */
     public function setLocationDateAttribute($value)
     {
-        $this->attributes['location-date'] = !empty($value) ? date($this->getDateFormat(), strtotime('@'.$value)) : null;
+        $this->attributes['location-date'] = ! empty($value) ? date($this->getDateFormat(), strtotime('@'.$value)) : null;
     }
 
     /**
@@ -141,7 +141,7 @@ class Order extends Model
      */
     public function setRepliedAttribute($value)
     {
-        $this->attributes['replied'] = !empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
+        $this->attributes['replied'] = ! empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
     }
 
     /**

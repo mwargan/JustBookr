@@ -82,7 +82,7 @@ class TextbooksController extends Controller
 
         try {
             $data = $this->getData($request);
-            if (!$data['image-url']) {
+            if (! $data['image-url']) {
                 $data['image-url'] = Textbook::uploadImage($data['isbn'], $request->file('image'));
             }
 
@@ -156,7 +156,7 @@ class TextbooksController extends Controller
 
             $data = $this->getData($request);
 
-            if (!$data['image-url']) {
+            if (! $data['image-url']) {
                 $data['image-url'] = Textbook::uploadImage($data['isbn'], $request->file('image'));
             }
 

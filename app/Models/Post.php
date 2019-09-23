@@ -171,7 +171,7 @@ class Post extends Model
      */
     public function setDateAttribute($value)
     {
-        $this->attributes['date'] = !empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
+        $this->attributes['date'] = ! empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
     }
 
     public function scopeAvailable($query)

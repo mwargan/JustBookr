@@ -77,7 +77,7 @@ class PostComment extends Model
      */
     public function setCommentTimestampAttribute($value)
     {
-        $this->attributes['comment_timestamp'] = !empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
+        $this->attributes['comment_timestamp'] = ! empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
     }
 
     /**

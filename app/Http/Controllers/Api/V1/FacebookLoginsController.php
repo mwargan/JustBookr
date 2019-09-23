@@ -28,7 +28,7 @@ class FacebookLoginsController extends Controller
 
     public function callback(Request $request)
     {
-        if (!$request->input('code')) {
+        if (! $request->input('code')) {
             if ($request->wantsJson()) {
                 return response()->json(['errors' => ['email' => 'No Facebook']], 422);
             }
@@ -45,7 +45,7 @@ class FacebookLoginsController extends Controller
         if ($fbProvider) {
             $user = User::find($fbProvider->{'user-id'});
         } else {
-            if (!$fbUser->getEmail()) {
+            if (! $fbUser->getEmail()) {
                 if ($request->wantsJson()) {
                     return response()->json(['errors' => ['email' => 'No email provided from Facebook']], 422);
                 }

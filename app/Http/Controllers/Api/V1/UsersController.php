@@ -152,9 +152,9 @@ class UsersController extends Controller
      */
     public function postViews(Request $request, User $user)
     {
-        if (!$user->name && $request->user('api')) {
+        if (! $user->name && $request->user('api')) {
             $user = $request->user('api');
-        } elseif (!$user->name) {
+        } elseif (! $user->name) {
             return response()->json(['errors' => ['user' => 'There was no user provided.']], 422);
         }
         $this->authorize('update', $user);
@@ -193,9 +193,9 @@ class UsersController extends Controller
      */
     public function timeToReply(Request $request, User $user)
     {
-        if (!$user->name && $request->user('api')) {
+        if (! $user->name && $request->user('api')) {
             $user = $request->user('api');
-        } elseif (!$user->name) {
+        } elseif (! $user->name) {
             return response()->json(['errors' => ['user' => 'There was no user provided.']], 422);
         }
 
@@ -223,7 +223,7 @@ class UsersController extends Controller
             }
             if (isset($data['newsletter']) && $data['newsletter'] == 1) {
                 Newsletter::subscribeOrUpdate($user->email, ['UNIID' => $user->{'uni-id'}]);
-            } elseif (isset($data['newsletter']) && !$data['newsletter']) {
+            } elseif (isset($data['newsletter']) && ! $data['newsletter']) {
                 Newsletter::unsubscribe($user->email);
             }
 

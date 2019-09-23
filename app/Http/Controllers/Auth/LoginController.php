@@ -40,7 +40,7 @@ class LoginController extends Controller
 
     public function showLoginForm(Request $request)
     {
-        if (!session()->has('redirect') && $request->has('redirect')) {
+        if (! session()->has('redirect') && $request->has('redirect')) {
             session()->put('redirect', $request->input('redirect', '/discover'));
         } else {
             session()->forget('redirect');

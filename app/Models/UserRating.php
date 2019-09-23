@@ -90,7 +90,7 @@ class UserRating extends Model
      */
     public function setTimestampAttribute($value)
     {
-        $this->attributes['timestamp'] = !empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
+        $this->attributes['timestamp'] = ! empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
     }
 
     /**

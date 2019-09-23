@@ -11,7 +11,7 @@ class MessengerController extends Controller
     public function books(Request $request, $q)
     {
         //Get all records from Textbooks table
-        if (!empty($q)) {
+        if (! empty($q)) {
             $q = urldecode($q);
             $q = $this->cleanQuery($q);
             $q = preg_replace('/[^A-Za-z0-9, ]/', '', $q);

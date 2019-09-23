@@ -65,7 +65,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm(Request $request)
     {
-        if (!session()->has('redirect')) {
+        if (! session()->has('redirect')) {
             session()->put('redirect', $request->input('redirect', '/discover'));
         }
 

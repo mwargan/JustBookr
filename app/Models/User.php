@@ -256,7 +256,7 @@ class User extends Authenticatable
      */
     public function setUserregisteredAttribute($value)
     {
-        $this->attributes['userregistered'] = !empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
+        $this->attributes['userregistered'] = ! empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
     }
 
     /**
@@ -268,7 +268,7 @@ class User extends Authenticatable
      */
     public function setSeenAttribute($value)
     {
-        $this->attributes['seen'] = !empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
+        $this->attributes['seen'] = ! empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
     }
 
     /**
@@ -280,7 +280,7 @@ class User extends Authenticatable
      */
     public function setLastLoginAttribute($value)
     {
-        $this->attributes['last_login'] = !empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
+        $this->attributes['last_login'] = ! empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
     }
 
     public function scopeActive($query)
@@ -330,7 +330,7 @@ class User extends Authenticatable
 
     public function getProfilepicAttribute()
     {
-        if (!isset($this->attributes['profilepic'])) {
+        if (! isset($this->attributes['profilepic'])) {
             return 'https://justbookr.com/images/JBicon.svg';
         }
         str_replace('http://', 'https://', $this->attributes['profilepic']);

@@ -77,7 +77,7 @@ class StandPostsController extends Controller
     public function store(Request $request)
     {
         $request['is_active'] = 1;
-        if (isset($request['post-description']) && !$request['description']) {
+        if (isset($request['post-description']) && ! $request['description']) {
             $request['description'] = $request['post-description'];
         }
         $data = $this->getData($request);
@@ -143,7 +143,7 @@ class StandPostsController extends Controller
         $this->authorize('general', $standPost);
 
         try {
-            if (!$standPost->is_active) {
+            if (! $standPost->is_active) {
                 return $standPost;
             }
 

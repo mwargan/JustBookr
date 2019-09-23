@@ -15,7 +15,7 @@ class TranslationController extends Controller
     {
         $path = resource_path("lang/{$locale}.json");
 
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             abort(404);
         }
 

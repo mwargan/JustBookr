@@ -88,8 +88,8 @@ class BusinessesController extends Controller
             }
             $user = $request->user('api');
 
-            if (!isset($data['logo'])) {
-                if (!$request->hasFile('image') || !$request->file('image')->isValid()) {
+            if (! isset($data['logo'])) {
+                if (! $request->hasFile('image') || ! $request->file('image')->isValid()) {
                     return response()->json(['errors' => ['image' => 'Your logo is not the correct format.']], 422);
                 }
                 $link = Storage::putFile('images/Uploads/businesses/'.urlencode($data['name']).'/images/logos', $request->file('image'), 'public');

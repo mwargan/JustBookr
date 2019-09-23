@@ -46,7 +46,7 @@ class PostsController extends Controller
 
         $q->when(request('title'), function ($q, $title) {
             return $q->whereHas('textbook', function ($q) use ($title) {
-                return $q->where('book-title', 'LIKE', '%' . SearchHelper::stripStopWords($title) . '%');
+                return $q->where('book-title', 'LIKE', '%'.SearchHelper::stripStopWords($title).'%');
             });
         });
 
@@ -98,7 +98,7 @@ class PostsController extends Controller
     {
         $request['user-id'] = Auth::user()->{'user-id'};
 
-        if (!$request['uni-id']) {
+        if (! $request['uni-id']) {
             $request['uni-id'] = Auth::user()->{'uni-id'};
         }
 
@@ -107,9 +107,9 @@ class PostsController extends Controller
         $this->authorize('create', [Post::class, $data['isbn']]);
 
         try {
-            if (!Textbook::whereIsbn($data['isbn'])->exists()) {
+            if (! Textbook::whereIsbn($data['isbn'])->exists()) {
                 $book_data = $this->getBookData($request);
-                if (!isset($book_data['image-url'])) {
+                if (! isset($book_data['image-url'])) {
                     $book_data['image-url'] = Textbook::uploadImage($data['isbn'], $request->file('image'));
                 }
                 $book = Textbook::create($book_data);
@@ -155,11 +155,11 @@ class PostsController extends Controller
         $this->authorize('update', $post);
 
         try {
-            if (!$request['user-id']) {
+            if (! $request['user-id']) {
                 $request['user-id'] = Auth::user()->{'user-id'};
             }
 
-            if (!$request['uni-id']) {
+            if (! $request['uni-id']) {
                 $request['uni-id'] = Auth::user()->{'uni-id'};
             }
 
@@ -274,7 +274,7 @@ class PostsController extends Controller
     {
         $rules = [
 
-            'isbn' => 'required|numeric|digits:13|unique:textbooks,isbn,' . $request->isbn . ',isbn',
+            'isbn' => 'required|numeric|digits:13|unique:textbooks,isbn,'.$request->isbn.',isbn',
             'book-title' => 'required|string|min:5|max:259',
             'author' => 'required|string|min:5|max:259',
             'book-des' => 'nullable|sometimes|string',

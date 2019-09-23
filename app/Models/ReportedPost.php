@@ -78,7 +78,7 @@ class ReportedPost extends Model
      */
     public function setReportTimeAttribute($value)
     {
-        $this->attributes['report_time'] = !empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
+        $this->attributes['report_time'] = ! empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
     }
 
     /**
