@@ -130,7 +130,7 @@ export default {
                         text: `${this.$t('you_boosted_your_post')}.`,
                         type: 'success',
                         position: 'top-end',
-                        timer: 5000
+                        timer: 0
                     })
                 }).catch(e => {
                     console.log(e)

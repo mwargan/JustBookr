@@ -15,8 +15,8 @@ class SearchController extends Controller
     public function books(Request $request, $q)
     {
         //Get all records from Textbooks table
-        if (! empty($q)) {
-            $q = urldecode($q);
+        if (!empty($q)) {
+//            $q = urldecode($q);
             $q = SearchHelper::stripStopWords($q);
             $q = preg_replace('/[^A-Za-z0-9, ]/', '', $q);
             if (preg_match('/0-9 /', $q)) {
@@ -28,7 +28,7 @@ class SearchController extends Controller
         // return $q;
         $uni = $request->input('uni', null);
 
-        return Textbook::whereRaw('`book-title` LIKE ? OR `author` LIKE ? OR MATCH (textbooks.`isbn`, `book-title`, `edition`, `author`) AGAINST (?) OR soundex(textbooks.`book-title`) LIKE soundex(?) OR isbn LIKE ?', ['%'.$q.'%', '%'.$q.'%', '*'.$q.'*', '*'.$q.'*', '%'.$q.'%'])->orderByRaw('MATCH (textbooks.`isbn`, `book-title`, `edition`, `author`) AGAINST (?) DESC', ['*'.$q.'*'])->withCount([
+        return Textbook::whereRaw('`book-title` LIKE ? OR `author` LIKE ? OR MATCH (textbooks.`isbn`, `book-title`, `edition`, `author`) AGAINST (?) OR soundex(textbooks.`book-title`) LIKE soundex(?) OR isbn LIKE ?', ['%' . $q . '%', '%' . $q . '%', '*' . $q . '*', '*' . $q . '*', '%' . $q . '%'])->orderByRaw('MATCH (textbooks.`isbn`, `book-title`, `edition`, `author`) AGAINST (?) DESC', ['*' . $q . '*'])->withCount([
             'posts' => function ($query) use ($uni) {
                 $query->available()->active()->when($uni, function ($query) use ($uni) {
                     return $query->where('uni-id', $uni);

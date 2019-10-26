@@ -16,7 +16,7 @@ const requireContext = require.context('../layouts', false, /.*\.vue$/)
 
 const layouts = requireContext.keys()
   .map(file =>
-    [file.replace(/(^.\/)|(\.vue$)/g, ''), requireContext(file)]
+    [file.replace(/(^.\/)|(\.vue$)/g, ''), requireContext(file).default]
   )
   .reduce((components, [name, component]) => {
     components[name] = component

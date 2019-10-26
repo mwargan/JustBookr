@@ -23,3 +23,12 @@ h1 {
 select, input {
 	 -webkit-appearance: none;
 }
+
+@media (prefers-color-scheme: dark) {
+  html, body {
+    // background-color: #333333 !important;
+    background-color: #232323 !important;
+    color: white !important;
+  }
+  
+}

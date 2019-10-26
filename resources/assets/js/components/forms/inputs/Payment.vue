@@ -6,14 +6,14 @@
                 <small><fa icon="money-bill" fixed-width/></small>
             </div>
         </a>
-        <a class="list-group-item list-group-item-action flex-column align-items-start disabled" v-else-if="user.stripe_id && !update" @click="update = true">
+        <a class="list-group-item list-group-item-action flex-column align-items-start" v-else-if="user.stripe_id && !update" @click="update = true">
             <div class="d-flex w-100 justify-content-between align-items-center" style="cursor:pointer;">
                 <h6 class="mb-0">{{ $t('card_payment') }}</h6>
                 <small><fa :icon="['fab', 'cc-'+user.card_brand.toLowerCase()]" fixed-width/> **** {{ user.card_last_four }}
                 </small>
             </div>
         </a>
-        <a class="list-group-item list-group-item-action flex-column align-items-start disabled" v-else>
+        <a class="list-group-item list-group-item-action flex-column align-items-start" v-else>
             <p class="mb-0" v-if="loading" >Updating your card</p>
             <card v-show="!loading" class='stripe-card' :disabled="loading" :class='{ complete }' :stripe='stripe_key' @change='complete = $event.complete' />
             <button v-if="user.stripe_id" type="button" class="close" aria-label="Close" @click.prevent="update = false" style="top: -0.3rem;right: 0.2rem;color: #7d7d7d;position: absolute;">

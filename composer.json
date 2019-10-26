@@ -1,7 +1,10 @@
 {
     "name": "JustBookr",
     "description": "The JustBookr App.",
-    "keywords": ["framework", "JustBookr"],
+    "keywords": [
+        "framework",
+        "JustBookr"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -14,8 +17,8 @@
         "genealabs/laravel-model-caching": "^0.2.64",
         "guzzlehttp/guzzle": "^6.3",
         "jacobbennett/laravel-http2serverpush": "^2.0",
-        "laravel/cashier": "~7.0",
-        "laravel/framework": "5.6.*",
+        "laravel/cashier": "^9.0.1",
+        "laravel/framework": "^5.8.0",
         "laravel/passport": "^6.0",
         "laravel/scout": "^4.0",
         "laravel/socialite": "^3.0",
@@ -29,10 +32,11 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
+        "composer/composer": "^1.9",
         "crestapps/laravel-code-generator": "^2.2",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
-        "laravel/dusk": "^4.0",
+        "laravel/dusk": "^5.0.0",
         "mockery/mockery": "~1.0",
         "phpunit/phpunit": "^7.0",
         "symfony/thanks": "^1.0"
@@ -53,8 +57,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-            ]
+            "dont-discover": []
         }
     },
     "scripts": {
