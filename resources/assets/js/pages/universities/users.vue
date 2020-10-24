@@ -72,7 +72,7 @@ export default {
             this.loading = true
             var data = this
 
-            axios('/api/v1/users?university=' + this.$route.params.id).then(function(response) {
+            axios('/api/v1/users?university=' + this.$route.params.id+'&order_by=user-registered').then(function(response) {
                 data.page++
                     data.loading = false
                 data.left = response.data.total - (response.data.per_page * response.data.current_page)

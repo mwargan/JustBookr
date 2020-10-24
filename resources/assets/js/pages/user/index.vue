@@ -72,9 +72,12 @@ export default {
                 return this.$t("at") + " <a href='/university/" + this.user.university['uni-id'] + "'>" + this.user.university['uni-name'] + "</a>"
         },
         subtext() {
+            var text = ""
             if (this.user.positive_ratings) {
-                return this.user.positive_ratings + " " + this.$t('positive_ratings').toLowerCase()
+                 text = this.user.positive_ratings + " " + this.$t('positive_ratings').toLowerCase()+ " • "
             }
+            text = text + this.$t('member_since')+" "+this.$moment(this.user['user-registered'], 'X').format("MMMM YYYY")
+            return text
         },
         sold() {
             return this.user.posts_count - this.user.active_posts_count

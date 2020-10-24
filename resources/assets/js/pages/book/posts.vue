@@ -1,6 +1,7 @@
 <template>
     <div>
-        <div class="title">{{ $t('on_campus') }}</div>
+        <div class="title" v-if="isUniBased">{{ $t('at') }} {{user.university['abr']}}</div>
+        <div class="title" v-else>{{ $t('on_campus') }}</div>
         <template v-if="(posts.length > 0 || stand_posts.length > 0) && loading === false">
             <!-- Boosted offers card -->
             <card v-for="(post, index) in boostedPosts" :key="'BOOSTED_POST_'+post['post-id']">

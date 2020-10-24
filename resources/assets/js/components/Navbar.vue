@@ -173,11 +173,11 @@ img.rounded-circle.profile-photo {
     max-width: 77%;
     font-weight: 600;
     font-size: 1.1rem;
-    border: 1px solid #e3e3e3 !important;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     height: 50px;
     background-color: #f7f7f7;
     transition: 0.3s ease-in-out all;
+    border: 1px solid #e3e3e3;
 }
 .search-input {
     width: 450px;
@@ -195,6 +195,7 @@ img.rounded-circle.profile-photo {
     height: 100%;
     border-radius: 0rem 1rem 1rem 0;
     color: #6b747d;
+    width: 100%;
 }
 
 .search-input:valid,

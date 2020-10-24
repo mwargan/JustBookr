@@ -49,63 +49,59 @@
                             </p>
                         </details>
                     </dl>
-                    <dl>
-                        <details>
-                            <summary>
-                                <dt class="d-inline">{{ $t('share') }}</dt>
-                            </summary>
-                            <p>
-                                <dd>
-                                    <social-sharing quote="Check out this book on JustBookr!" hashtags="justbookr,university,textbook" inline-template>
-                                        <div>
-                                            <div class="row mb-2">
-                                                <network network="facebook" class="col-3 text-center align-self-center">
-                                                    <i class="fab fa-facebook fa-2x fa-fw"></i>
-                                                </network>
-                                                <network network="whatsapp" class="col-3 text-center align-self-center">
-                                                    <i class="fab fa-whatsapp fa-2x fa-fw"></i>
-                                                </network>
-                                                <network network="email" class="col-3 text-center align-self-center">
-                                                    <i class="fa fa-envelope fa-2x fa-fw"></i>
-                                                </network>
-                                                <network network="googleplus" class="col-3 text-center align-self-center">
-                                                    <i class="fab fa-google-plus fa-2x fa-fw"></i>
-                                                </network>
-                                            </div>
-                                            <div class="row mb-2">
-                                                <network network="linkedin" class="col-3 text-center align-self-center">
-                                                    <i class="fab fa-linkedin fa-2x fa-fw"></i>
-                                                </network>
-                                                <network network="reddit" class="col-3 text-center align-self-center">
-                                                    <i class="fab fa-reddit fa-2x fa-fw"></i>
-                                                </network>
-                                                <network network="skype" class="col-3 text-center align-self-center">
-                                                    <i class="fab fa-skype fa-2x fa-fw"></i>
-                                                </network>
-                                                <network network="sms" class="col-3 text-center align-self-center">
-                                                    <i class="fa fa-comment fa-2x fa-fw"></i>
-                                                </network>
-                                            </div>
-                                            <div class="row">
-                                                <network network="telegram" class="col-3 text-center align-self-center">
-                                                    <i class="fab fa-telegram fa-2x fa-fw"></i>
-                                                </network>
-                                                <network network="twitter" class="col-3 text-center align-self-center">
-                                                    <i class="fab fa-twitter fa-2x fa-fw"></i>
-                                                </network>
-                                                <network network="vk" class="col-3 text-center align-self-center">
-                                                    <i class="fab fa-vk fa-2x fa-fw"></i>
-                                                </network>
-                                                <network network="weibo" class="col-3 text-center align-self-center">
-                                                    <i class="fab fa-weibo fa-2x fa-fw"></i>
-                                                </network>
-                                            </div>
-                                        </div>
-                                    </social-sharing>
-                                </dd>
-                            </p>
-                        </details>
-                    </dl>
+                </card-content>
+            </card>
+        </transition>
+        <transition name="fade" mode="out-in">
+            <card>
+                <card-header :title="$t('share')" />
+                <card-content class="mt-2 mb-1">
+                    <social-sharing quote="Check out this book on JustBookr!" hashtags="justbookr,university,textbook" inline-template>
+                        <div>
+                            <div class="row mb-2">
+                                <network network="facebook" class="col-3 text-center align-self-center">
+                                    <i class="fab fa-facebook fa-2x fa-fw"></i>
+                                </network>
+                                <network network="whatsapp" class="col-3 text-center align-self-center">
+                                    <i class="fab fa-whatsapp fa-2x fa-fw"></i>
+                                </network>
+                                <network network="email" class="col-3 text-center align-self-center">
+                                    <i class="fa fa-envelope fa-2x fa-fw"></i>
+                                </network>
+                                <network network="googleplus" class="col-3 text-center align-self-center">
+                                    <i class="fab fa-google-plus fa-2x fa-fw"></i>
+                                </network>
+                            </div>
+                            <div class="row mb-2">
+                                <network network="linkedin" class="col-3 text-center align-self-center">
+                                    <i class="fab fa-linkedin fa-2x fa-fw"></i>
+                                </network>
+                                <network network="reddit" class="col-3 text-center align-self-center">
+                                    <i class="fab fa-reddit fa-2x fa-fw"></i>
+                                </network>
+                                <network network="skype" class="col-3 text-center align-self-center">
+                                    <i class="fab fa-skype fa-2x fa-fw"></i>
+                                </network>
+                                <network network="sms" class="col-3 text-center align-self-center">
+                                    <i class="fa fa-comment fa-2x fa-fw"></i>
+                                </network>
+                            </div>
+                            <div class="row">
+                                <network network="telegram" class="col-3 text-center align-self-center">
+                                    <i class="fab fa-telegram fa-2x fa-fw"></i>
+                                </network>
+                                <network network="twitter" class="col-3 text-center align-self-center">
+                                    <i class="fab fa-twitter fa-2x fa-fw"></i>
+                                </network>
+                                <network network="vk" class="col-3 text-center align-self-center">
+                                    <i class="fab fa-vk fa-2x fa-fw"></i>
+                                </network>
+                                <network network="weibo" class="col-3 text-center align-self-center">
+                                    <i class="fab fa-weibo fa-2x fa-fw"></i>
+                                </network>
+                            </div>
+                        </div>
+                    </social-sharing>
                 </card-content>
             </card>
         </transition>
