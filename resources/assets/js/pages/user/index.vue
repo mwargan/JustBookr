@@ -35,7 +35,9 @@ export default {
 
     data: () => ({
         page: 1,
-        loading: false
+        loading: false,
+        time_to_reply: 0,
+        sales: 0
     }),
     beforeRouteEnter(to, from, next) {
         store.dispatch('user/fetchUser', to.params.id).then(response => {
@@ -73,10 +75,22 @@ export default {
         },
         subtext() {
             var text = ""
-            if (this.user.positive_ratings) {
-                 text = this.user.positive_ratings + " " + this.$t('positive_ratings').toLowerCase()+ " • "
+            if (this.sales > 3) {
+                 text = text + '<img style="width:2.5rem;" src="https://img.icons8.com/bubbles/50/000000/elephant-circus.png"/> '+ this.$t('experienced_seller')+ " <br/> "
             }
-            text = text + this.$t('member_since')+" "+this.$moment(this.user['user-registered'], 'X').format("MMMM YYYY")
+            if (this.time_to_reply <= 240 && this.time_to_reply > 1) {
+                 text = text + '<img style="width:2.5rem;" src="https://img.icons8.com/bubbles/50/000000/skip-15-seconds-back.png"/> '+ this.$t('fast_at_replying')+ " <br/> "
+            }
+            if (this.$moment(this.user['user-registered'], 'X').format("YYYY") <= 2018) {
+                 text = text + '<img style="width:2.5rem;" src="https://img.icons8.com/bubbles/50/000000/like.png"/> JustBookr '+ this.$t('supporter').toLowerCase()+ " <br/> "
+            }
+            if (this.user.points > 25) {
+                 text = text + '<img style="width:2.5rem;" src="https://img.icons8.com/bubbles/50/000000/medal.png"/> '+ this.$t('pro_user')+ " <br/> "
+            }
+            if (this.user.positive_ratings) {
+                 text = text + '<img style="width:2.5rem;" src="https://img.icons8.com/bubbles/50/000000/facebook-like.png"/> ' + this.user.positive_ratings + " " + this.$t('positive_ratings').toLowerCase() + " <br/> "
+            }
+            text = text + "<small>"+this.$t('member_since')+" "+this.$moment(this.user['user-registered'], 'X').format("MMMM YYYY")+"</small>"
             return text
         },
         sold() {
@@ -87,6 +101,7 @@ export default {
         if (this.me && this.$route.params.id == this.me['user-id']) {
             router.replace('/your-textbooks')
         }
+        this.getTimeToReply()
     },
     methods: {
 
@@ -95,6 +110,15 @@ export default {
             if (((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1300) && this.loading === false) {
                 this.getPosts()
             }
+        },
+        getTimeToReply() {
+            axios('/api/v1/users/'+this.user['user-id']+'/time-to-reply').then(data => {
+                if(data.data.time_to_reply && data.data.count_of_sales > 1) {
+                    this.time_to_reply = int(data.data.time_to_reply);
+                    this.sales = int(data.data.count_of_sales);
+                    return
+                }
+            });
         }
     }
 }

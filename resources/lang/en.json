@@ -262,5 +262,9 @@
     "post_books_for_sale": "Post books for sale",
     "boost": "Boost",
     "reschedule": "Reschedule",
-    "member_since": "Member since"
+    "member_since": "Member since",
+    "pro_user": "Pro user",
+    "supporter": "Supporter",
+    "fast_at_replying": "Fast at replying",
+    "experienced_seller": "Experienced seller"
 }
