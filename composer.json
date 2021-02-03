@@ -31,7 +31,7 @@
     },
     "require-dev": {
         "composer/composer": "^2.0",
-        "phpunit/phpunit": "^9.4"
+        "phpunit/phpunit": "^7.0"
     },
     "autoload": {
         "classmap": [

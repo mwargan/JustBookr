@@ -76,7 +76,7 @@ export default {
         subtext() {
             var text = ""
             if (this.sales > 3) {
-                 text = text + '<img style="width:2.5rem;" src="https://img.icons8.com/bubbles/50/000000/elephant-circus.png"/> '+ this.$t('experienced_seller')+ " <br/> "
+                 text = text + '<img style="width:2.5rem;" src="https://img.icons8.com/bubbles/50/000000/elephant-circus.png"/> '+ this.$t('popular_seller')+ " <br/> "
             }
             if (this.time_to_reply <= 240 && this.time_to_reply > 1) {
                  text = text + '<img style="width:2.5rem;" src="https://img.icons8.com/bubbles/50/000000/skip-15-seconds-back.png"/> '+ this.$t('fast_at_replying')+ " <br/> "
@@ -85,7 +85,7 @@ export default {
                  text = text + '<img style="width:2.5rem;" src="https://img.icons8.com/bubbles/50/000000/like.png"/> JustBookr '+ this.$t('supporter').toLowerCase()+ " <br/> "
             }
             if (this.user.points > 25) {
-                 text = text + '<img style="width:2.5rem;" src="https://img.icons8.com/bubbles/50/000000/medal.png"/> '+ this.$t('pro_user')+ " <br/> "
+                 text = text + '<img style="width:2.5rem;" src="https://img.icons8.com/bubbles/50/000000/medal.png"/> '+ this.$t('pro_trader')+ " <br/> "
             }
             if (this.user.positive_ratings) {
                  text = text + '<img style="width:2.5rem;" src="https://img.icons8.com/bubbles/50/000000/facebook-like.png"/> ' + this.user.positive_ratings + " " + this.$t('positive_ratings').toLowerCase() + " <br/> "

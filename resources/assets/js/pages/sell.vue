@@ -43,7 +43,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <card v-if="book['book-title']" class="mb-0">
+                            <card v-if="book !== undefined && book['book-title']" class="mb-0">
                                 <card-header :title="book['book-title']" :subtitle="book.isGoogle ? $t('prefilled_by_google_books') : $t('usually_sold_for')+ ' ' + book.average_price " :image="book['image-url']" imageShape="square">
                                 </card-header>
                             </card>
@@ -239,8 +239,8 @@ export default {
                 this.form.price = null
                 this.$store.dispatch('book/fetchBook', this.form.isbn).then(response => {
                     this.loading = false
-
-                    if (this.book = this.fetchBook(this.form.isbn)) {
+                    this.book = this.fetchBook(this.form.isbn)
+                    if (this.book && this.book['isbn']) {
                         this.addBook = false
                         this.form['book-title'] = this.book['book-title']
                         this.form['author'] = this.book.author

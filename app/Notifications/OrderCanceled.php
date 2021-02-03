@@ -48,13 +48,13 @@ class OrderCanceled extends Notification
         $message = (new MailMessage());
 
         if ($notifiable->{'user-id'} === $this->user->{'user-id'}) {
-            $message = $message->line('Unfortunately, you cancelled the order for '.$this->order->post->textbook->{'book-title'}.'.');
+            $message = $message->line('Unfortunately, you cancelled the order for ' . $this->order->post->textbook->{'book-title'} . '.');
             $message = $message->line('Please note that cancelling orders negatively affects how high your posts rank, so try to keep cancellations to a minimum and instead reschedule whenever possible.');
         } else {
-            $message = $message->line('Uh oh! '.$this->user->name.' had to cancel your order for '.$this->order->post->textbook->{'book-title'}.'. Find others selling the same book by clicking the button below!');
+            $message = $message->line('Uh oh! ' . $this->user->name . ' had to cancel your order for ' . $this->order->post->textbook->{'book-title'} . '.');
         }
         if ($notifiable->{'user-id'} === $this->order->{'user-id-buy'}) {
-            $message = $message->action('See new posts for '.$this->order->post->textbook->{'book-title'}, url('textbook/'.$this->order->post->isbn));
+            $message = $message->action('See other offers for ' . $this->order->post->textbook->{'book-title'}, url('textbook/' . $this->order->post->isbn));
         }
         if ($notifiable->{'user-id'} === $this->order->post->{'user-id'} && $this->user->{'user-id'} === $this->order->post->{'user-id'}) {
             $message = $message->line('If you have already sold one of your books outside of JustBookr, you should mark the post as sold so others can\'t buy it. Just go to your textbooks and press "Edit", then "Mark as sold".');
@@ -76,8 +76,8 @@ class OrderCanceled extends Notification
     public function toArray($notifiable)
     {
         return [
-            'title' => 'The order for '.$this->order->post->textbook->{'book-title'}.' has been canceled.',
-            'text'  => 'Canceled by '.$this->user->name,
+            'title' => 'The order for ' . $this->order->post->textbook->{'book-title'} . ' has been canceled.',
+            'text' => 'Canceled by ' . $this->user->name,
         ];
     }
 }
