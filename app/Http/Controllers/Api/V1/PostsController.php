@@ -280,7 +280,7 @@ class PostsController extends Controller
             'book-des' => 'nullable|sometimes|string',
             'edition' => 'nullable|string|min:1|max:64',
             'image-url' => 'required_without:image|url',
-            'image' => 'required_without:image-url|image|max:20480',
+            'image' => 'required_without:image-url|file|mimetypes:image/jpeg,image/png|max:20480',
         ];
 
         $data = $request->validate($rules);

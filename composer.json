@@ -9,7 +9,7 @@
     "type": "project",
     "minimum-stability": "dev",
     "require": {
-        "php": ">=7.3.0",
+        "php": "^7.3",
         "aws/aws-sdk-php": "^3.0",
         "barryvdh/laravel-cors": "^0.11.0",
         "doctrine/dbal": "^2.5",
@@ -24,6 +24,7 @@
         "laravel/scout": "^4.0",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
+        "lcobucci/jwt": "3.3.3",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^3.0",
         "spatie/laravel-image-optimizer": "^1.1",

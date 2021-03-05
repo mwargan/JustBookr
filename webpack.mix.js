@@ -12,11 +12,7 @@ mix
 
   .sourceMaps()
   .disableNotifications()
-
-if (mix.inProduction()) {
-  mix.version()
-
-  mix.extract([
+  .extract([
     'vue',
     'vform',
     'axios',
@@ -38,7 +34,8 @@ if (mix.inProduction()) {
     'vuex-router-sync',
     '@fortawesome/vue-fontawesome'
   ])
-
+if (mix.inProduction()) {
+  mix.version()
 }
 
  mix.options({
