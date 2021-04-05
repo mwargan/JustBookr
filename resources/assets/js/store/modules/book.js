@@ -44,7 +44,9 @@ export const actions = {
         if (state.books.filter(function(e) { return e.isbn === data.isbn; }).length === 0) {
             try {
                 commit(types.ADD_BOOK, { book: data })
-            } catch (e) {}
+            } catch (e) {
+                console.log(e)
+            }
         }
     }
 }

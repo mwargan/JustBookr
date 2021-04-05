@@ -23,7 +23,7 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
+import API from '~/api/general'
 
 export default {
     props: ['book', 'user'],
@@ -46,7 +46,12 @@ export default {
     },
     async created() {
         if (this.user) {
-            await axios(`/api/v1/book-notifications?user=${this.user['user-id']}&university=${this.user['uni-id']}&isbn=${this.book.isbn}`).then(response => {
+            console.log(this.user)
+            await API.index(`book-notifications`, {
+                'user': this.user['user-id'],
+                'university': this.user['uni-id'],
+                'isbn': this.book.isbn,
+            }).then(response => {
                 this.notification = response.data.data[0]
                 if (this.notification) {
                     this.notifications = true
@@ -65,7 +70,7 @@ export default {
     },
     methods: {
         async setNotification() {
-            await axios.post('/api/v1/book-notifications', this.book)
+            await API.create('book-notifications', this.book)
                 .then(response => {
                     this.notification = response.data
                     this.notifications = true
@@ -78,7 +83,7 @@ export default {
             this.setText()
         },
         async deleteNotification(id) {
-            await axios.delete('/api/v1/book-notifications/' + id)
+            await API.delete('book-notifications', id)
                 .then(response => {
                     this.notification = {}
                     this.notifications = false

@@ -49,15 +49,17 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
+import API from '../api/general'
 import { mapGetters } from 'vuex'
 import uniqBy from 'lodash/uniqBy'
 import VueFuse from 'vue-fuse'
+import addBookMixin from '../mixins/addBookMixin'
 
 export default {
     metaInfo() {
         return { title: this.$t('find') }
     },
+    mixins: [addBookMixin],
     data: () => ({
         suggested: [],
         recent: [],
@@ -81,8 +83,8 @@ export default {
         } else {
             this.loading = false
         }
-        this.getSuggested()
-        this.getRecent()
+        this.getSuggestions('recent')
+        this.getSuggestions('textbooks')
     },
 
     computed: {
@@ -92,7 +94,7 @@ export default {
         subtitle() {
             return this.results.books.map((item) => {
                 if (item.top_post) {
-                    var price = `${item.top_post.university.country.currency}${item.top_post.price}`
+                    let price = `${item.top_post.university.country.currency}${item.top_post.price}`
                     return `${this.$t('selling')} <i>${ item['book-title'] }</i> ${this.$t('for').toLowerCase()} ${price}`
                 }
             })
@@ -106,40 +108,20 @@ export default {
         },
         sortedBooks() {
             return uniqBy(this.results.books, 'isbn')
-
         }
     },
 
     methods: {
-        getSuggested() {
-            var data = this
-            axios('/api/v1/suggestions/textbooks').then(function(response) {
-                $.each(response.data.data, function(res, val) {
-                    data.suggested.push(val)
-                    data.$store.dispatch('book/addBook', val)
-                })
-            })
-        },
-        getRecent() {
-            var data = this
-            axios('/api/v1/suggestions/recent').then(function(response) {
-                $.each(response.data.data, function(res, val) {
-                    data.recent.push(val)
-                    data.$store.dispatch('book/addBook', val)
-                })
-            })
-        },
         async search(query) {
             this.loading = true
-            var data = this
-            var uni = ""
+            let uni = ""
             if (this.user && this.user['uni-id']) {
-                uni = "?university=" + (this.user['uni-id'])
+                uni = {'university': this.user['uni-id']}
             }
-            await axios('/api/v1/books/search/' + query + uni).then(function(response) {
-                data.$set(data.results, 'books', response.data.data)
-                $.each(response.data.data, function(res, val) {
-                    data.$store.dispatch('book/addBook', val)
+            await API.index('search/books/' + query, uni).then((response) => {
+                this.$set(this.results, 'books', response.data.data)
+                response.data.data.forEach(item => {
+                    this.$store.dispatch('book/addBook', item)
                 })
             })
             if (this.results.books.length < 8) {
@@ -152,13 +134,13 @@ export default {
             this.searchUsers(query)
         },
         async getGoogleBooks(query) {
-            await axios('/api/v1/search/books/' + query + '/google').then(response => {
-                var result = response.data
+            await API.index('search/books/' + query + '/google').then(response => {
+                let result = response.data
                 if (result && result.length > 0) {
-                    $.each(result, (res, val) => {
-                        if (val) {
-                            this.results.books.push(val)
-                            this.$store.dispatch('book/addBook', val)
+                    result.forEach(item => {
+                        if (item) {
+                            this.results.books.push(item)
+                            this.$store.dispatch('book/addBook', item)
                         }
                     })
                 }
@@ -167,33 +149,30 @@ export default {
             })
         },
         async searchUniversities(query) {
-            var data = this
-            await axios('/api/v1/universities/search/' + query).then(function(response) {
-                data.$set(data.results, 'universities', response.data.data)
-                $.each(response.data.data, function(res, val) {
-                    data.$store.dispatch('university/addUniversity', val)
+            await API.index('search/universities/' + query).then((response) => {
+                this.$set(this.results, 'universities', response.data.data)
+                response.data.data.forEach(val => {
+                    this.$store.dispatch('university/addUniversity', val)
                 })
-
             })
         },
         async searchUsers(query) {
-            var data = this
-            await axios('/api/v1/users/search/' + query).then(function(response) {
-                data.$set(data.results, 'users', response.data.data)
-                $.each(response.data.data, function(res, val) {
-                    data.$store.dispatch('user/addUser', val)
+            await API.index('search/users/' + query).then((response) => {
+                this.$set(this.results, 'users', response.data.data)
+                response.data.data.forEach(val => {
+                    this.$store.dispatch('user/addUser', val)
                 })
 
             })
         },
         async saveResult(query) {
-            var data = {}
+            let data = {}
             data.query = query
             data.results_count = this.results.books.length
-            await axios.post('/api/v1/searches', data)
+            await API.create('searches', data)
         },
         searchLocally(query, direct = false) {
-             var options = {
+             let options = {
                     shouldSort: true,
                     tokenize: true,
                     findAllMatches: true,

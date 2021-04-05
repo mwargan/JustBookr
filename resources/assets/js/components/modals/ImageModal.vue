@@ -84,7 +84,7 @@ export default {
                 this.form.post('/api/v1/post-boosts').then(response => {
                     this.complete = true
                     this.$emit('postPromoted', response.data)
-                    $('#boostModal').modal('hide')
+                    document.getElementById('boostModal').modal('hide')
                     scroll(0, 250)
                     let texts = [this.$t('nice'), this.$t('awesome'), this.$t('high_five'), this.$t('cool'), this.$t('great_job'), this.$t('nicely_done')]
 

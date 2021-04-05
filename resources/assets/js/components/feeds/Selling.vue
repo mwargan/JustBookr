@@ -9,7 +9,7 @@
         <card v-for="(post, index) in activePosts" :key="post['post-id']">
             <card-header v-if="post.boosts.length > 0" :title="post.textbook['book-title']" :subtitle="post.price" :image="post.textbook['image-url']" image-shape="square" :link="'/textbook/'+post.isbn" sponsored="Boosted">
             </card-header>
-             <card-header v-else :title="post.textbook['book-title']" :subtitle="post.price" :image="post.textbook['image-url']" image-shape="square" :link="'/textbook/'+post.isbn">
+            <card-header v-else :title="post.textbook['book-title']" :subtitle="post.price" :image="post.textbook['image-url']" image-shape="square" :link="'/textbook/'+post.isbn">
             </card-header>
             <card-content :text="post['post-description']">
             </card-content>
@@ -17,7 +17,7 @@
                 <a class="link" @click="sharePost(post, index)">{{ $t('share') }}</a>
                 <a class="link" @click="edit(post, index)">{{ $t('edit') }}</a>
                 <a v-if="post.boosts.length == 0" href="#" class="link" @click="modalPost = post" data-toggle="modal" data-target="#boostModal">
-                {{$t('boost')}}
+                    {{$t('boost')}}
                 </a>
             </card-footer>
         </card>
@@ -92,7 +92,7 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
+import API from '~/api/general'
 import Form from 'vform'
 import swal from 'sweetalert2'
 import ShareModal from '~/components/modals/Share'
@@ -100,18 +100,18 @@ import BoostModal from '~/components/modals/PostBoost'
 
 export default {
     props: ['user'],
-     components: {
+    components: {
         ShareModal,
         BoostModal
     },
     computed: {
         activePosts() {
-            return this.posts.filter(function(post) {
+            return this.posts.filter(function (post) {
                 return post.status === 1;
             })
         },
         inactivePosts() {
-            return this.posts.filter(function(post) {
+            return this.posts.filter(function (post) {
                 return post.status === 0;
             })
         }
@@ -141,18 +141,15 @@ export default {
     methods: {
         async getPosts() {
             this.loading = true
-            await axios('/api/v1/posts?user=' + this.user['user-id'] + '&available=true&paginate=false').then(response => {
+            await API.index('posts?user=' + this.user['user-id'] + '&available=true&paginate=false').then(response => {
                 this.page++
-                    this.loading = false
-                $.each(response.data, (res, val) => {
-                    this.posts.push(val)
-                    this.$store.dispatch('book/addBook', val.textbook)
-                })
+                this.loading = false
+                API.parseResponseData(this, response.data, 'posts')
                 this.$emit('set-posts', this.posts);
             })
         },
         async getViews() {
-            await axios('/api/v1/me/post-views').then(response => {
+            await API.show('me/post-views').then(response => {
                 this.views = response.data.views_past_month
             })
         },
@@ -162,13 +159,13 @@ export default {
             this.editForm.price = post.price.substr(1)
             this.editForm.index = index
 
-            $('#modal-edit-post').modal('show');
+            document.getElementById('modal-edit-post').modal('show');
         },
         async update() {
             await this.editForm.put('/api/v1/posts/' + this.editForm['post-id']).then(response => {
                 this.$set(this.posts[this.editForm.index], 'price', response.data.price)
                 this.$set(this.posts[this.editForm.index], 'post-description', response.data['post-description'])
-                $('#modal-edit-post').modal('hide')
+                document.getElementById('modal-edit-post').modal('hide')
                 this.$ga.event({
                     eventCategory: 'User Event',
                     eventAction: 'Updated post',
@@ -179,8 +176,8 @@ export default {
         },
         markSold(id, index) {
             this.posts[index].loading = true
-            $('#modal-edit-post').modal('hide')
-            axios.post('/api/v1/posts/' + id + '/mark-sold').then(response => {
+            document.getElementById('modal-edit-post').modal('hide')
+            API.create('posts/' + id + '/mark-sold').then(response => {
                 this.$delete(this.posts, index)
                 this.$ga.event({
                     eventCategory: 'User Event',
@@ -192,7 +189,7 @@ export default {
         sharePost(post, index) {
             this.share.link = "https://justbookr.com/textbook/" + post['isbn']
 
-            $('#shareModal').modal('show')
+            document.getElementById('shareModal').modal('show')
             this.$ga.event({
                 eventCategory: 'User Event',
                 eventAction: 'share',
@@ -204,6 +201,7 @@ export default {
         }
     }
 }
+
 </script>
 <style scoped>
 .head {
@@ -277,30 +275,39 @@ export default {
     0% {
         transform: scale(1, 1);
     }
+
     10% {
         transform: scale(1, 1);
     }
+
     12% {
         transform: scale(1, .1);
     }
+
     14% {
         transform: scale(1, 1);
     }
+
     30% {
         transform: scale(1, 1);
     }
+
     32% {
         transform: scale(1, .1);
     }
+
     34% {
         transform: scale(1, 1);
     }
+
     60% {
         transform: scale(1, 1);
     }
+
     62% {
         transform: scale(1, .1);
     }
+
     64% {
         transform: scale(1, 1);
     }
@@ -310,27 +317,35 @@ export default {
     0% {
         transform: translate(0px, 0px);
     }
+
     15% {
         transform: translate(0px, 0px);
     }
+
     25% {
         transform: translate(0px, 12.5px);
     }
+
     35% {
         transform: translate(0px, 12.5px);
     }
+
     45% {
         transform: translate(0px, 0px);
     }
+
     70% {
         transform: translate(0px, 0px);
     }
+
     80% {
         transform: translate(7.5px, 12.5px);
     }
+
     90% {
         transform: translate(7.5px, 12.5px);
     }
+
     100% {
         transform: translate(0px, 0px);
     }
@@ -340,29 +355,38 @@ export default {
     0% {
         height: 12.5px;
     }
+
     15% {
         height: 12.5px;
     }
+
     12.5% {
         height: 25px;
     }
+
     35% {
         height: 25px;
     }
+
     45% {
         height: 12.5px;
     }
+
     70% {
         height: 12.5px;
     }
+
     80% {
         height: 25px;
     }
+
     90% {
         height: 25px;
     }
+
     100% {
         height: 12.5px;
     }
 }
+
 </style>

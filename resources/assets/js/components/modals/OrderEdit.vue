@@ -94,7 +94,7 @@ export default {
                 this.form.patch('/api/v1/orders/' + this.order['connect-id']).then(response => {
                     this.complete = true
                     this.$emit('orderUpdated', response.data)
-                    $('#modal-edit-order').modal('hide')
+                    document.getElementById('modal-edit-order').modal('hide')
                     let texts = [this.$t('nice'), this.$t('awesome'), this.$t('high_five'), this.$t('cool'), this.$t('great_job'), this.$t('nicely_done')]
 
                     let label_text = texts[Math.floor(Math.random() * texts.length)] + "!"

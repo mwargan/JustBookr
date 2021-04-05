@@ -117,6 +117,7 @@
 </template>
 <script>
 import axios from 'axios'
+import API from '../api/general'
 import { mapGetters } from 'vuex'
 import uniqBy from 'lodash/uniqBy'
 
@@ -152,48 +153,36 @@ export default {
     methods: {
         getSuggested() {
             this.loading = true
-            var data = this
-            axios('/api/v1/suggestions/textbooks').then(function(response) {
-                data.loading = false
+            API.index('suggestions/textbooks').then((response) => {
+                this.loading = false
                 if (response.data.data.length > 0) {
-                    $.each(response.data.data, function(res, val) {
-                        data.suggested.push(val)
-                        data.$store.dispatch('book/addBook', val)
-                    })
+                    API.parseResponseData(this, response.data.data, 'suggested')
                     if (response.data.data.length < 8) {
-                        data.getRecent(13)
+                        this.getRecent(13)
                     }
                 } else {
-                    data.getRecent(13)
+                    this.getRecent(13)
                 }
             })
         },
         getRecent(count) {
             this.loading = true
-            var data = this
-            axios('/api/v1/suggestions/recent?per_page=' + count).then(function(response) {
-                data.loading = false
-                $.each(response.data.data, function(res, val) {
-                    data.suggested.push(val)
-                    data.$store.dispatch('book/addBook', val)
-                })
+            API.index('suggestions/recent', {'per_page': count}).then((response) => {
+                this.loading = false
+                API.parseResponseData(this, response.data.data, 'suggested')
             })
         },
-        getUniversities() {
+        async getUniversities() {
             this.loading = true
-            var data = this
-            axios('/api/v1/universities?per_page=8&with_logo=true').then(function(response) {
-                data.loading = false
-                $.each(response.data.data, function(res, val) {
-                    data.universities.push(val)
-                    data.$store.dispatch('university/addUniversity', val)
-                })
+            await API.index('universities', {'per_page':8, 'with_logo':true}).then((response) => {
+                this.loading = false
+                API.parseResponseData(this, response.data.data, 'universities', 'university/addUniversity')
             })
-            axios("https://ipinfo.io").then(function(response) {
-                data.country = response.data.country
-                axios('/api/v1/universities?country=' + data.country).then(function(response) {
-                    data.country_university_count = response.data.total
-                    data.country_name = response.data.data[0].country.name
+            axios("https://ipinfo.io").then((response) => {
+                this.country = response.data.country
+                API.index('universities', {'country':this.country}).then((response) => {
+                    this.country_university_count = response.data.total
+                    this.country_name = response.data.data[0].country.name
                 })
             }, "jsonp")
         }

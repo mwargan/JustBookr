@@ -1,4 +1,4 @@
-import axios from 'axios'
+import API from '~/api/general'
 import Cookies from 'js-cookie'
 import swal from 'sweetalert2'
 import { i18n } from '~/plugins/i18n'
@@ -26,7 +26,7 @@ export const getters = {
 
 // mutations
 export const mutations = {
-    [types.SAVE_TOKEN](state, { token, remember }) {
+    [types.SAVE_TOKEN](state, { token }) {
         state.token = token
         Cookies.set('laravel_token', token, { expires: 365 })
     },
@@ -37,7 +37,7 @@ export const mutations = {
             .listen('OrderCreated', (e) => {
                 state.user.unread_orders++
                     console.log(e)
-                var message = `${e.order.buyer.name} ${i18n.t('wants_to_meet')}`
+                const message = `${e.order.buyer.name} ${i18n.t('wants_to_meet')}`
                 swal({
                         type: 'info',
                         title: i18n.t('you_have_a_new_order'),
@@ -52,7 +52,7 @@ export const mutations = {
                     .then(async(result) => {
                         console.log(result);
                         if (result) {
-                            await axios.post('/api/v1/orders/' + e.order['connect-id'] + '/accept').then(response => {
+                            await API.create('/api/v1/orders/' + e.order['connect-id'] + '/accept').then(() => {
                                 swal(
                                     i18n.t('you_accepted_the_meeting'),
                                     `${e.order.buyer.name} ${i18n.t('has_been_informed').toLowerCase()}.`,
@@ -85,13 +85,13 @@ export const mutations = {
 
 // actions
 export const actions = {
-    saveToken({ commit, dispatch }, payload) {
+    saveToken({ commit }, payload) {
         commit(types.SAVE_TOKEN, payload)
     },
 
     async fetchUser({ commit }) {
         try {
-            const { data } = await axios.get('/api/v1/me')
+            const { data } = await API.show('me')
             //console.log('hello')
             //Vue.$ga.set('userId', userId)
             commit(types.FETCH_USER_SUCCESS, {
@@ -113,8 +113,10 @@ export const actions = {
 
     async logout({ commit }) {
         try {
-            await axios.post('/logout')
-        } catch (e) {}
+            await API.create('logout')
+        } catch (e) {
+            console.log(e)
+        }
 
         commit(types.LOGOUT)
     }

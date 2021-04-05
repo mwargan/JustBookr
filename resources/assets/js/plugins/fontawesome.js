@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-Vue.component('fa', FontAwesomeIcon)
+Vue.component('Fa', FontAwesomeIcon)
 
 dom.watch()
 // import { } from '@fortawesome/fontawesome-free-regular'

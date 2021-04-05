@@ -202,8 +202,8 @@ import axios from 'axios'
                 this.getTokens();
                 this.getScopes();
 
-                $('#modal-create-token').on('shown.bs.modal', () => {
-                    $('#create-token-name').focus();
+                document.getElementById('modal-create-token').on('shown.bs.modal', () => {
+                    document.getElementById('create-token-name').focus();
                 });
             },
 
@@ -231,7 +231,7 @@ import axios from 'axios'
              * Show the form for creating new tokens.
              */
             showCreateTokenForm() {
-                $('#modal-create-token').modal('show');
+                document.getElementById('modal-create-token').modal('show');
             },
 
             /**
@@ -283,11 +283,11 @@ import axios from 'axios'
              * Show the given access token to the user.
              */
             showAccessToken(accessToken) {
-                $('#modal-create-token').modal('hide');
+                document.getElementById('modal-create-token').modal('hide');
 
                 this.accessToken = accessToken;
 
-                $('#modal-access-token').modal('show');
+                document.getElementById('modal-access-token').modal('show');
             },
 
             /**

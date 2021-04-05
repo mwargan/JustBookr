@@ -18,12 +18,14 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
+import API from '~/api/general'
 import { mapGetters } from 'vuex'
 import uniqBy from 'lodash/uniqBy'
+import addBookMixin from '~/mixins/addBookMixin'
 
 export default {
     scrollToTop: true,
+    mixins: [addBookMixin],
     props: ['university'],
     metaInfo() {
         return { title: this.university['uni-name']+' '+this.$t('students') }
@@ -47,29 +49,19 @@ export default {
 
     created() {
         this.getusers()
-        this.getsuggested()
+        this.getSuggestions('university-books/' + this.$route.params.id, 'books')
     },
 
     methods: {
         getusers() {
             this.loading = true
-            var data = this
-
-            axios('/api/v1/books?university=' + this.$route.params.id).then(function(response) {
-                data.page++
-                data.loading = false
-                data.left = response.data.total - (response.data.per_page * response.data.current_page)
-                $.each(response.data.data, function(res, val) {
-                    data.books.push(val)
-                })
-            })
-        },
-        getsuggested() {
-            var data = this
-            axios('/api/v1/suggestions/university-books/' + this.$route.params.id).then(function(response) {
-                $.each(response.data.data, function(res, val) {
-                    data.books.push(val)
-                })
+            API.index('books', {
+                'university': this.$route.params.id
+            }).then((response) => {
+                this.page++
+                this.loading = false
+                this.left = response.data.total - (response.data.per_page * response.data.current_page)
+                API.parseResponseData(this, response.data.data, 'books', false)
             })
         }
     }

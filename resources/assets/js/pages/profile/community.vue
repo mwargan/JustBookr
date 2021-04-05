@@ -78,12 +78,14 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
+import API from '~/api/general'
 import { mapGetters } from 'vuex'
 import uniqBy from 'lodash/uniqBy'
+import addBookMixin from '../../mixins/addBookMixin'
 
 export default {
     scrollToTop: false,
+    mixins: [addBookMixin],
     props: ['user'],
     metaInfo() {
         return { title: this.$t('discover') }
@@ -112,19 +114,17 @@ export default {
             let string = "Good morning";
             if (time > 11 && time < 18) {
                 string = "Good afternoon";
-            }
-            else if (time > 17) {
+            } else if (time > 17) {
                 string = "Good evening";
             }
-            string += " "+this.user.name;
+            string += " " + this.user.name;
             return string;
         },
         welcome_subtext() {
             let string = "Thank you for using JustBookr";
             if (this.user.unread_orders) {
                 string = "You have unread messages in your inbox";
-            }
-            else if (this.user.profilepic.match(/JBicon/g)) {
+            } else if (this.user.profilepic.match(/JBicon/g)) {
                 string = "Set a profile picture by clicking on the placeholder image above";
             }
             return string;
@@ -143,8 +143,8 @@ export default {
 
     created() {
         this.getBoosted()
-        this.getSuggested()
         this.getPosts()
+        this.getSuggestions('textbooks', 'posts')
     },
 
     beforeRouteLeave(to, from, next) {
@@ -158,27 +158,16 @@ export default {
         })
     },
     methods: {
-        async getSuggested() {
-            this.loading = true
-            var data = this
-            await axios('/api/v1/suggestions/textbooks?university=' + this.user['uni-id']).then(function(response) {
-                data.loading = false
-                $.each(response.data.data, function(res, val) {
-                    data.posts.push(val)
-                    data.$store.dispatch('book/addBook', val)
-                })
-            })
-        },
         async getPosts() {
             this.loading = true
             var data = this
-            await axios('/api/v1/suggestions/recent?page=' + this.page + '&university=' + this.user['uni-id']).then(function(response) {
+            await API.index('suggestions/recent', {
+                'page': this.page,
+                'university': this.user['uni-id']
+            }).then(function (response) {
                 data.page++
-                    data.loading = false
-                $.each(response.data.data, function(res, val) {
-                    data.posts.push(val)
-                    data.$store.dispatch('book/addBook', val)
-                })
+                data.loading = false
+                API.parseResponseData(this, response.data.data, 'posts')
                 if (response.data.data.length <= 8) {
                     window.removeEventListener('scroll', data.handleScroll)
                     data.getRecent()
@@ -189,12 +178,11 @@ export default {
         async getRecent() {
             this.loading = true
             var data = this
-            await axios('/api/v1/books?university=' + this.user['uni-id']).then(function(response) {
+            await API.index('books', {
+                'university': this.user['uni-id']
+            }).then(function (response) {
                 data.loading = false
-                $.each(response.data.data, function(res, val) {
-                    data.posts.push(val)
-                    data.$store.dispatch('book/addBook', val)
-                })
+                API.parseResponseData(this, response.data.data, 'posts')
                 if (response.data.data.length <= 8) {
                     data.getAllBooks()
                     return false
@@ -204,23 +192,22 @@ export default {
         async getAllBooks() {
             this.loading = true
             var data = this
-            await axios('/api/v1/books').then(function(response) {
+            await API.index('books').then(function (response) {
                 data.loading = false
-                $.each(response.data.data, function(res, val) {
-                    data.posts.push(val)
-                    data.$store.dispatch('book/addBook', val)
-                })
+                API.parseResponseData(this, response.data.data, 'posts')
             })
         },
         async getBoosted() {
             this.loading = true
             var data = this
-            await axios('/api/v1/posts?active=true&available=true&boosted=true&university=' + this.user['uni-id']).then(response => {
+            await API.index('posts', {
+                'active': true,
+                'boosted': true,
+                'available': true,
+                'university': this.user['uni-id']
+            }).then(response => {
                 this.loading = false
-                $.each(response.data.data, function(res, val) {
-                    data.boostedPosts.push(val)
-                    data.$store.dispatch('book/addBook', val.textbook)
-                })
+                API.parseResponseData(this, response.data.data, 'boostedPosts')
             })
         },
         handleScroll() {
@@ -231,4 +218,5 @@ export default {
     }
 
 }
+
 </script>

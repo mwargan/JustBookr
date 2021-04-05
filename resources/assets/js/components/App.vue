@@ -1,13 +1,11 @@
 <template>
   <div id="app">
-    <loading ref="loading"></loading>
-
+    <loading ref="loading" />
     <transition name="page" mode="out-in">
-      <component v-if="layout" :is="layout"></component>
+      <component v-if="layout" :is="layout" />
     </transition>
   </div>
 </template>
-
 <script>
 import Loading from './Loading'
 
@@ -15,9 +13,7 @@ import Loading from './Loading'
 const requireContext = require.context('../layouts', false, /.*\.vue$/)
 
 const layouts = requireContext.keys()
-  .map(file =>
-    [file.replace(/(^.\/)|(\.vue$)/g, ''), requireContext(file).default]
-  )
+  .map(file => [file.replace(/(^.\/)|(\.vue$)/g, ''), requireContext(file).default])
   .reduce((components, [name, component]) => {
     components[name] = component
     return components
@@ -30,20 +26,18 @@ export default {
     Loading
   },
 
-  metaInfo () {
+  metaInfo() {
     const { appName } = window.config
 
     return {
       title: appName,
       titleTemplate: `%s · ${appName}`,
-      meta: [
-{
+      meta: [{
         'vmid': 'og:title',
         'property': 'og:title',
         'content': 'Find Textbooks',
         'template': chunk => `${chunk} · ${appName}` //or as string template: '%s - My page'
-      }
-      ]
+      }]
     }
   },
 
@@ -52,7 +46,7 @@ export default {
     defaultLayout: 'app'
   }),
 
-  mounted () {
+  mounted() {
     this.$loading = this.$refs.loading
   },
 
@@ -62,7 +56,7 @@ export default {
      *
      * @param {String} layout
      */
-    setLayout (layout) {
+    setLayout(layout) {
       if (!layout || !layouts[layout]) {
         layout = this.defaultLayout
       }
@@ -71,4 +65,5 @@ export default {
     }
   }
 }
+
 </script>

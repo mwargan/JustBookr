@@ -190,7 +190,7 @@ beforeRouteEnter(to, from, next) {
                         this.form['edition'] = book.edition
                         this.form['image-url'] = book['image-url']
                         this.form.price = book.average_price.slice(1)
-                        $("#description").focus()
+                        document.getElementById("description").focus()
                     } else {
                         this.addBook = true
                         this.form['book-title'] = ''
@@ -210,8 +210,7 @@ beforeRouteEnter(to, from, next) {
         if (this.$route.params.isbn) {
             this.form.isbn = this.$route.params.isbn
         }
-        $('#isbn').focus()
-        //this.getTexts()
+        document.getElementById('isbn').focus()
         this.getSuggested()
         var placeholders = ['What can you say specifically about your copy? Any valuable notes?', 'What can you say specifically about your copy? Are there coffee stains?', 'What can you say specifically about your copy? Is it still wrapped up?', "My copy of the textbook is..."];
         var self = this;
@@ -273,14 +272,6 @@ beforeRouteEnter(to, from, next) {
                     })
                 })
         },
-        async getTexts() {
-            var data = this
-            await axios('/api/v1/suggestions/post-descriptions').then(function(response) {
-                $.each(response.data, function(res, val) {
-                    data.texts.unshift(val['post-description'])
-                })
-            })
-        },
         selectFile(e) {
             const file = e.target.files[0]
             this.form.image = file
@@ -288,7 +279,7 @@ beforeRouteEnter(to, from, next) {
         selectSuggested(isbn) {
             this.form.isbn = isbn
             window.location = (""+window.location).replace(/#[A-Za-z0-9_]*$/,'')+"#isbn"
-            $("#description").focus()
+            document.getElementById("description").focus()
         }
     }
 }

@@ -17,29 +17,29 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
+import API from '~/api/general'
 import { mapGetters } from 'vuex'
 
 export default {
     scrollToTop: true,
     props: ['university'],
     metaInfo() {
-        return { title: this.university['uni-name']+' '+this.$t('students') }
+        return { title: this.university['uni-name'] + ' ' + this.$t('students') }
     },
 
     computed: {
         ...mapGetters({
             user: 'auth/user'
         }),
-        orderPosts: function() {
+        orderPosts: function () {
             function compare(a, b) {
                 return b.points - a.points
             }
             return this.users.sort(compare);
         },
-        fullNames: function() {
+        fullNames: function () {
             if (this.users) {
-                return this.users.map(function(item) {
+                return this.users.map(function (item) {
                     return item.name;
                 })
             }
@@ -70,18 +70,18 @@ export default {
     methods: {
         getusers() {
             this.loading = true
-            var data = this
-
-            axios('/api/v1/users?university=' + this.$route.params.id+'&order_by=user-registered').then(function(response) {
-                data.page++
-                    data.loading = false
-                data.left = response.data.total - (response.data.per_page * response.data.current_page)
-                $.each(response.data.data, function(res, val) {
-                    data.users.push(val)
-                })
+            API.index('users', {
+                'university': this.$route.params.id,
+                'order_by': 'user-registered'
+            }).then((response) => {
+                this.page++
+                this.loading = false
+                this.left = response.data.total - (response.data.per_page * response.data.current_page)
+                API.parseResponseData(this, response.data.data, 'users', false)
             })
         }
     }
 
 }
+
 </script>

@@ -22,6 +22,7 @@
 </template>
 <script>
 import axios from 'axios'
+import API from '~/api/general'
 import Form from 'vform'
 import { mapGetters } from 'vuex'
 import uniqBy from 'lodash/uniqBy'
@@ -70,18 +71,14 @@ export default {
 
         },
         async getUniversities() {
-            var data = this
-            await axios('/api/v1/universities').then(function(response) {
-                    $.each(response.data.data, function(res, val) {
-                        data.universities.push(val)
-                    })
+            await API.index('universities').then((response) => {
+                    API.parseResponseData(this, response.data.data, 'universities', false)
                 })
-            await axios("https://ipinfo.io").then(function(response) {
-                data.country = response.data.country
-                axios('/api/v1/universities?country=' + data.country + '&paginate=false').then(function(response) {
-                    $.each(response.data, function(res, val) {
-                        data.universities.push(val)
-                    })
+            await axios("https://ipinfo.io").then((response) => {
+                this.country = response.data.country
+
+                API.index('universities?country=' + this.country + '&paginate=false').then((response) => {
+                    API.parseResponseData(this, response.data.data, 'universities', false)
                 })
             }, "jsonp");
         }

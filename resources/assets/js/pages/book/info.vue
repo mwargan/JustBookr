@@ -15,7 +15,7 @@
                 <div class="card-header">
                     <div class="facebook-name ml-0">
                         {{ $t('popularity') }}
-                        <router-link v-if="user" :to="'/university/'+user['uni-id']">{{$t('at').toLowerCase()}} {{user.university['uni-name']}}</router-link>
+                        <router-link v-if="user && user['uni-id']" :to="'/university/'+user['uni-id']">{{$t('at').toLowerCase()}} {{user.university['uni-name']}}</router-link>
                     </div>
                 </div>
                 <card-content class="mt-0 mb-0">

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import router from '~/router'
-import store from '~/store'
 import VueAnalytics from 'vue-analytics'
 
 const isProd = process.env.NODE_ENV === 'production'
@@ -13,6 +12,6 @@ Vue.use(VueAnalytics, {
 		sendHitTask: isProd
 	},
 	ecommerce: {
-	    enabled: true
+		enabled: true
 	}
 })

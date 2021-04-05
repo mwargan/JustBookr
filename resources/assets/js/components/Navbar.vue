@@ -135,9 +135,6 @@ export default {
     components: {
         LocaleDropdown
     },
-    mounted() {
-        var self = this
-    },
     methods: {
         submit() {
             this.$router.push({ name: 'find', params: { query: this.searchQ } })
@@ -208,7 +205,6 @@ img.rounded-circle.profile-photo {
     width: 10px;
     background-color: red;
     border-radius: 50%;
-    display: inline-block;
     display: inline-block;
     border: 1px solid white;
     position: absolute;

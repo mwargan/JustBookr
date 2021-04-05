@@ -23,7 +23,6 @@ export default {
     name: 'quagga-modal',
     methods: {
         init() {
-            const self = this
             Quagga.init({
                 inputStream: {
                     name: "Live",
@@ -56,7 +55,7 @@ export default {
                 if (err) {
                     console.log(err)
                     alert("We couldn't start your camera")
-                    $('#quaggaModal').modal('hide')
+                    document.getElementById('quaggaModal').modal('hide')
                     return false
                 }
                 Quagga.start()
@@ -82,12 +81,12 @@ export default {
                 }
             })
             let detectionHash = {}
-            Quagga.onDetected(function (result) {
+            Quagga.onDetected( (result) => {
               detectionHash[result.codeResult.code] = (detectionHash[result.codeResult.code] || 0) + 1
               if(detectionHash[result.codeResult.code] >= 5 && result.codeResult.format == "ean_13") {
                 detectionHash = {}
-                self.$emit('giveBarcode', result.codeResult.code)
-                $('#quaggaModal').modal('hide')
+                this.$emit('giveBarcode', result.codeResult.code)
+                document.getElementById('quaggaModal').modal('hide')
               }
             })
         },

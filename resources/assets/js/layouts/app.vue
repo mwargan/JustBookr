@@ -2,11 +2,12 @@
     <div class="app-layout">
         <navbar></navbar>
         <div class="container-fluid mt-4 full-height">
-            <child/>
+            <child />
         </div>
         <footer class="footer border-top mt-3" id="page-footer">
             <div class="container">
-                <span class="text-muted">JustBookr</span> | <router-link to="/faq">{{ $t('frequently_asked_questions') }}</router-link> | <router-link to="/terms-and-conditions">{{ $t('terms_and_conditions') }}</router-link> | <router-link to="/business">{{ $t('justbookr_for_business') }}</router-link> | <a target="_BLANK" href="https://instagram.com/JustBookr" rel="noopener">Instagram</a> | <a target="_BLANK" href="https://facebook.com/JustBookr" rel="noopener">Facebook</a> | <a target="_BLANK" href="https://github.com/mwargan/JustBookr" rel="noopener">GitHub</a> | <a href="https://icons8.com/">Icons8</a><!--  |
+                <span class="text-muted">JustBookr</span> | <router-link to="/faq">{{ $t('frequently_asked_questions') }}</router-link> | <router-link to="/terms-and-conditions">{{ $t('terms_and_conditions') }}</router-link> | <router-link to="/business">{{ $t('justbookr_for_business') }}</router-link> | <a target="_BLANK" href="https://instagram.com/JustBookr" rel="noopener">Instagram</a> | <a target="_BLANK" href="https://facebook.com/JustBookr" rel="noopener">Facebook</a> | <a target="_BLANK" href="https://github.com/mwargan/JustBookr" rel="noopener">GitHub</a> | <a href="https://icons8.com/">Icons8</a>
+                <!--  |
                 <locale-dropdown style="display: inline-block;left:-16px;" /> -->
             </div>
         </footer>
@@ -25,8 +26,8 @@
                 </li>
                 <li v-if="user" class="nav-item dropdown">
                     <a class="nav-link text-dark py-1 m-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          More
-                        </a>
+                        More
+                    </a>
                     <div class="dropdown-menu">
                         <router-link :to="{ name: 'profile.community' }" class="dropdown-item p-3">
                             {{ $t('profile') }}
@@ -100,6 +101,7 @@ export default {
         }
     }
 }
+
 </script>
 <style scoped>
 .navbar-nav {
@@ -135,16 +137,20 @@ export default {
     top: 5px;
     right: 0px;
 }
+
 .full-height {
-       min-height: 100vh;
-       /*padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);*/
-     }
+    min-height: 100vh;
+    /*padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);*/
+}
+
 @media (min-width: 992px) {
     .b-nav {
         display: none;
     }
+
     #page-footer {
         padding-bottom: initial;
     }
 }
+
 </style>

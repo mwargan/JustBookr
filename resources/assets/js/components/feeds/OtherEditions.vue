@@ -9,7 +9,7 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
+import API from '~/api/general'
 
 export default {
     props: ['book', 'user'],
@@ -37,14 +37,13 @@ export default {
     methods: {
         async getRelated() {
             this.loading = true
-            var data = this
             var uni = ""
             if (this.user && this.user['uni-id']) {
                 uni = "?university=" + (this.user['uni-id'])
             }
             //console.log(this.book)
-            await axios('/api/v1/suggestions/other-editions/' + this.book.isbn + uni).then(response => {
-                this.$set(data, 'related', response.data.data)
+            await API.index('suggestions/other-editions/' + this.book.isbn + uni).then(response => {
+                this.$set(this, 'related', response.data.data)
                 this.loading = false
             })
         }

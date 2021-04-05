@@ -167,7 +167,7 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
+import API from '~/api/general'
 import Form from 'vform'
 import swal from 'sweetalert2'
 import EditOrderModal from '~/components/modals/OrderEdit'
@@ -179,9 +179,8 @@ export default {
     },
     computed: {
         totalBought() {
-            var self = this
-            return this.purchased.filter(function(post) {
-                return (!post.replied || !self.checkHasRating(post)) || (post.replied && self.checkHasRating(post) && self.posts.filter(e => e.isbn === post.post.isbn).length === 0 && self.inactivePosts.filter(e => e.isbn === post.post.isbn).length === 0)
+            return this.purchased.filter((post) => {
+                return (!post.replied || !this.checkHasRating(post)) || (post.replied && this.checkHasRating(post) && this.posts.filter(e => e.isbn === post.post.isbn).length === 0 && this.inactivePosts.filter(e => e.isbn === post.post.isbn).length === 0)
             })
         }
     },
@@ -202,7 +201,7 @@ export default {
     },
 
     methods: {
-        getHumanDate: function(date) {
+        getHumanDate: function (date) {
             date = Number(date);
             return this.$moment(date, 'X').fromNow();
         },
@@ -215,10 +214,13 @@ export default {
         async getPurchased() {
             this.loading = true
             var data = this
-            await axios('/api/v1/orders?buyer=' + this.user['user-id'] + '&paginate=false').then(response => {
+            await API.index('orders?', {
+                'buyer': this.user['user-id'],
+                'paginate': false
+            }).then(response => {
                 this.page++
-                    this.loading = false
-                $.each(response.data, function(res, val) {
+                this.loading = false
+                $.each(response.data, function (res, val) {
                     val.loading = false
                     data.purchased.push(val)
                     data.$store.dispatch('book/addBook', val.post.textbook)
@@ -237,10 +239,10 @@ export default {
                     cancelButtonText: data.$t('go_back'),
                     showCancelButton: true
                 })
-                .then(async(result) => {
+                .then(async (result) => {
                     console.log(result)
                     if (result) {
-                        axios.delete('/api/v1/orders/' + id).then(function(response) {
+                        API.delete('orders', id).then(function (response) {
                             swal(
                                 data.$t('you_canceled_the_meeting'),
                                 `${data.purchased[index].post.user.name} ${data.$t('has_been_informed').toLowerCase()}.`,
@@ -261,12 +263,12 @@ export default {
             this.rateForm['connect-id'] = post['connect-id']
             this.rateForm.index = index
 
-            $('#modal-rate-client').modal('show')
+            document.getElementById('modal-rate-client').modal('show')
         },
         async rateMeeting() {
             await this.rateForm.post('/api/v1/ratings').then(response => {
                 this.$set(this.purchased[this.rateForm.index], 'ratings', [response.data])
-                $('#modal-rate-client').modal('hide')
+                document.getElementById('modal-rate-client').modal('hide')
                 this.$ga.event({
                     eventCategory: 'User Event',
                     eventAction: 'Rated a meeting'
@@ -279,6 +281,7 @@ export default {
         }
     }
 }
+
 </script>
 <style scoped>
 label>img {
@@ -348,10 +351,10 @@ label>img {
 }
 
 label {
-    width: 100%!important;
-    padding-bottom: 0!important;
+    width: 100% !important;
+    padding-bottom: 0 !important;
     opacity: 0.5;
-    transition: all .2s ease!important;
+    transition: all .2s ease !important;
 }
 
 label:after {
@@ -428,4 +431,5 @@ label:after {
     color: #b3b3b3;
     font-size: 2rem;
 }
+
 </style>

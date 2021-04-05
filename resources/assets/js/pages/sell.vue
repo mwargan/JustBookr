@@ -38,7 +38,7 @@
                                 <div class="input-group-append" v-if="supportsCamera">
                                     <span class="input-group-text">
                                         <a @giveBarcode="giveBarcode" href="#" data-toggle="modal" data-target="#quaggaModal" class="text-dark">
-                                            <fa icon="camera" fixed-width/>
+                                            <fa icon="camera" fixed-width />
                                         </a>
                                     </span>
                                 </div>
@@ -117,25 +117,22 @@
                         </div>
                     </template>
                     <p v-else class="col-md-7 offset-md-3">Type in <span v-if="supportsCamera">or scan </span>the ISBN-13 number, a 13 digit code starting with 97 usually found on the back of the book. Don't use spaces or dashes!<img src="/images/backside_with_isbn_highlighted.jpg" alt="" class="find-isbn"></p>
-                        <!-- Submit Button -->
-                        <div class="form-group row">
-                            <div class="col-md-7 offset-md-3">
-                                <v-button type="primary" class="btn-block" :disabled="isdisabled" :loading="form.busy">{{ $t('post') }}</v-button>
-                                <span class="mt-2" v-if="user.businesses && user.businesses.length > 0">Selling as <a class="dropdown-toggle" href="#" role="button"
-                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{sellAs.name}}</a>
+                    <!-- Submit Button -->
+                    <div class="form-group row">
+                        <div class="col-md-7 offset-md-3">
+                            <v-button type="primary" class="btn-block" :disabled="isdisabled" :loading="form.busy">{{ $t('post') }}</v-button>
+                            <span class="mt-2" v-if="user.businesses && user.businesses.length > 0">Selling as <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{sellAs.name}}</a>
                                 <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#"
-                                    @click.prevent="setSellAs(null, user.name)">
-                                    {{ user.name }}
-                                  </a>
-                                  <a v-if="user.businesses && value.stands.length > 0" v-for="(value, key) in user.businesses" class="dropdown-item" href="#"
-                                    @click.prevent="setSellAs(value.stands[0]['id'], value.name)">
-                                    {{ value.name }} {{ value.stands[0]['location'].toLowerCase() }}
-                                  </a>
+                                    <a class="dropdown-item" href="#" @click.prevent="setSellAs(null, user.name)">
+                                        {{ user.name }}
+                                    </a>
+                                    <a v-if="user.businesses && value.stands.length > 0" v-for="(value, key) in user.businesses" class="dropdown-item" href="#" @click.prevent="setSellAs(value.stands[0]['id'], value.name)">
+                                        {{ value.name }} {{ value.stands[0]['location'].toLowerCase() }}
+                                    </a>
                                 </div>
-                                </span>
-                            </div>
+                            </span>
                         </div>
+                    </div>
                 </form>
             </div>
             <quagga-modal @giveBarcode="giveBarcode" v-if="supportsCamera" />
@@ -145,7 +142,7 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
+import API from '../api/general'
 import Form from 'vform'
 import { mapGetters } from 'vuex'
 import objectToFormData from 'object-to-formdata'
@@ -206,7 +203,7 @@ export default {
             this.form.isbn = this.$route.params.isbn
         }
         this.sellAs.name = this.user.name
-        $('#isbn').focus()
+        document.getElementById('isbn').focus()
         this.getTexts()
         var placeholders = ['What can you say specifically about your copy? Any valuable notes?', 'What can you say specifically about your copy? Are there coffee stains?', 'What can you say specifically about your copy? Is it still wrapped up?', "My copy of the book is..."];
         var self = this;
@@ -218,7 +215,7 @@ export default {
         })()
     },
     watch: {
-        'form.isbn': function(id) {
+        'form.isbn': function (id) {
             if (this.form.isbn.length === 13) {
                 this.getBook()
             } else {
@@ -242,18 +239,18 @@ export default {
                     this.book = this.fetchBook(this.form.isbn)
                     if (this.book && this.book['isbn']) {
                         this.addBook = false
-                        this.form['book-title'] = this.book['book-title']
-                        this.form['author'] = this.book.author
-                        this.form['book-des'] = this.book['book-des']
-                        this.form['edition'] = this.book.edition
-                        this.form['image-url'] = this.book['image-url']
+                        for (const [key, value] of Object.entries(this.book)) {
+                            if(this.form[key]) {
+                                this.form[key] = this.book[key]
+                            }
+                        }
                         if (this.book.average_price && this.book.average_price.slice(1) > 0) {
                             this.form.price = this.book.average_price.slice(1)
                         }
-                        $("#description").focus()
+                        // document.getElementById('description').focus()
                     } else {
                         this.addBook = true
-                        $("#b-title").focus()
+                        // document.getElementById("b-title").focus()
                     }
                 }, error => {
                     this.loading = false
@@ -270,9 +267,9 @@ export default {
                 this.form.stand_id = this.sellAs.id
                 submitUrl = '/api/v1/stand-posts'
             }
-            this.form.submit('post', submitUrl, {
+            await this.form.submit('post', submitUrl, {
                     // Transform form data to FormData
-                    transformRequest: [function(data, headers) {
+                    transformRequest: [function (data, headers) {
                         return objectToFormData(v.form)
                     }],
                     onUploadProgress: e => {
@@ -296,14 +293,15 @@ export default {
                     })
                     scroll(0, 0)
                 })
-                .catch( data  => {
+                .catch(data => {
+                    alert("Something went wrong")
                     console.log(data)
                 })
         },
         async getTexts() {
             var data = this
-            await axios('/api/v1/suggestions/post-descriptions').then(function(response) {
-                $.each(response.data, function(res, val) {
+            await API.index('suggestions/post-descriptions').then(function (response) {
+                $.each(response.data, function (res, val) {
                     data.texts.unshift(val['post-description'])
                 })
             })
@@ -312,7 +310,7 @@ export default {
             const file = e.target.files[0]
             this.form.image = file
         },
-        giveBarcode: function(barcode) {
+        giveBarcode: function (barcode) {
             this.form.isbn = barcode
         },
         boostPost(response) {
@@ -323,7 +321,7 @@ export default {
             this.sellAs.name = name
         },
         sharePost() {
-            $('#shareModal').modal('show')
+            document.getElementById('shareModal').modal('show')
             this.$ga.event({
                 eventCategory: 'User Event',
                 eventAction: 'share',
@@ -332,6 +330,7 @@ export default {
         }
     }
 }
+
 </script>
 <style scoped>
 button {
@@ -409,4 +408,5 @@ img.find-isbn {
 .invalid-feedback {
     display: block;
 }
+
 </style>

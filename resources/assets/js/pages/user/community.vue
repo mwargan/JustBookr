@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import API from '~/api/general'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -98,13 +98,10 @@ export default {
   methods: {
     async getPosts () {
       this.loading = true
-      var data = this
-      await axios('/api/v1/me/feed?page='+this.page).then(function(response){
-      	data.page++
-      	data.loading = false
-      	$.each(response.data.data, function (res, val) {
-      		data.posts.push(val)
-      	})
+      await API.index('me/feed?page='+this.page).then((response) => {
+      	this.page++
+      	this.loading = false
+        API.parseResponseData(this, response.data.data, 'posts', false)
       })
     },
     handleScroll () {

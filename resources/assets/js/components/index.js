@@ -7,22 +7,22 @@ Vue.component(AlertErrors.name, AlertErrors)
 Vue.component(AlertSuccess.name, AlertSuccess)
 
 Vue.component(
-    'passport-clients',
+    'PassportClients',
     require('./passport/Clients.vue').default
 );
 
 Vue.component(
-    'passport-authorized-clients',
+    'PassportAuthorizedClients',
     require('./passport/AuthorizedClients.vue').default
 );
 
 Vue.component(
-    'passport-personal-access-tokens',
+    'PassportPersonalAccessTokens',
     require('./passport/PersonalAccessTokens.vue').default
 );
 
 Vue.component(
-    'feed-other-editions',
+    'FeedOtherEditions',
     require('./feeds/OtherEditions.vue').default
 );
 

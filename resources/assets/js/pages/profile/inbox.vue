@@ -214,13 +214,13 @@ export default {
             this.rateForm['connect-id'] = post['connect-id'];
             this.rateForm.index = index;
 
-            $('#modal-rate-client').modal('show');
+            document.getElementById('modal-rate-client').modal('show');
         },
         async rateMeeting() {
             var data = this
             await this.rateForm.post('/api/v1/ratings').then(function(response) {
                 data.$set(data.posts[data.rateForm.index], 'ratings', [response.data])
-                $('#modal-rate-client').modal('hide')
+                document.getElementById('modal-rate-client').modal('hide')
             })
         },
         getHumanDate: function(date) {

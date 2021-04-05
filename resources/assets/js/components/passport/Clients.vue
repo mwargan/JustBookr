@@ -260,12 +260,12 @@ import axios from 'axios'
             prepareComponent() {
                 this.getClients();
 
-                $('#modal-create-client').on('shown.bs.modal', () => {
-                    $('#create-client-name').focus();
+                document.getElementById('modal-create-client').on('shown.bs.modal', () => {
+                    document.getElementById('create-client-name').focus();
                 });
 
-                $('#modal-edit-client').on('shown.bs.modal', () => {
-                    $('#edit-client-name').focus();
+                document.getElementById('modal-edit-client').on('shown.bs.modal', () => {
+                    document.getElementById('edit-client-name').focus();
                 });
             },
 
@@ -283,7 +283,7 @@ import axios from 'axios'
              * Show the form for creating new clients.
              */
             showCreateClientForm() {
-                $('#modal-create-client').modal('show');
+                document.getElementById('modal-create-client').modal('show');
             },
 
             /**
@@ -304,7 +304,7 @@ import axios from 'axios'
                 this.editForm.name = client.name;
                 this.editForm.redirect = client.redirect;
 
-                $('#modal-edit-client').modal('show');
+                document.getElementById('modal-edit-client').modal('show');
             },
 
             /**

@@ -129,7 +129,7 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
+import API from '~/api/general'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -176,13 +176,10 @@ export default {
         getSuggested() {
             this.loading = true
             var data = this
-            axios('/api/v1/suggestions/textbooks').then(function(response) {
+            API.index('suggestions/textbooks').then(function(response) {
                 data.loading = false
                 if (response.data.data.length > 0) {
-                    $.each(response.data.data, function(res, val) {
-                        data.suggested.push(val)
-                        data.$store.dispatch('book/addBook', val)
-                    })
+                    API.parseResponseData(this, response.data.data, 'suggested')
                 } else {
                     data.getRecent()
                 }
@@ -191,23 +188,20 @@ export default {
         getRecent() {
             this.loading = true
             var data = this
-            axios('/api/v1/suggestions/recent').then(function(response) {
+            API.index('suggestions/recent').then(function(response) {
                 data.loading = false
-                $.each(response.data.data, function(res, val) {
-                    data.suggested.push(val)
-                    data.$store.dispatch('book/addBook', val)
-                })
+                API.parseResponseData(this, response.data.data, 'suggested')
             })
         },
         getUniversities() {
             this.loading = true
             var data = this
-            axios('/api/v1/universities?per_page=8&with_logo=true').then(function(response) {
+            API.index('universities', {
+                'per_page': 8,
+                'with_logo': true
+            }).then(function(response) {
                 data.loading = false
-                $.each(response.data.data, function(res, val) {
-                    data.universities.push(val)
-                    data.$store.dispatch('university/addUniversity', val)
-                })
+                API.parseResponseData(this, response.data.data, 'universities', 'university/addUniversity')
             })
         }
     }

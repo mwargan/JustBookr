@@ -82,7 +82,6 @@ export default {
     background-color: red;
     border-radius: 50%;
     display: inline-block;
-    display: inline-block;
     border: 1px solid white;
     position: absolute;
     top: 5px;

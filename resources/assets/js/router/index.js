@@ -38,7 +38,9 @@ function make () {
     if (!store.getters['auth/check']) {
       try {
         await store.dispatch('auth/fetchUser')
-      } catch (e) { }
+      } catch (e) {
+        console.log(e)
+      }
     }
 
     setLayout(to)
@@ -46,7 +48,7 @@ function make () {
   })
 
   // Register after hook.
-  router.afterEach((to, from) => {
+  router.afterEach(() => {
     router.app.$nextTick(() => {
       router.app.$loading.finish()
     })

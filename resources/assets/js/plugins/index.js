@@ -1,6 +1,6 @@
 import './axios'
 import './fontawesome'
-import 'bootstrap'
+// import 'bootstrap'
 import './vue-fuse'
 import './vue-analytics'
 import './laravel-echo'

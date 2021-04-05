@@ -18,7 +18,7 @@
             <ul class="nav nav-pills" style="margin-bottom:1rem;">
                 <li v-for="tab in tabs" class="nav-item">
                     <router-link :to="{ name: tab.route }" class="nav-link" active-class="active">
-                        <fa :icon="tab.icon" fixed-width/> {{ tab.name }} <span v-if="tab.route === 'profile.inbox' && user.unread_orders > 0" class="alert-badge"></span>
+                        <fa :icon="tab.icon" fixed-width /> {{ tab.name }} <span v-if="tab.route === 'profile.inbox' && user.unread_orders > 0" class="alert-badge"></span>
                     </router-link>
                 </li>
             </ul>
@@ -93,7 +93,7 @@ export default {
             var v = this
             this.form.submit('post', '/api/v1/me/profile-picture', {
                     // Transform form data to FormData
-                    transformRequest: [function(data, headers) {
+                    transformRequest: [function (data, headers) {
                         return objectToFormData(v.form)
                     }],
                     onUploadProgress: e => {
@@ -111,6 +111,7 @@ export default {
         }
     }
 }
+
 </script>
 <style scoped>
 .nav-item {
@@ -132,7 +133,6 @@ export default {
     background-color: red;
     border-radius: 50%;
     display: inline-block;
-    display: inline-block;
 }
 
 .profile-photo {
@@ -149,6 +149,7 @@ label.profile-photo {
     position: relative;
     cursor: pointer;
 }
+
 /*label.profile-photo::after {
     position: absolute;
     height:100%;
@@ -172,4 +173,5 @@ label.profile-photo {
         text-align: center;
     }
 }
+
 </style>
