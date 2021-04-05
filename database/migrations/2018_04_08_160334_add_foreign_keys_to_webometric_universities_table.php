@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class AddForeignKeysToUniversitiesTable extends Migration
+class AddForeignKeysToWebometricUniversitiesTable extends Migration
 {
     /**
      * Run the migrations.

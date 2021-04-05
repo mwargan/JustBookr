@@ -20,7 +20,7 @@ class CreateConnectedUsersTable extends Migration
             $table->string('comment', 500)->nullable();
             $table->timestamp('timestamp')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('location-meet', 150);
-            $table->timestamp('location-date')->default('0000-00-00 00:00:00');
+            $table->timestamp('location-date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('location-time', 20)->nullable()->default('');
             $table->timestamp('replied')->nullable();
             $table->index(['user-id-sell', 'user-id-buy', 'post-id'], 'user-id-sell');

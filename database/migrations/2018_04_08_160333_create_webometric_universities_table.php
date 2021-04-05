@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateUniversitiesTable extends Migration
+class CreateWebometricUniversitiesTable extends Migration
 {
     /**
      * Run the migrations.

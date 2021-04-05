@@ -23,7 +23,7 @@ class CreatePostsTable extends Migration
             $table->integer('sku');
             $table->integer('price');
             $table->boolean('status')->default(1);
-            $table->index(['isbn', 'post-description'], 'search');
+            // $table->index(['isbn', 'post-description'], 'search');
         });
     }
 

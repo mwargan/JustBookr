@@ -15,11 +15,11 @@ class CreateTextbooksTable extends Migration
         Schema::create('textbooks', function (Blueprint $table) {
             $table->string('isbn', 17)->primary();
             $table->string('book-title', 259);
-            $table->string('author', 259)->index('author');
+            $table->string('author', 259);
             $table->text('book-des', 65535);
             $table->string('edition', 64)->nullable()->default('');
             $table->string('image-url', 259);
-            $table->index(['isbn', 'book-title', 'edition', 'author', 'book-des'], 'search');
+            // $table->index(['isbn', 'book-title', 'edition', 'author', 'book-des'], 'search');
         });
     }
 
