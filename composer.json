@@ -9,27 +9,28 @@
     "type": "project",
     "minimum-stability": "dev",
     "require": {
-        "php": "^7.3|^7.4|^8.1",
+        "php": "^8.1",
         "aws/aws-sdk-php": "^3.0",
         "doctrine/dbal": "^2.5",
         "dusterio/laravel-aws-worker": "^0.1.14",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "~1.0",
         "guzzlehttp/guzzle": "^6.3",
-        "laravel/cashier": "^10.0",
-        "laravel/framework": "^7.0",
-        "laravel/passport": "^7.0",
-        "laravel/scout": "^7.0",
-        "laravel/socialite": "^4.0",
-        "lcobucci/jwt": "3.3.3",
+        "laravel/cashier": "^12.0",
+        "laravel/framework": "^8.0",
+        "laravel/passport": "^10.0",
+        "laravel/scout": "^8.0",
+        "laravel/socialite": "^5.0",
+        "lcobucci/jwt": "4.2.1",
         "predis/predis": "^1.1",
-        "pusher/pusher-php-server": "^3.0",
+        "pusher/pusher-php-server": "^4.0",
         "spatie/laravel-image-optimizer": "^1.1",
         "spatie/laravel-newsletter": "^4.2"
     },
     "require-dev": {
         "composer/composer": "^2.0",
-        "phpunit/phpunit": "^7.0"
+        "laravel/sail": "2.x-dev",
+        "phpunit/phpunit": "^8.0"
     },
     "autoload": {
         "classmap": [
@@ -66,9 +67,6 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true,
-        "platform": {
-            "php": "7.4.0"
-        },
         "allow-plugins": {
             "kylekatarnls/update-helper": false
         }
