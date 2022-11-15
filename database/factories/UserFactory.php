@@ -1,7 +1,10 @@
 <?php
 
+namespace Database\Factories;
+
 use Faker\Generator as Faker;
 use Illuminate\Support\Str as Str;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories

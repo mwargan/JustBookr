@@ -20,7 +20,7 @@ Route::get('sign-up', 'Auth\RegisterController@showRegistrationForm');
 // 	return view('forward');
 // });
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('{any?}', function () {
     return view('index');

@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         URL::forceScheme('https');
         Passport::withoutCookieSerialization();
-        Cashier::useCurrency('eur', '€');
+        // Cashier::useCurrency('eur', '€');
     }
 
     /**
