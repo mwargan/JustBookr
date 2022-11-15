@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    use Cachable;
+
 
     const CREATED_AT = 'date';
 
@@ -171,7 +171,7 @@ class Post extends Model
      */
     public function setDateAttribute($value)
     {
-        $this->attributes['date'] = ! empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
+        $this->attributes['date'] = !empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
     }
 
     public function scopeAvailable($query)

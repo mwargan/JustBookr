@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    use Cachable;
+
 
     /**
      * Indicates if the model should be timestamped.

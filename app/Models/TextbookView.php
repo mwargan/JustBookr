@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+
 use Illuminate\Database\Eloquent\Model;
 
 class TextbookView extends Model
 {
-    use Cachable;
+
     /**
      * Indicates if the model should be timestamped.
      *
@@ -64,6 +64,6 @@ class TextbookView extends Model
      */
     public function setDateviewedAttribute($value)
     {
-        $this->attributes['date-viewed'] = ! empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
+        $this->attributes['date-viewed'] = !empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
     }
 }

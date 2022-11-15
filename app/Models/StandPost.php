@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+
 use Illuminate\Database\Eloquent\Model;
 
 class StandPost extends Model
 {
-    use Cachable;
+
 
     /**
      * The database table used by the model.

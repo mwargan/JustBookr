@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PostBoost extends Model
 {
-    use SoftDeletes, Cachable;
+    use SoftDeletes;
 
     /**
      * The database table used by the model.
@@ -68,7 +68,7 @@ class PostBoost extends Model
      */
     public function setExpiresAtAttribute($value)
     {
-        $this->attributes['expires_at'] = ! empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
+        $this->attributes['expires_at'] = !empty($value) ? date($this->getDateFormat(), strtotime($value)) : null;
     }
 
     /**

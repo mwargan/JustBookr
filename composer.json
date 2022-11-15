@@ -9,17 +9,16 @@
     "type": "project",
     "minimum-stability": "dev",
     "require": {
-        "php": "^7.4",
+        "php": "^7.3|^7.4|^8.1",
         "aws/aws-sdk-php": "^3.0",
         "doctrine/dbal": "^2.5",
         "dusterio/laravel-aws-worker": "^0.1.14",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "~1.0",
-        "genealabs/laravel-model-caching": "^0.3",
         "guzzlehttp/guzzle": "^6.3",
         "jacobbennett/laravel-http2serverpush": "^2.0",
         "laravel/cashier": "^9.0",
-        "laravel/framework": "^5.6",
+        "laravel/framework": "^5.7",
         "laravel/passport": "^6.0",
         "laravel/scout": "^4.0",
         "laravel/socialite": "^3.0",
@@ -68,6 +67,12 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.4.0"
+        },
+        "allow-plugins": {
+            "kylekatarnls/update-helper": false
+        }
     }
 }

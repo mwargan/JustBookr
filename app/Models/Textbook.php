@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class Textbook extends Model
 {
-    use Cachable;
+
     /**
      * Indicates if the model should be timestamped.
      *
@@ -178,17 +178,17 @@ class Textbook extends Model
     {
         $price = $this->posts()->avg('price');
 
-        return '€'.round(($price - ($price * 0.05)), 0);
+        return '€' . round(($price - ($price * 0.05)), 0);
     }
 
     public function getMinPriceAttribute()
     {
-        return '€'.$this->posts()->min('price');
+        return '€' . $this->posts()->min('price');
     }
 
     public function getMaxPriceAttribute()
     {
-        return '€'.$this->posts()->max('price');
+        return '€' . $this->posts()->max('price');
     }
 
     /**
@@ -204,7 +204,7 @@ class Textbook extends Model
     public static function uploadImage($isbn, $image)
     {
         if ($image->isValid()) {
-            $link = Storage::putFile('images/Uploads/books/'.urlencode($isbn).'/images/cover', $image, 'public');
+            $link = Storage::putFile('images/Uploads/books/' . urlencode($isbn) . '/images/cover', $image, 'public');
 
             return Storage::url($link);
         }
