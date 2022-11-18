@@ -28,6 +28,8 @@ class SearchController extends Controller
         // return $q;
         $uni = $request->input('uni', null);
 
+        return Textbook::where('book-title', 'like', '%' . $q . '%')->orWhere('author', 'like', '%' . $q . '%')->orWhere('isbn', 'like', '%' . $q . '%');
+
         return Textbook::whereRaw('`book-title` LIKE ? OR `author` LIKE ? OR MATCH (textbooks.`isbn`, `book-title`, `edition`, `author`) AGAINST (?) OR soundex(textbooks.`book-title`) LIKE soundex(?) OR isbn LIKE ?', ['%' . $q . '%', '%' . $q . '%', '*' . $q . '*', '*' . $q . '*', '%' . $q . '%'])->orderByRaw('MATCH (textbooks.`isbn`, `book-title`, `edition`, `author`) AGAINST (?) DESC', ['*' . $q . '*'])->withCount([
             'posts' => function ($query) use ($uni) {
                 $query->available()->active()->when($uni, function ($query) use ($uni) {
@@ -42,7 +44,7 @@ class SearchController extends Controller
         //Get all records from Textbooks table
         $q = SearchHelper::stripStopWords($q);
 
-        return University::whereRaw("MATCH (`uni-name`, `en-name`, `abr`) AGAINST (? IN NATURAL LANGUAGE MODE) OR `uni-name` LIKE '%?%' OR `en-name` LIKE '%?%' OR `abr` LIKE '%?%'", [$q, $q, $q, $q])->orderByRaw('MATCH (`uni-name`, `en-name`, `abr`) AGAINST (? IN NATURAL LANGUAGE MODE) DESC', [$q])->with('country')->paginate(30);
+        return University::whereRaw("MATCH (`uni-name`, `en-name`, `abr`) AGAINST (? IN NATURAL LANGUAGE MODE) OR `uni-name` LIKE '%?%' OR `en-name` LIKE '%?%' OR `abr` LIKE '%?%'", ['?' => $q])->orderByRaw('MATCH (`uni-name`, `en-name`, `abr`) AGAINST (? IN NATURAL LANGUAGE MODE) DESC', ['?' => $q])->with('country')->paginate(30);
     }
 
     public function posts($q)
@@ -58,7 +60,7 @@ class SearchController extends Controller
         //Get all records from users table
         $q = SearchHelper::stripStopWords($q);
 
-        return User::whereRaw('`name` LIKE ? OR soundex(`name`) = soundex(?)', [$q, $q])->with('university')->paginate(30);
+        return User::whereRaw('`name` LIKE ? OR soundex(`name`) = soundex(?)', ['?' => $q])->with('university')->paginate(30);
     }
 
     public function tags($q)
@@ -66,6 +68,6 @@ class SearchController extends Controller
         //Get all records from tags table
         $q = SearchHelper::stripStopWords($q);
 
-        return Tag::whereRaw('`t-data` LIKE ? OR soundex(`t-data`) = soundex(?)', [$q, $q])->with(['universities', 'textbooks'])->paginate(30);
+        return Tag::whereRaw('`t-data` LIKE ? OR soundex(`t-data`) = soundex(?)', ['?' => $q])->with(['universities', 'textbooks'])->paginate(30);
     }
 }
