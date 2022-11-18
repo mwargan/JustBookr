@@ -16,7 +16,7 @@ class BusinessStandsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:api', 'optimizeImages'], ['except' => ['index', 'show']]);
+        $this->middleware(['auth:sanctum', 'optimizeImages'], ['except' => ['index', 'show']]);
     }
 
     /**
@@ -79,7 +79,7 @@ class BusinessStandsController extends Controller
 
             if ($user->subscribedToPlan($plan, 'Business Stand')) {
                 $user->subscription('Business Stand')->noProrate()->incrementQuantity();
-            } elseif (! $creditCardToken) {
+            } elseif (!$creditCardToken) {
                 $user->newSubscription('Business Stand', $plan)->create();
             } elseif ($creditCardToken) {
                 $user->newSubscription('Business Stand', $plan)->create($creditCardToken);
@@ -133,7 +133,7 @@ class BusinessStandsController extends Controller
         $this->authorize('general', $stand);
 
         try {
-            if (! $stand->is_active) {
+            if (!$stand->is_active) {
                 return $stand;
             }
             $user = $request->user('api');

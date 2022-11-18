@@ -21,6 +21,9 @@ class CreateTextbooksTable extends Migration
             $table->string('edition', 64)->nullable()->default('');
             $table->string('image-url', 259);
             // $table->index(['isbn', 'book-title', 'edition', 'author', 'book-des'], 'search');
+
+            // Create a fulltext on `isbn`, `book-title`, `edition`, `author`
+            $table->fullText(['isbn', 'book-title', 'edition', 'author', 'book-des'], 'search');
         });
     }
 

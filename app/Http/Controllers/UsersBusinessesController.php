@@ -15,7 +15,7 @@ class UsersBusinessesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:api', 'optimizeImages'], ['except' => ['index', 'show']]);
+        $this->middleware(['auth:sanctum', 'optimizeImages'], ['except' => ['index', 'show']]);
     }
 
     /**

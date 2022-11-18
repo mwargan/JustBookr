@@ -11,6 +11,8 @@
 |
  */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('login/facebook', 'Api\V1\FacebookLoginsController@redirect');
 Route::get('login/facebook/callback', 'Api\V1\FacebookLoginsController@callback');
 
@@ -21,7 +23,3 @@ Route::get('sign-up', 'Auth\RegisterController@showRegistrationForm');
 // });
 
 // Auth::routes();
-
-Route::get('{any?}', function () {
-    return view('index');
-})->where('any', '.*');

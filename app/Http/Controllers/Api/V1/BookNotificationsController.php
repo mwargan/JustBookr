@@ -15,7 +15,7 @@ class BookNotificationsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:sanctum');
     }
 
     /**
@@ -68,11 +68,11 @@ class BookNotificationsController extends Controller
         $this->authorize('create', BookNotification::class);
 
         try {
-            if (! $request['user_id']) {
+            if (!$request['user_id']) {
                 $request['user_id'] = $request->user()->{'user-id'};
             }
 
-            if (! $request['uni_id']) {
+            if (!$request['uni_id']) {
                 $request['uni_id'] = $request->user()->{'uni-id'};
             }
 

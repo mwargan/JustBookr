@@ -32,7 +32,7 @@ class NewOrder extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['database', 'mail', 'slack'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -61,7 +61,7 @@ class NewOrder extends Notification implements ShouldQueue
     {
         return [
             'title' => "You've got a new order",
-            'text'  => $this->order->buyer->name.' wants to buy '.$this->order->post->textbook->{'book-title'}.' from you',
+            'text'  => $this->order->buyer->name . ' wants to buy ' . $this->order->post->textbook->{'book-title'} . ' from you',
         ];
     }
 
@@ -74,16 +74,16 @@ class NewOrder extends Notification implements ShouldQueue
      */
     public function toSlack($notifiable)
     {
-        $url = url('/post/'.$this->order->post->{'post-id'});
+        $url = url('/post/' . $this->order->post->{'post-id'});
 
         return (new SlackMessage())
             ->success()
             ->content('A new order has been created.')
             ->attachment(function ($attachment) use ($url) {
                 $attachment->title($this->order->post->textbook->{'book-title'}, $url)
-                    ->author($this->order->buyer->name, url('/user/'.$this->order->buyer->{'user-id'}), $this->order->buyer->profilepic)
+                    ->author($this->order->buyer->name, url('/user/' . $this->order->buyer->{'user-id'}), $this->order->buyer->profilepic)
                     ->fields([
-                        'Sold by'          => '<'.config('app.url').'/user/'.$this->order->post->user->{'user-id'}.'|'.$this->order->post->user->name.'>',
+                        'Sold by'          => '<' . config('app.url') . '/user/' . $this->order->post->user->{'user-id'} . '|' . $this->order->post->user->name . '>',
                         'Price'            => $this->order->post->price,
                         'Meeting time'     => \Carbon\Carbon::createFromTimeStamp($this->order->{'location-date'})->diffForHumans(),
                         'Meeting location' => $this->order->{'location-meet'},

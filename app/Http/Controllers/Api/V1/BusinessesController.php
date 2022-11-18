@@ -16,7 +16,7 @@ class BusinessesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:api', 'optimizeImages'], ['except' => ['index', 'show']]);
+        $this->middleware(['auth:sanctum', 'optimizeImages'], ['except' => ['index', 'show']]);
     }
 
     /**
@@ -88,11 +88,11 @@ class BusinessesController extends Controller
             }
             $user = $request->user('api');
 
-            if (! isset($data['logo'])) {
-                if (! $request->hasFile('image') || ! $request->file('image')->isValid()) {
+            if (!isset($data['logo'])) {
+                if (!$request->hasFile('image') || !$request->file('image')->isValid()) {
                     return response()->json(['errors' => ['image' => 'Your logo is not the correct format.']], 422);
                 }
-                $link = Storage::putFile('images/Uploads/businesses/'.urlencode($data['name']).'/images/logos', $request->file('image'), 'public');
+                $link = Storage::putFile('images/Uploads/businesses/' . urlencode($data['name']) . '/images/logos', $request->file('image'), 'public');
                 $data['logo'] = Storage::url($link);
             }
             $post = $user->businesses()->create($data);

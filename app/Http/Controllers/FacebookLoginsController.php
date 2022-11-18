@@ -16,7 +16,7 @@ class FacebookLoginsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['show', 'redirect', 'callback']]);
+        $this->middleware('auth:sanctum', ['except' => ['show', 'redirect', 'callback']]);
     }
 
     public function redirect()
@@ -26,12 +26,12 @@ class FacebookLoginsController extends Controller
 
     public function callback(Request $request)
     {
-        if (! $request->input('code')) {
+        if (!$request->input('code')) {
             if ($request->wantsJson()) {
                 return response()->json(['errors' => ['email' => 'No Facebook']], 422);
             }
 
-            return redirect('sign-up')->withErrors('Login failed: '.$request->input('error').' - '.$request->input('error_reason'));
+            return redirect('sign-up')->withErrors('Login failed: ' . $request->input('error') . ' - ' . $request->input('error_reason'));
         }
         $fbUser = Socialite::driver('facebook')->stateless()->fields([
             'name',
@@ -44,7 +44,7 @@ class FacebookLoginsController extends Controller
         if ($fbProvider) {
             $user = User::find($fbProvider->{'user-id'});
         } else {
-            if (! $fbUser->getEmail()) {
+            if (!$fbUser->getEmail()) {
                 if ($request->wantsJson()) {
                     return response()->json(['errors' => ['email' => 'No email provided from Facebook']], 422);
                 }
@@ -52,13 +52,15 @@ class FacebookLoginsController extends Controller
                 return redirect('sign-up')->withErrors('Login failed: Facebook did not provide an email');
             }
             $user = User::firstOrCreate(
-                ['email' => $fbUser->getEmail()], ['name' => $fbUser->user['first_name'], 'surname' => $fbUser->user['last_name'], 'profilepic' => str_replace('type=normal', 'type=large', $fbUser->getAvatar()), 'password' => md5(microtime())]
+                ['email' => $fbUser->getEmail()],
+                ['name' => $fbUser->user['first_name'], 'surname' => $fbUser->user['last_name'], 'profilepic' => str_replace('type=normal', 'type=large', $fbUser->getAvatar()), 'password' => md5(microtime())]
             );
             if ($user->wasRecentlyCreated) {
                 event(new Registered($user));
             }
             FacebookLogin::firstOrCreate(
-                ['fb-user-id' => $fbUser->getId()], ['user-id' => $user->{'user-id'}, 'fb_name' => $fbUser->user['first_name'], 'fb_surname' => $fbUser->user['last_name'], 'fb_profilepic' => str_replace('type=normal', 'type=large', $fbUser->getAvatar()), 'fb_email' => $fbUser->user['email']]
+                ['fb-user-id' => $fbUser->getId()],
+                ['user-id' => $user->{'user-id'}, 'fb_name' => $fbUser->user['first_name'], 'fb_surname' => $fbUser->user['last_name'], 'fb_profilepic' => str_replace('type=normal', 'type=large', $fbUser->getAvatar()), 'fb_email' => $fbUser->user['email']]
             );
         }
         auth()->login($user, true);

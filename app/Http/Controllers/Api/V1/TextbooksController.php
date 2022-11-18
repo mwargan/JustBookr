@@ -19,7 +19,7 @@ class TextbooksController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:api', 'optimizeImages'], ['except' => ['index', 'show', 'views']]);
+        $this->middleware(['auth:sanctum', 'optimizeImages'], ['except' => ['index', 'show', 'views']]);
     }
 
     /**
@@ -53,13 +53,13 @@ class TextbooksController extends Controller
         }
 
         $q->when(request('title'), function ($q, $title) {
-            return $q->whereRaw('`book-title` LIKE ?', ['%'.SearchHelper::stripStopWords($title).'%']);
+            return $q->whereRaw('`book-title` LIKE ?', ['%' . SearchHelper::stripStopWords($title) . '%']);
         });
         $q->when(request('author'), function ($q, $author) {
-            return $q->whereRaw('`author` LIKE ?', ['%'.SearchHelper::stripStopWords($author).'%']);
+            return $q->whereRaw('`author` LIKE ?', ['%' . SearchHelper::stripStopWords($author) . '%']);
         });
         $q->when(request('edition'), function ($q, $edition) {
-            return $q->whereRaw('`edition` LIKE ?', ['%'.SearchHelper::stripStopWords($edition).'%']);
+            return $q->whereRaw('`edition` LIKE ?', ['%' . SearchHelper::stripStopWords($edition) . '%']);
         });
 
         if (request('paginate', true) === true) {
@@ -82,9 +82,11 @@ class TextbooksController extends Controller
 
         try {
             $data = $this->getData($request);
-            if (! $data['image-url']) {
+            if (!$data['image-url']) {
                 $data['image-url'] = Textbook::uploadImage($data['isbn'], $request->file('image'));
             }
+
+            $data['sku'] = $request->title;
 
             $book = Textbook::create($data);
             event(new BookAdded($book));
@@ -156,7 +158,7 @@ class TextbooksController extends Controller
 
             $data = $this->getData($request);
 
-            if (! $data['image-url']) {
+            if (!$data['image-url']) {
                 $data['image-url'] = Textbook::uploadImage($data['isbn'], $request->file('image'));
             }
 
@@ -178,7 +180,7 @@ class TextbooksController extends Controller
     protected function getData(Request $request)
     {
         $rules = [
-            'isbn'       => 'required|numeric|digits:13|unique:textbooks,isbn,'.$request->isbn.',isbn',
+            'isbn'       => 'required|numeric|digits:13|unique:textbooks,isbn,' . $request->isbn . ',isbn',
             'book-title' => 'required|string|min:5|max:259',
             'author'     => 'required|string|min:5|max:259',
             'book-des'   => 'sometimes|string',

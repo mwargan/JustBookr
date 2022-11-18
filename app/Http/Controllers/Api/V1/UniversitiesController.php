@@ -17,7 +17,7 @@ class UniversitiesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:api', 'optimizeImages'], ['except' => ['index', 'show', 'views']]);
+        $this->middleware(['auth:sanctum', 'optimizeImages'], ['except' => ['index', 'show', 'views']]);
     }
 
     /**

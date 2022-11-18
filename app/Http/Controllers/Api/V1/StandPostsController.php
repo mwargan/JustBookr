@@ -15,7 +15,7 @@ class StandPostsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:api', 'optimizeImages'], ['except' => ['index', 'show']]);
+        $this->middleware(['auth:sanctum', 'optimizeImages'], ['except' => ['index', 'show']]);
     }
 
     /**
@@ -77,7 +77,7 @@ class StandPostsController extends Controller
     public function store(Request $request)
     {
         $request['is_active'] = 1;
-        if (isset($request['post-description']) && ! $request['description']) {
+        if (isset($request['post-description']) && !$request['description']) {
             $request['description'] = $request['post-description'];
         }
         $data = $this->getData($request);
@@ -143,7 +143,7 @@ class StandPostsController extends Controller
         $this->authorize('general', $standPost);
 
         try {
-            if (! $standPost->is_active) {
+            if (!$standPost->is_active) {
                 return $standPost;
             }
 

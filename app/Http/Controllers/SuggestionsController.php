@@ -16,7 +16,7 @@ class SuggestionsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['only' => ['text']]);
+        $this->middleware('auth:sanctum', ['only' => ['text']]);
     }
 
     public function textbooks(Request $request)

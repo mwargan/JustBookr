@@ -15,7 +15,7 @@ class SearchesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['store']]);
+        $this->middleware('auth:sanctum', ['except' => ['store']]);
     }
 
     /**
@@ -60,11 +60,11 @@ class SearchesController extends Controller
     {
         //$this->authorize('create', Search::class);
         try {
-            if (! $request['user'] && $request->user('api')) {
+            if (!$request['user'] && $request->user('api')) {
                 $request['user'] = $request->user('api')->{'user-id'};
             }
 
-            if (! $request['uni'] && $request->user('api')) {
+            if (!$request['uni'] && $request->user('api')) {
                 $request['uni'] = $request->user('api')->{'uni-id'};
             }
 

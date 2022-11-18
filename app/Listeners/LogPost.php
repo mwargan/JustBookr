@@ -28,7 +28,8 @@ class LogPost implements ShouldQueue
      */
     public function handle(PostAdded $event)
     {
-        $admin = User::findOrFail(config('app.admin_id'));
-        $admin->notify(new NewPost($event->post));
+        if ($admin = User::find(config('app.admin_id'))) {
+            $admin->notify(new NewPost($event->post));
+        }
     }
 }

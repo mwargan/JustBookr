@@ -22,7 +22,7 @@ class OrdersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:sanctum');
     }
 
     /**
@@ -101,9 +101,7 @@ class OrdersController extends Controller
         $this->authorize('create', [Order::class, $post]);
 
         try {
-            $request->request->add(['user-id-sell' => $post->{'user-id'}]);
-
-            $request['user-id-buy'] = $request->input('user-id-buy', $request->user('api')->{'user-id'});
+            $request['user-id-buy'] = $request->input('user-id-buy', $request->user()->{'user-id'});
 
             $data = $this->getData($request);
 
@@ -240,7 +238,7 @@ class OrdersController extends Controller
         $rules = [
             'user-id-sell'  => 'sometimes',
             'user-id-buy'   => 'required|exists:users,user-id',
-            'post-id'       => 'required|unique:connected_users,post-id,'.request('post-id').',post-id',
+            'post-id'       => 'required|unique:connected_users,post-id,' . request('post-id') . ',post-id',
             'comment'       => 'nullable|string|max:500',
             'timestamp'     => 'nullable|date_format:j/n/Y g:i A',
             'location-meet' => 'required|string|min:1|max:150',
@@ -262,12 +260,10 @@ class OrdersController extends Controller
 
         switch ($this->method()) {
             case 'GET':
-            case 'DELETE':
-                {
+            case 'DELETE': {
                     return [];
                 }
-            case 'POST':
-                {
+            case 'POST': {
                     return [
                         'user.name.first' => 'required',
                         'user.name.last'  => 'required',
@@ -276,16 +272,16 @@ class OrdersController extends Controller
                     ];
                 }
             case 'PUT':
-            case 'PATCH':
-                {
+            case 'PATCH': {
                     return [
                         'user.name.first' => 'required',
                         'user.name.last'  => 'required',
-                        'user.email'      => 'required|email|unique:users,email,'.$user->id,
+                        'user.email'      => 'required|email|unique:users,email,' . $user->id,
                         'user.password'   => 'required|confirmed',
                     ];
                 }
-            default:break;
+            default:
+                break;
         }
     }
 }

@@ -19,7 +19,7 @@ class UserRatingsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        $this->middleware('auth:sanctum', ['except' => ['index', 'show']]);
     }
 
     /**
@@ -64,7 +64,8 @@ class UserRatingsController extends Controller
             $data = $this->getData($request);
 
             $rating = UserRating::firstOrCreate(
-                ['connect-id' => $data['connect-id'], 'rated_by' => $data['rated_by']], ['rating' => $data['rating'], 'comment' => $data['comment'], 'user-id' => $data['user-id'], 'status' => 0]
+                ['connect-id' => $data['connect-id'], 'rated_by' => $data['rated_by']],
+                ['rating' => $data['rating'], 'comment' => $data['comment'], 'user-id' => $data['user-id'], 'status' => 0]
             );
 
             return $rating;

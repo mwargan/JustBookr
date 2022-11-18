@@ -15,7 +15,7 @@ class CountriesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        $this->middleware('auth:sanctum', ['except' => ['index', 'show']]);
     }
 
     /**
@@ -27,7 +27,7 @@ class CountriesController extends Controller
     {
         $q = Country::withCount('universities');
         $q->when(request('name'), function ($q, $name) {
-            return $q->where('name', 'LIKE', '%'.$name.'%');
+            return $q->where('name', 'LIKE', '%' . $name . '%');
         });
 
         if (request('paginate', true) === true) {
@@ -106,9 +106,9 @@ class CountriesController extends Controller
     protected function getData(Request $request)
     {
         $rules = [
-            'iso2'         => 'required|string|size:2|unique:countries,iso2,'.request('iso2').',iso2',
-            'iso3'         => 'required|string|size:3|unique:countries,iso3,'.request('iso2').',iso2',
-            'name'         => 'required|string|min:1|max:100|unique:countries,name,'.request('iso2').',iso2',
+            'iso2'         => 'required|string|size:2|unique:countries,iso2,' . request('iso2') . ',iso2',
+            'iso3'         => 'required|string|size:3|unique:countries,iso3,' . request('iso2') . ',iso2',
+            'name'         => 'required|string|min:1|max:100|unique:countries,name,' . request('iso2') . ',iso2',
             'currency'     => 'nullable|string|min:0|max:7',
             'currency_iso' => 'nullable|string|size:3',
 

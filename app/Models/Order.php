@@ -68,6 +68,14 @@ class Order extends Model
         'location-date',
     ];
 
+    // On booted
+    protected static function booted()
+    {
+        static::creating(function ($order) {
+            $order['user-id-sell'] = $order->post['user-id'];
+        });
+    }
+
     /**
      * Get the post for this model.
      */

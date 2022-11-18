@@ -14,7 +14,7 @@ class AddForeignKeysToTextbookPriceAveragesTable extends Migration
     public function up()
     {
         Schema::table('textbook_price_averages', function (Blueprint $table) {
-            $table->foreign('isbn', 'isbn_key')->references('isbn')->on('textbooks')->onUpdate('CASCADE')->onDelete('CASCADE');
+            // $table->foreign('isbn', 'isbn_key')->references('isbn')->on('textbooks')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 

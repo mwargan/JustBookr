@@ -79,6 +79,15 @@ class Post extends Model
         'sku', 'quality',
     ];
 
+    // On booted
+    protected static function booted()
+    {
+        static::creating(function ($post) {
+            $post->sku = substr($post->isbn, 8, 5);
+            $post['user-id'] = $post['user-id'] ?? auth()->id();
+        });
+    }
+
     /**
      * Get the user for this model.
      */
@@ -215,7 +224,7 @@ class Post extends Model
 
     public function getPriceAttribute($value)
     {
-        return "{$this->university->country->currency}{$value}";
+        return optional($this->university->country)->currency . $value;
     }
 
     // DEPRECIATING, USING SCOPE
