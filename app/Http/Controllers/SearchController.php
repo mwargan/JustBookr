@@ -28,9 +28,15 @@ class SearchController extends Controller
         // return $q;
         $uni = $request->input('uni', null);
 
-        return Textbook::where('book-title', 'like', '%' . $q . '%')->orWhere('author', 'like', '%' . $q . '%')->orWhere('isbn', 'like', '%' . $q . '%');
+        return Textbook::where('book-title', 'like', '%' . $q . '%')->orWhere('author', 'like', '%' . $q . '%')->orWhere('isbn', 'like', '%' . $q . '%')->withCount([
+            'posts' => function ($query) use ($uni) {
+                $query->available()->active()->when($uni, function ($query) use ($uni) {
+                    return $query->where('uni-id', $uni);
+                });
+            },
+        ])->paginate(30);
 
-        return Textbook::whereRaw('`book-title` LIKE ? OR `author` LIKE ? OR MATCH (textbooks.`isbn`, `book-title`, `edition`, `author`) AGAINST (?) OR soundex(textbooks.`book-title`) LIKE soundex(?) OR isbn LIKE ?', ['%' . $q . '%', '%' . $q . '%', '*' . $q . '*', '*' . $q . '*', '%' . $q . '%'])->orderByRaw('MATCH (textbooks.`isbn`, `book-title`, `edition`, `author`) AGAINST (?) DESC', ['*' . $q . '*'])->withCount([
+        return Textbook::whereRaw('MATCH (textbooks.`isbn`, `book-title`, `edition`, `author`) AGAINST (?) OR soundex(textbooks.`book-title`) LIKE soundex(?)', ['%' . $q . '%', '%' . $q . '%', '*' . $q . '*', '*' . $q . '*', '%' . $q . '%'])->orderByRaw('MATCH (textbooks.`isbn`, `book-title`, `edition`, `author`) AGAINST (?) DESC', ['*' . $q . '*'])->withCount([
             'posts' => function ($query) use ($uni) {
                 $query->available()->active()->when($uni, function ($query) use ($uni) {
                     return $query->where('uni-id', $uni);
