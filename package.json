@@ -54,7 +54,7 @@
     "eslint": "^4.19.1",
     "eslint-plugin-vue-libs": "^1.2.1",
     "extract-text-webpack-plugin": "^3.0.2",
-    "laravel-mix": "^5.0.7",
+    "laravel-mix": "^6.0.49",
     "lodash": "^4.17.20",
     "purify-css": "^1.1.9",
     "purifycss-webpack": "^0.7.0",
